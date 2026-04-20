@@ -29,8 +29,14 @@ except Exception:  # optional dependency
     cv2 = None
     np = None
 
+try:
+    from PIL import Image
+except Exception:  # optional dependency
+    Image = None
+
 A0_W_MM = 1189.0
 A0_H_MM = 841.0
+FRAME_MARGIN_MM = 5.0
 
 
 @dataclass
@@ -87,11 +93,11 @@ def draw_a0_frame(msp: ezdxf.layouts.Modelspace) -> None:
     # Outer border
     msp.add_lwpolyline(
         [
-            (5, 5),
-            (A0_W_MM - 5, 5),
-            (A0_W_MM - 5, A0_H_MM - 5),
-            (5, A0_H_MM - 5),
-            (5, 5),
+            (FRAME_MARGIN_MM, FRAME_MARGIN_MM),
+            (A0_W_MM - FRAME_MARGIN_MM, FRAME_MARGIN_MM),
+            (A0_W_MM - FRAME_MARGIN_MM, A0_H_MM - FRAME_MARGIN_MM),
+            (FRAME_MARGIN_MM, A0_H_MM - FRAME_MARGIN_MM),
+            (FRAME_MARGIN_MM, FRAME_MARGIN_MM),
         ],
         dxfattribs={"layer": "BORDER"},
     )
@@ -105,6 +111,44 @@ def draw_a0_frame(msp: ezdxf.layouts.Modelspace) -> None:
     )
     for yy in [30, 45, 60, 75, 90, 110, 130, 160, 200, 230]:
         msp.add_line((x0, yy), (A0_W_MM - 5, yy), dxfattribs={"layer": "BORDER"})
+
+
+def get_image_size_px(image_path: Path) -> Tuple[int, int]:
+    if Image is not None:
+        with Image.open(image_path) as img:
+            return img.size
+    if cv2 is not None:
+        img = cv2.imread(str(image_path), cv2.IMREAD_GRAYSCALE)
+        if img is not None:
+            height, width = img.shape
+            return width, height
+    raise RuntimeError(
+        "Image guide requested, but neither Pillow nor OpenCV is available to read image size."
+    )
+
+
+def fit_inside(source_w: float, source_h: float, max_w: float, max_h: float) -> Tuple[float, float]:
+    scale = min(max_w / source_w, max_h / source_h)
+    return source_w * scale, source_h * scale
+
+
+def add_image_guide(doc: ezdxf.EzDxf, msp: ezdxf.layouts.Modelspace, image_path: Path) -> None:
+    px_w, px_h = get_image_size_px(image_path)
+    fit_w, fit_h = fit_inside(
+        float(px_w),
+        float(px_h),
+        A0_W_MM - (2 * FRAME_MARGIN_MM),
+        A0_H_MM - (2 * FRAME_MARGIN_MM),
+    )
+    insert_x = (A0_W_MM - fit_w) / 2.0
+    insert_y = (A0_H_MM - fit_h) / 2.0
+    image_def = doc.add_image_def(filename=str(image_path), size_in_pixel=(px_w, px_h))
+    msp.add_image(
+        image_def,
+        insert=(insert_x, insert_y),
+        size_in_units=(fit_w, fit_h),
+        dxfattribs={"layer": "PIP_IMAGE_GUIDE"},
+    )
 
 
 def load_layout(path: Path) -> Tuple[List[Placement], List[Tuple[Tuple[float, float], Tuple[float, float]]], List[Tuple[str, float, float, float]]]:
@@ -215,6 +259,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Generate attached P&ID DXF from block placements")
     parser.add_argument("--layout", default="tools/pid/attached_pid_layout.json", help="Layout JSON file")
     parser.add_argument("--image", default="", help="Optional attached raster image for automatic line extraction")
+    parser.add_argument(
+        "--image-mode",
+        choices=["guide", "extract", "both"],
+        default="both",
+        help="Use the image as a scaled underlay, for line extraction, or both",
+    )
     parser.add_argument("--output", default="tools/pid/attached_pid_generated.dxf", help="Output DXF path")
     parser.add_argument(
         "--block-dir",
@@ -249,9 +299,12 @@ def main() -> None:
             p.block = fallback.get(p.block, "CUSTOM_INSTRUMENT_BUBBLE")
 
     msp = doc.modelspace()
+    if args.image and args.image_mode in {"guide", "both"}:
+        add_image_guide(doc, msp, Path(args.image))
+
     draw_a0_frame(msp)
 
-    if args.image:
+    if args.image and args.image_mode in {"extract", "both"}:
         auto_lines = extract_lines_from_image(Path(args.image))
         lines.extend(auto_lines)
 
