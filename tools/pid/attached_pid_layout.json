@@ -1,0 +1,39 @@
+{
+  "placements": [
+    {"block": "vessel-vertical", "x": 250.0, "y": 620.0, "scale": 1.0, "rotation": 0.0},
+    {"block": "vessel-vertical", "x": 470.0, "y": 620.0, "scale": 1.0, "rotation": 0.0},
+    {"block": "vessel-vertical", "x": 470.0, "y": 250.0, "scale": 1.0, "rotation": 0.0},
+    {"block": "heat-exchanger-tema-type-bem", "x": 675.0, "y": 620.0, "scale": 0.85, "rotation": 0.0},
+    {"block": "heat-exchanger-tema-type-bem", "x": 675.0, "y": 250.0, "scale": 0.85, "rotation": 0.0},
+    {"block": "pump-horizontal-centrifugal", "x": 940.0, "y": 480.0, "scale": 0.8, "rotation": 0.0},
+    {"block": "pump-horizontal-centrifugal", "x": 940.0, "y": 430.0, "scale": 0.8, "rotation": 0.0},
+    {"block": "pump-horizontal-centrifugal", "x": 940.0, "y": 350.0, "scale": 0.8, "rotation": 0.0},
+    {"block": "pump-horizontal-centrifugal", "x": 940.0, "y": 300.0, "scale": 0.8, "rotation": 0.0},
+    {"block": "tank-dome-roof", "x": 90.0, "y": 130.0, "scale": 0.75, "rotation": 0.0},
+    {"block": "INSTRUMENT_BUBBLE", "x": 880.0, "y": 720.0, "scale": 1.0, "rotation": 0.0},
+    {"block": "VALVE_MANUAL", "x": 530.0, "y": 630.0, "scale": 1.0, "rotation": 0.0},
+    {"block": "CONTROL_VALVE", "x": 855.0, "y": 410.0, "scale": 1.0, "rotation": 0.0},
+    {"block": "FLOW_ARROW", "x": 780.0, "y": 110.0, "scale": 1.0, "rotation": 0.0}
+  ],
+  "lines": [
+    {"x1": 40.0, "y1": 640.0, "x2": 1015.0, "y2": 640.0},
+    {"x1": 40.0, "y1": 600.0, "x2": 1015.0, "y2": 600.0},
+    {"x1": 40.0, "y1": 300.0, "x2": 1015.0, "y2": 300.0},
+    {"x1": 40.0, "y1": 90.0, "x2": 1015.0, "y2": 90.0},
+    {"x1": 260.0, "y1": 770.0, "x2": 260.0, "y2": 90.0},
+    {"x1": 530.0, "y1": 770.0, "x2": 530.0, "y2": 90.0},
+    {"x1": 700.0, "y1": 770.0, "x2": 700.0, "y2": 90.0},
+    {"x1": 880.0, "y1": 770.0, "x2": 880.0, "y2": 90.0},
+    {"x1": 1020.0, "y1": 770.0, "x2": 1020.0, "y2": 90.0}
+  ],
+  "texts": [
+    {"text": "MIST EXTRACTOR", "x": 232.0, "y": 545.0, "height": 4.0},
+    {"text": "GAS FILTER", "x": 454.0, "y": 545.0, "height": 4.0},
+    {"text": "HOT WATER HEAT EXCHANGE", "x": 650.0, "y": 620.0, "height": 3.5},
+    {"text": "HOT WATER HEAT EXCHANGE", "x": 650.0, "y": 250.0, "height": 3.5},
+    {"text": "WATER MAKE-UP TANK", "x": 770.0, "y": 525.0, "height": 3.0},
+    {"text": "BOILER UNIT 1", "x": 980.0, "y": 205.0, "height": 3.0},
+    {"text": "LINE UNIT 2", "x": 560.0, "y": 110.0, "height": 3.0},
+    {"text": "LINE UNIT 3", "x": 560.0, "y": 65.0, "height": 3.0}
+  ]
+}
