@@ -17,9 +17,10 @@ import math
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Tuple
+from typing import Iterable, List, Set, Tuple
 
 import ezdxf
+from ezdxf.addons.importer import Importer
 
 try:
     import cv2  # type: ignore
@@ -126,14 +127,39 @@ def maybe_find_library_block(block_name: str, block_dirs: Iterable[Path]) -> Pat
     return None
 
 
+def collect_referenced_layers(source: ezdxf.EzDxf) -> Set[str]:
+    seen_blocks: Set[str] = set()
+    layer_names: Set[str] = set()
+
+    def visit_entities(entities) -> None:
+        for entity in entities:
+            layer_name = entity.dxf.get("layer", "0")
+            layer_names.add(layer_name)
+            if entity.dxftype() != "INSERT":
+                continue
+            block_name = entity.dxf.name
+            if block_name in seen_blocks or block_name not in source.blocks:
+                continue
+            seen_blocks.add(block_name)
+            visit_entities(source.blocks.get(block_name))
+
+    visit_entities(source.modelspace())
+    return layer_names
+
+
 def import_block_from_file(doc: ezdxf.EzDxf, path: Path, target_name: str) -> None:
     source = ezdxf.readfile(path)
-    src_msp = source.modelspace()
     if target_name in doc.blocks:
         return
+    for layer_name in collect_referenced_layers(source):
+        if layer_name not in source.layers:
+            source.layers.add(name=layer_name, color=7)
+        if layer_name not in doc.layers:
+            doc.layers.add(name=layer_name, color=7)
     newb = doc.blocks.new(target_name)
-    for e in src_msp:
-        newb.add_foreign_entity(e.copy())
+    importer = Importer(source, doc)
+    importer.import_entities(source.modelspace(), newb)
+    importer.finalize()
 
 
 def place_blocks(msp: ezdxf.layouts.Modelspace, placements: List[Placement]) -> None:
