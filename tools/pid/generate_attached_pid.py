@@ -302,7 +302,7 @@ def main() -> None:
         default=None,
         help="Block library directory to search (can be repeated)",
     )
-    args = parser.parse_args()
+    args, unknown = parser.parse_known_args()
 
     # Set default block directory if none provided (relative to script directory)
     if args.block_dir is None:
