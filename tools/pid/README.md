@@ -16,6 +16,7 @@ This directory contains a generator for producing a LibreCAD-openable DXF from:
 
 - Creates an A0 landscape frame and title area.
 - Searches `libreCAD_blocks` for required symbol block DXFs and imports them.
+  - By default it searches repository-level `libreCAD_blocks/` first, then `tools/pid/libreCAD_blocks/` as fallback.
 - Creates fallback custom blocks for missing symbols (`CUSTOM_*`).
 - Places all configured components at explicit X/Y positions.
 - Places the source P&ID image on the drawing as a full-sheet guide underlay when `--image` is provided.

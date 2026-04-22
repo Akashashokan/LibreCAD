@@ -161,13 +161,17 @@ def load_layout(path: Path) -> Tuple[List[Placement], List[Tuple[Tuple[float, fl
 
 
 def maybe_find_library_block(block_name: str, block_dirs: Iterable[Path]) -> Path | None:
-    target = block_name.lower().replace("_", "-")
+    def normalize(name: str) -> str:
+        return "".join(ch for ch in name.lower() if ch.isalnum())
+
+    target = normalize(block_name)
     for root in block_dirs:
         if not root.exists():
             continue
         for entry in root.rglob("*.dxf"):
-            stem = entry.stem.lower()
-            if target in stem or stem in target:
+            stem = normalize(entry.stem)
+            # Keep exact/strongly-related matches only to avoid accidental imports.
+            if target == stem or target in stem:
                 return entry
     return None
 
@@ -274,6 +278,12 @@ def get_script_dir() -> Path:
         return Path.cwd()
 
 
+def get_repo_root(script_dir: Path) -> Path:
+    """Resolve repository root from script location."""
+    # tools/pid -> repo root is two levels up
+    return script_dir.parent.parent.resolve()
+
+
 def main() -> None:
     # Get the directory where this script is located
     script_dir = get_script_dir()
@@ -304,9 +314,14 @@ def main() -> None:
     )
     args, unknown = parser.parse_known_args()
 
-    # Set default block directory if none provided (relative to script directory)
+    # Set default block directories if none provided.
+    # Prefer repository-level `libreCAD_blocks`; keep script-local as fallback.
     if args.block_dir is None:
-        args.block_dir = [str(script_dir / "libreCAD_blocks")]
+        repo_root = get_repo_root(script_dir)
+        args.block_dir = [
+            str(repo_root / "libreCAD_blocks"),
+            str(script_dir / "libreCAD_blocks"),
+        ]
 
     doc = ezdxf.new("R2010")
     add_default_layers(doc)
@@ -330,7 +345,13 @@ def main() -> None:
                 "CONTROL_VALVE": "CUSTOM_CONTROL_VALVE",
                 "FLOW_ARROW": "CUSTOM_ARROW",
             }
+            original_block = p.block
             p.block = fallback.get(p.block, "CUSTOM_INSTRUMENT_BUBBLE")
+            print(
+                f"[warn] Could not find block '{original_block}' in block directories; "
+                f"using fallback '{p.block}'.",
+                file=sys.stderr,
+            )
 
     msp = doc.modelspace()
     if args.image and args.image_mode in {"guide", "both"}:
