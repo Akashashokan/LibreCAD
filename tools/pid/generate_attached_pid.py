@@ -15,6 +15,7 @@ import argparse
 import json
 import math
 import os
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List, Set, Tuple
@@ -255,9 +256,34 @@ def extract_lines_from_image(image_path: Path) -> List[Tuple[Tuple[float, float]
     return lines
 
 
+def get_script_dir() -> Path:
+    """Get the directory where this script is located.
+    
+    Handles both normal script execution and Databricks execution environments.
+    """
+    try:
+        # Try to use __file__ (works in normal script execution)
+        return Path(__file__).parent
+    except NameError:
+        # Fallback for Databricks or interactive environments
+        # Use the known workspace path for this script
+        workspace_path = Path("/Workspace/Users/akashashokan@yahoo.com/LibreCAD/tools/pid")
+        if workspace_path.exists():
+            return workspace_path
+        # Last resort: use current directory
+        return Path.cwd()
+
+
 def main() -> None:
+    # Get the directory where this script is located
+    script_dir = get_script_dir()
+    
     parser = argparse.ArgumentParser(description="Generate attached P&ID DXF from block placements")
-    parser.add_argument("--layout", default="tools/pid/attached_pid_layout.json", help="Layout JSON file")
+    parser.add_argument(
+        "--layout", 
+        default=str(script_dir / "attached_pid_layout.json"), 
+        help="Layout JSON file (default: attached_pid_layout.json in script directory)"
+    )
     parser.add_argument("--image", default="", help="Optional attached raster image for automatic line extraction")
     parser.add_argument(
         "--image-mode",
@@ -265,14 +291,22 @@ def main() -> None:
         default="both",
         help="Use the image as a scaled underlay, for line extraction, or both",
     )
-    parser.add_argument("--output", default="tools/pid/attached_pid_generated.dxf", help="Output DXF path")
+    parser.add_argument(
+        "--output", 
+        default=str(script_dir / "attached_pid_generated.dxf"), 
+        help="Output DXF path (default: attached_pid_generated.dxf in script directory)"
+    )
     parser.add_argument(
         "--block-dir",
         action="append",
-        default=["libreCAD_blocks"],
+        default=None,
         help="Block library directory to search (can be repeated)",
     )
     args = parser.parse_args()
+
+    # Set default block directory if none provided (relative to script directory)
+    if args.block_dir is None:
+        args.block_dir = [str(script_dir / "libreCAD_blocks")]
 
     doc = ezdxf.new("R2010")
     add_default_layers(doc)
