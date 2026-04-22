@@ -312,7 +312,7 @@ def main() -> None:
         default=None,
         help="Block library directory to search (can be repeated)",
     )
-    args = parser.parse_args()
+    args, unknown = parser.parse_known_args()
 
     # Set default block directories if none provided.
     # Prefer repository-level `libreCAD_blocks`; keep script-local as fallback.
