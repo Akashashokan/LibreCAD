@@ -67,3 +67,24 @@ If you want permanent library blocks, save your custom symbols as DXF files insi
 - `libreCAD_blocks/Custom PID/`
 
 Then reference those names in `attached_pid_layout.json`.
+
+## Dual-drier process gas P&ID generator
+
+A second script is included for a realistic **two-driers-in-parallel** operation:
+
+- `generate_drier_operation_pid.py`
+
+It generates `tools/pid/drier_operation_pid.dxf` and includes calculated geometry for:
+
+- Process gas inlet/outlet headers
+- Two adsorption driers in parallel
+- Regeneration supply and return lines
+- Common bypass line
+- Pressure / temperature / analyzer instrument bubbles and callouts
+- Simple dimensional annotation labels derived from computed coordinates
+
+Run:
+
+```bash
+python3 tools/pid/generate_drier_operation_pid.py
+```
