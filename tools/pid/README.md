@@ -88,3 +88,25 @@ Run:
 ```bash
 python3 tools/pid/generate_drier_operation_pid.py
 ```
+
+
+## Dual-drier process gas P&ID generator (production-style pipeline)
+
+The dual-drier generator was refactored into a multi-module pipeline under `tools/pid/drier_pipeline/`:
+
+- `engineering_model.py`: dataclasses for equipment, nozzles, lines, valves, instruments, analyzers, and off-page connectors
+- `symbol_registry.py`: engineering-object to ISA/ISO/PIP/LibreCAD block mapping with strict production checks
+- `topology.py`: NetworkX topology graph builder for piping and signal edges
+- `validation.py`: design checks (tag uniqueness, line metadata completeness, analyzer conditioning, off-page references, valve sequence data)
+- `layout_engine.py`: coordinate rules for A0 left-to-right process and lower regeneration section
+- `renderer_dxf.py`: DXF rendering with dedicated process/instrument/signal layers
+- `export.py`: optional `librecad dxf2pdf` conversion and non-empty PDF verification
+- `drier_pid_spec.json`: engineering input model (not hard-coded drawing content)
+
+Run:
+
+```bash
+python3 tools/pid/generate_drier_operation_pid.py
+```
+
+Use `--dev-mode` only for development fallback behavior when symbols are incomplete.

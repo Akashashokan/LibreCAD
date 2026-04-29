@@ -1,0 +1,50 @@
+{
+  "unit": "U-300",
+  "service": "Process Gas Dehydration",
+  "equipment": [
+    {"tag": "DR-301A", "type": "molecular_sieve_drier", "design_pressure": "52 barg", "design_temperature": "250 C", "nozzles": {"N1": "process_inlet", "N2": "process_outlet", "N3": "regen_inlet", "N4": "regen_outlet", "N5": "drain", "N6": "vent"}},
+    {"tag": "DR-301B", "type": "molecular_sieve_drier", "design_pressure": "52 barg", "design_temperature": "250 C", "nozzles": {"N1": "process_inlet", "N2": "process_outlet", "N3": "regen_inlet", "N4": "regen_outlet", "N5": "drain", "N6": "vent"}},
+    {"tag": "H-301", "type": "regen_heater"},
+    {"tag": "E-301", "type": "regen_cooler"},
+    {"tag": "V-301", "type": "regen_ko_drum"},
+    {"tag": "F-301", "type": "dust_filter"}
+  ],
+  "offpages": [
+    {"tag": "OFFPAGE_WET_GAS", "direction": "in", "drawing_ref": "U300-PFD-001"},
+    {"tag": "OFFPAGE_DRY_GAS", "direction": "out", "drawing_ref": "U300-PFD-001"},
+    {"tag": "OFFPAGE_REGEN_IN", "direction": "in", "drawing_ref": "U300-UTL-010"},
+    {"tag": "OFFPAGE_REGEN_OUT", "direction": "out", "drawing_ref": "U300-FG-020"},
+    {"tag": "OFFPAGE_FLARE", "direction": "out", "drawing_ref": "FLR-001"},
+    {"tag": "OFFPAGE_CLOSED_DRAIN", "direction": "out", "drawing_ref": "CD-010"}
+  ],
+  "valves": [
+    {"tag": "XV-30101A", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"},
+    {"tag": "XV-30102A", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"},
+    {"tag": "XV-30101B", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"},
+    {"tag": "XV-30102B", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"}
+  ],
+  "instruments": [
+    {"tag": "PDIT-30101A", "kind": "dP_transmitter", "location": "DR-301A"},
+    {"tag": "PDIT-30101B", "kind": "dP_transmitter", "location": "DR-301B"},
+    {"tag": "TIC-30110", "kind": "temperature_controller", "location": "H-301 outlet"},
+    {"tag": "TAHH-30110", "kind": "temperature_alarm_high_high", "location": "H-301 outlet"},
+    {"tag": "FIC-30110", "kind": "flow_controller", "location": "regen_supply"}
+  ],
+  "analyzers": [
+    {"tag": "AIT-30101", "controller_tag": "AIC-30101", "sample_tap": "dry_gas_header", "has_sample_conditioner": true, "vent_destination": "SAFE_VENT", "drain_destination": "CLOSED_DRAIN"}
+  ],
+  "lines": [
+    {"tag": "12-PG-301001-A1A-HC", "src": "OFFPAGE_WET_GAS", "dst": "DR-301A", "size": "12in", "service": "wet_process_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "12-PG-301001B-A1A-HC", "src": "OFFPAGE_WET_GAS", "dst": "DR-301B", "size": "12in", "service": "wet_process_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "12-PG-301002-A1A-HC", "src": "DR-301A", "dst": "F-301", "size": "12in", "service": "dry_process_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "12-PG-301002B-A1A-HC", "src": "DR-301B", "dst": "F-301", "size": "12in", "service": "dry_process_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "12-PG-301003-A1A-HC", "src": "F-301", "dst": "OFFPAGE_DRY_GAS", "size": "12in", "service": "dry_process_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301101-A1A-HC", "src": "OFFPAGE_REGEN_IN", "dst": "H-301", "size": "4in", "service": "regen_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301102-A1A-HC", "src": "H-301", "dst": "DR-301A", "size": "4in", "service": "regen_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301103-A1A-HC", "src": "H-301", "dst": "DR-301B", "size": "4in", "service": "regen_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301104-A1A-HC", "src": "DR-301A", "dst": "E-301", "size": "4in", "service": "regen_wet_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301105-A1A-HC", "src": "DR-301B", "dst": "E-301", "size": "4in", "service": "regen_wet_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301106-A1A-HC", "src": "E-301", "dst": "V-301", "size": "4in", "service": "regen_wet_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301107-A1A-HC", "src": "V-301", "dst": "OFFPAGE_REGEN_OUT", "size": "4in", "service": "regen_return", "spec": "A1A", "flow_direction": "->"}
+  ]
+}
