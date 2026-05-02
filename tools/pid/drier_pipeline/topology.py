@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from itertools import pairwise
+
 import networkx as nx
 
 from .engineering_model import PIDModel
@@ -29,15 +31,16 @@ def build_topology(model: PIDModel) -> nx.DiGraph:
         graph.add_node(o.tag, node_type="offpage", direction=o.direction, drawing_ref=o.drawing_ref)
 
     for ln in model.lines:
-        graph.add_edge(
-            ln.src,
-            ln.dst,
-            edge_type="piping",
-            tag=ln.tag,
-            size=ln.size,
-            service=ln.service,
-            spec=ln.spec,
-            flow_direction=ln.flow_direction,
-        )
+        for src, dst in pairwise(ln.route):
+            graph.add_edge(
+                src,
+                dst,
+                edge_type="piping",
+                tag=ln.tag,
+                size=ln.size,
+                service=ln.service,
+                spec=ln.spec,
+                flow_direction=ln.flow_direction,
+            )
 
     return graph

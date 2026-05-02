@@ -110,3 +110,9 @@ python3 tools/pid/generate_drier_operation_pid.py
 ```
 
 Use `--dev-mode` only for development fallback behavior when symbols are incomplete.
+
+
+Additional options:
+
+- `--block-dir <path>` (repeatable) to point to block libraries such as `./LibreCAD_Blocks` or `./libreCAD_blocks`.
+- The pipeline now imports required symbol blocks into the output DXF and uses orthogonal route polylines between routed topology nodes.

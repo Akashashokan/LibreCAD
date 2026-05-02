@@ -22,7 +22,16 @@ def main() -> None:
     parser.add_argument("--output", default=str(script_dir / "drier_operation_pid.dxf"))
     parser.add_argument("--pdf-output", default=str(script_dir / "drier_operation_pid.pdf"))
     parser.add_argument("--dev-mode", action="store_true", help="Allow symbol fallback warnings")
+    parser.add_argument("--block-dir", action="append", default=None, help="Block library directory; can repeat")
     args = parser.parse_args()
+
+    if args.block_dir is None:
+        repo_root = script_dir.parent.parent
+        args.block_dir = [
+            str(repo_root / "LibreCAD_Blocks"),
+            str(repo_root / "libreCAD_blocks"),
+        ]
+    block_dirs = [Path(p) for p in args.block_dir]
 
     spec = json.loads(Path(args.spec).read_text())
     model = load_model_from_dict(spec)
@@ -30,13 +39,17 @@ def main() -> None:
     assert_valid(model, graph)
 
     registry = default_registry(dev_mode=args.dev_mode)
-    positions = calculate_layout()
+    registry.ensure_blocks_available(block_dirs)
+
+    positions, route_table = calculate_layout()
 
     render_to_dxf(
         model=model,
         graph=graph,
         positions=positions,
+        route_table=route_table,
         registry=registry,
+        block_dirs=block_dirs,
         output=Path(args.output),
     )
     print(f"Wrote DXF: {args.output}")

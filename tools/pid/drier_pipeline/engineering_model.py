@@ -55,8 +55,7 @@ class Analyzer:
 @dataclass
 class Line:
     tag: str
-    src: str
-    dst: str
+    route: List[str]
     size: str
     service: str
     spec: str

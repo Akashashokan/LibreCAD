@@ -13,15 +13,17 @@
     {"tag": "OFFPAGE_WET_GAS", "direction": "in", "drawing_ref": "U300-PFD-001"},
     {"tag": "OFFPAGE_DRY_GAS", "direction": "out", "drawing_ref": "U300-PFD-001"},
     {"tag": "OFFPAGE_REGEN_IN", "direction": "in", "drawing_ref": "U300-UTL-010"},
-    {"tag": "OFFPAGE_REGEN_OUT", "direction": "out", "drawing_ref": "U300-FG-020"},
-    {"tag": "OFFPAGE_FLARE", "direction": "out", "drawing_ref": "FLR-001"},
-    {"tag": "OFFPAGE_CLOSED_DRAIN", "direction": "out", "drawing_ref": "CD-010"}
+    {"tag": "OFFPAGE_REGEN_OUT", "direction": "out", "drawing_ref": "U300-FG-020"}
   ],
   "valves": [
     {"tag": "XV-30101A", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"},
     {"tag": "XV-30102A", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"},
     {"tag": "XV-30101B", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"},
-    {"tag": "XV-30102B", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"}
+    {"tag": "XV-30102B", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"},
+    {"tag": "XV-30103A", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"},
+    {"tag": "XV-30104A", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"},
+    {"tag": "XV-30103B", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"},
+    {"tag": "XV-30104B", "kind": "switch", "actuator": "pneumatic", "fail_position": "FC", "sequence_ref": "SEQ-301"}
   ],
   "instruments": [
     {"tag": "PDIT-30101A", "kind": "dP_transmitter", "location": "DR-301A"},
@@ -34,17 +36,16 @@
     {"tag": "AIT-30101", "controller_tag": "AIC-30101", "sample_tap": "dry_gas_header", "has_sample_conditioner": true, "vent_destination": "SAFE_VENT", "drain_destination": "CLOSED_DRAIN"}
   ],
   "lines": [
-    {"tag": "12-PG-301001-A1A-HC", "src": "OFFPAGE_WET_GAS", "dst": "DR-301A", "size": "12in", "service": "wet_process_gas", "spec": "A1A", "flow_direction": "->"},
-    {"tag": "12-PG-301001B-A1A-HC", "src": "OFFPAGE_WET_GAS", "dst": "DR-301B", "size": "12in", "service": "wet_process_gas", "spec": "A1A", "flow_direction": "->"},
-    {"tag": "12-PG-301002-A1A-HC", "src": "DR-301A", "dst": "F-301", "size": "12in", "service": "dry_process_gas", "spec": "A1A", "flow_direction": "->"},
-    {"tag": "12-PG-301002B-A1A-HC", "src": "DR-301B", "dst": "F-301", "size": "12in", "service": "dry_process_gas", "spec": "A1A", "flow_direction": "->"},
-    {"tag": "12-PG-301003-A1A-HC", "src": "F-301", "dst": "OFFPAGE_DRY_GAS", "size": "12in", "service": "dry_process_gas", "spec": "A1A", "flow_direction": "->"},
-    {"tag": "4-RG-301101-A1A-HC", "src": "OFFPAGE_REGEN_IN", "dst": "H-301", "size": "4in", "service": "regen_gas", "spec": "A1A", "flow_direction": "->"},
-    {"tag": "4-RG-301102-A1A-HC", "src": "H-301", "dst": "DR-301A", "size": "4in", "service": "regen_gas", "spec": "A1A", "flow_direction": "->"},
-    {"tag": "4-RG-301103-A1A-HC", "src": "H-301", "dst": "DR-301B", "size": "4in", "service": "regen_gas", "spec": "A1A", "flow_direction": "->"},
-    {"tag": "4-RG-301104-A1A-HC", "src": "DR-301A", "dst": "E-301", "size": "4in", "service": "regen_wet_gas", "spec": "A1A", "flow_direction": "->"},
-    {"tag": "4-RG-301105-A1A-HC", "src": "DR-301B", "dst": "E-301", "size": "4in", "service": "regen_wet_gas", "spec": "A1A", "flow_direction": "->"},
-    {"tag": "4-RG-301106-A1A-HC", "src": "E-301", "dst": "V-301", "size": "4in", "service": "regen_wet_gas", "spec": "A1A", "flow_direction": "->"},
-    {"tag": "4-RG-301107-A1A-HC", "src": "V-301", "dst": "OFFPAGE_REGEN_OUT", "size": "4in", "service": "regen_return", "spec": "A1A", "flow_direction": "->"}
+    {"tag": "12-PG-301001A-A1A-HC", "route": ["OFFPAGE_WET_GAS", "XV-30101A", "DR-301A.N1"], "size": "12in", "service": "wet_process_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "12-PG-301001B-A1A-HC", "route": ["OFFPAGE_WET_GAS", "XV-30101B", "DR-301B.N1"], "size": "12in", "service": "wet_process_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "12-PG-301002A-A1A-HC", "route": ["DR-301A.N2", "XV-30102A", "F-301"], "size": "12in", "service": "dry_process_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "12-PG-301002B-A1A-HC", "route": ["DR-301B.N2", "XV-30102B", "F-301"], "size": "12in", "service": "dry_process_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "12-PG-301003-A1A-HC", "route": ["F-301", "OFFPAGE_DRY_GAS"], "size": "12in", "service": "dry_process_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301101-A1A-HC", "route": ["OFFPAGE_REGEN_IN", "H-301"], "size": "4in", "service": "regen_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301102-A1A-HC", "route": ["H-301", "XV-30103A", "DR-301A.N3"], "size": "4in", "service": "regen_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301103-A1A-HC", "route": ["H-301", "XV-30103B", "DR-301B.N3"], "size": "4in", "service": "regen_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301104-A1A-HC", "route": ["DR-301A.N4", "XV-30104A", "E-301"], "size": "4in", "service": "regen_wet_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301105-A1A-HC", "route": ["DR-301B.N4", "XV-30104B", "E-301"], "size": "4in", "service": "regen_wet_gas", "spec": "A1A", "flow_direction": "->"},
+    {"tag": "4-RG-301106-A1A-HC", "route": ["E-301", "V-301", "OFFPAGE_REGEN_OUT"], "size": "4in", "service": "regen_return", "spec": "A1A", "flow_direction": "->"}
   ]
 }

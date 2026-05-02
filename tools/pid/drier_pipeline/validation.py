@@ -23,9 +23,11 @@ def validate_model(model: PIDModel, graph: nx.DiGraph) -> List[str]:
         errors.append("Duplicate line tags")
 
     for ln in model.lines:
-        for field_name in ["tag", "src", "dst", "size", "service", "spec", "flow_direction"]:
+        for field_name in ["tag", "route", "size", "service", "spec", "flow_direction"]:
             if not getattr(ln, field_name):
                 errors.append(f"Line missing '{field_name}': {ln}")
+        if len(ln.route) < 2:
+            errors.append(f"Line route must contain at least 2 nodes: {ln.tag}")
 
     for v in model.valves:
         if not v.fail_position or not v.sequence_ref:
