@@ -1,0 +1,60 @@
+{
+  "unit": "U-300",
+  "service": "Process Gas Dehydration",
+  "drawing": {
+    "number": "U300-PID-301",
+    "title": "Dual Molecular Sieve Drier Package",
+    "revision": "A",
+    "status": "FOR STUDY"
+  },
+  "beds": [
+    {
+      "suffix": "A",
+      "tag": "DR-301A",
+      "inlet_xv": "XV-30101A",
+      "outlet_xv": "XV-30102A",
+      "regen_inlet_xv": "XV-30103A",
+      "regen_outlet_xv": "XV-30104A",
+      "depress_xv": "XV-30105A",
+      "press_xv": "XV-30106A",
+      "dpit": "PDIT-30101A",
+      "pit": "PIT-30102A",
+      "tit": "TIT-30103A"
+    },
+    {
+      "suffix": "B",
+      "tag": "DR-301B",
+      "inlet_xv": "XV-30101B",
+      "outlet_xv": "XV-30102B",
+      "regen_inlet_xv": "XV-30103B",
+      "regen_outlet_xv": "XV-30104B",
+      "depress_xv": "XV-30105B",
+      "press_xv": "XV-30106B",
+      "dpit": "PDIT-30101B",
+      "pit": "PIT-30102B",
+      "tit": "TIT-30103B"
+    }
+  ],
+  "common": {
+    "regen_flow_controller": "FIC-30110",
+    "heater": "H-301",
+    "heater_tic": "TIC-30110",
+    "heater_tahh": "TAHH-30110",
+    "cooler": "E-301",
+    "ko_drum": "V-301",
+    "dust_filter": "F-301",
+    "moisture_analyzer": "AIT-30101",
+    "moisture_controller": "AIC-30101"
+  },
+  "lines": {
+    "wet_gas_header": "12-PG-301001-A1A-HC",
+    "dry_gas_header": "12-PG-301002-A1A-HC",
+    "regen_supply": "4-RG-301101-A1A-HC",
+    "regen_return": "4-RG-301107-A1A-HC",
+    "flare": "3-FL-301201-A1A-HC",
+    "closed_drain": "2-CD-301301-A1A-HC",
+    "safe_vent": "2-SV-301401-A1A-HC",
+    "pressurization": "2-PG-301021-A1A-HC",
+    "manual_bypass": "12-PG-301090-A1A-HC"
+  }
+}

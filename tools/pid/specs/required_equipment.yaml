@@ -1,0 +1,87 @@
+required_equipment:
+  - T-501 deethanizer column
+  - E-501 deethanizer reboiler
+  - E-502 deethanizer overhead condenser
+  - V-501 deethanizer reflux drum
+  - P-501A reflux pump
+  - P-501B reflux pump
+  - P-502A deethanizer bottoms pump
+  - P-502B deethanizer bottoms pump
+  - E-503 deethanizer feed/bottoms exchanger
+  - PSV-501A/B column relief valves
+  - PSV-502 reflux drum relief valve
+
+required_process_paths:
+  - deethanizer feed from upstream C2/C3 section
+  - column overhead vapor to condenser
+  - condensed overhead to reflux drum
+  - reflux return to column
+  - net overhead C2 product to acetylene hydrogenation or C2 splitter
+  - column bottoms C3+ product/export
+  - reboiler circulation supply and return
+  - hot utility supply and return to reboiler
+  - cooling utility supply and return to condenser
+  - column pressure relief to flare
+  - reflux drum relief to flare
+  - column vent to flare
+  - reflux drum vent to flare
+  - column drain to closed drain
+  - reflux drum drain to closed drain
+  - pump minimum-flow recycle
+  - startup/warmup bypass where required
+  - sample points for feed, overhead, and bottoms
+
+required_valves:
+  - feed isolation valve
+  - feed control valve
+  - overhead vapor isolation valve
+  - condenser inlet/outlet isolation valves
+  - reflux drum inlet isolation valve
+  - reflux pump suction isolation valves
+  - reflux pump discharge check valves
+  - reflux pump discharge isolation valves
+  - reflux control valve
+  - distillate product control valve
+  - bottoms pump suction isolation valves
+  - bottoms pump discharge check valves
+  - bottoms pump discharge isolation valves
+  - bottoms product control valve
+  - reboiler inlet/outlet isolation valves
+  - reboiler utility control valve
+  - PSV inlet block valves, car-sealed open
+  - PSV outlet isolation valves, car-sealed open if applicable
+  - manual vent valves to flare
+  - manual drain valves to closed drain
+  - sample isolation valves
+  - pump minimum-flow recycle valves
+
+required_instruments:
+  - PT/PIC on column overhead pressure
+  - PV on overhead pressure control
+  - PT/PI on reflux drum
+  - LT/LIC on reflux drum level
+  - LV on distillate product or reflux drum level control
+  - FT/FIC on feed flow
+  - FV on feed control
+  - FT/FIC on reflux flow
+  - FV on reflux control
+  - TT/TIC on column tray temperature
+  - TT/TI temperature profile along column
+  - TT/TIC on reboiler outlet or sensitive tray
+  - TV on reboiler utility control
+  - LT/LIC on column bottom level
+  - LV on bottoms product control
+  - FT/FIC on bottoms product flow if required
+  - DP/DPIT across column
+  - PAH/PAL column pressure alarms
+  - LAH/LAL reflux drum level alarms
+  - LAH/LAL column bottom level alarms
+  - TAH/TAL column temperature alarms
+  - PSHH column high-high pressure trip
+  - LSHH reflux drum high-high level trip if required
+  - LSL column bottom low-low level reboiler trip if required
+  - pump running status feedback
+  - ZSO/ZSC feedback for shutdown valves
+  - analyzer sample points for C2 overhead and C3+ bottoms composition
+
+checklist_name: DEETHANIZER_COLUMN_CHECKLIST

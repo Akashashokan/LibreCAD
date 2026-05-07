@@ -1,0 +1,195 @@
+symbols:
+  deethanizer_column:
+    object_types:
+      - T-501
+    candidates:
+      - ISO Equipments/2_vessel-general-column.dxf
+      - ISO Equipments/6_vessel-trays.dxf
+
+  column_trays:
+    object_types:
+      - internal_trays
+    candidates:
+      - ISO Equipments/6_vessel-trays.dxf
+
+  reboiler:
+    object_types:
+      - E-501
+    candidates:
+      - ISO Equipments/34_heat-exchanger-steam-boiler.dxf
+      - ISO Equipments/21_heat-exchanger-general-1.dxf
+
+  overhead_condenser:
+    object_types:
+      - E-502
+    candidates:
+      - ISO Equipments/21_heat-exchanger-general-1.dxf
+      - ISO Equipments/32_heat-exchanger-shell-and-tube.dxf
+
+  feed_bottoms_exchanger:
+    object_types:
+      - E-503
+    candidates:
+      - ISO Equipments/21_heat-exchanger-general-1.dxf
+      - ISO Equipments/32_heat-exchanger-shell-and-tube.dxf
+
+  reflux_drum:
+    object_types:
+      - V-501
+    candidates:
+      - ISO Equipments/5_vessel-dished-head.dxf
+      - ISO Equipments/3_vessel-general.dxf
+
+  centrifugal_pump:
+    object_types:
+      - P-501A
+      - P-501B
+      - P-502A
+      - P-502B
+    candidates:
+      - ISO Equipments/18_pump.dxf
+
+  field_instrument:
+    object_types:
+      - PT
+      - PI
+      - TT
+      - TI
+      - LT
+      - FT
+      - DPIT
+      - PAH
+      - PAL
+      - LAH
+      - LAL
+      - TAH
+      - TAL
+      - PSHH
+      - LSHH
+      - LSL
+    candidates:
+      - ISO Instruments/3_field-discrete-instrument.dxf
+
+  dcs_controller:
+    object_types:
+      - PIC
+      - LIC
+      - FIC
+      - TIC
+      - AIC
+    candidates:
+      - ISO Instruments/1_aux-accessible-dcs.dxf
+
+  analyzer:
+    object_types:
+      - AIT
+      - AIC
+      - composition_analyzer
+    candidates:
+      - ISO Instruments/3_field-discrete-instrument.dxf
+      - ISO Instruments/3_field-discrete-instrument.dxf
+
+  control_valve:
+    object_types:
+      - PV
+      - LV
+      - FV
+      - TV
+    candidates:
+      - ISO Valves/22_control-valve.dxf
+
+  shutdown_valve:
+    object_types:
+      - XV
+      - ESDV
+    candidates:
+      - ISO Valves/23_continuously-operated-valve.dxf
+      - ISO Valves/22_control-valve.dxf
+
+  manual_block_valve:
+    object_types:
+      - isolation_valve
+      - sample_isolation_valve
+      - vent_valve
+      - drain_valve
+    candidates:
+      - ISO Valves/0_general-valve-no.dxf
+      - ISO Valves/8_gate-valve-no.dxf
+
+  check_valve:
+    object_types:
+      - pump_discharge_check_valve
+    candidates:
+      - ISO Valves/15_check-valve.dxf
+
+  relief_valve:
+    object_types:
+      - PSV-501A
+      - PSV-501B
+      - PSV-502
+    candidates:
+      - ISO Valves/19_safety-valve.dxf
+      - ISO Valves/20_angle-safety-valve.dxf
+
+  restriction_orifice:
+    object_types:
+      - pump_minimum_flow_ro
+      - vent_ro
+    candidates:
+      - ISO Instruments/9_restriction-orifice.dxf
+
+  flow_arrow:
+    object_types:
+      - process_flow_direction
+      - utility_flow_direction
+    candidates:
+      - ISO Pipes and Signal Lines/2_pipe-left-to-right.dxf
+
+  offpage_connector:
+    object_types:
+      - feed_from_upstream
+      - overhead_to_c2_section
+      - bottoms_to_c3plus_export
+      - flare_header
+      - closed_drain_header
+      - utility_supply_return
+    candidates:
+      - ISO Pipes and Signal Lines/49_to-link-horizontal.dxf
+
+  nozzle:
+    object_types:
+      - column_nozzle
+      - vessel_nozzle
+      - exchanger_nozzle
+    candidates:
+      - ISO Fittings/4_flange-connection.dxf
+
+  sample_point:
+    object_types:
+      - feed_sample
+      - overhead_sample
+      - bottoms_sample
+    candidates:
+      - ISO Instruments/15_flow-element.dxf
+
+  signal_electric:
+    object_types:
+      - instrument_signal_4_20ma
+      - dcs_signal
+    candidates:
+      - ISO Pipes and Signal Lines/10_electric-signal-mid-horizontal.dxf
+
+  signal_pneumatic:
+    object_types:
+      - instrument_air_signal
+      - valve_actuator_air
+    candidates:
+      - ISO Pipes and Signal Lines/20_pneumatic-signal-mid-horizontal.dxf
+
+  impulse_line:
+    object_types:
+      - pressure_tap
+      - dp_tap
+      - level_tap
+    candidates:
+      - ISO Pipes and Signal Lines/15_leader-mid-horizontal.dxf

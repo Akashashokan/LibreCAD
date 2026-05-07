@@ -1,0 +1,482 @@
+valve_placements:
+  insertion_rule:
+    method: split_pipe_segment
+    place_valve_on_line: true
+    connect_to_valve_ports_only: true
+    preserve_orthogonal_routing: true
+    tag_offset_from_valve: [0, 10]
+    fail_position_text_offset: [0, -10]
+    actuator_port_required_for_control_and_shutdown_valves: true
+    zso_zsc_required_for_shutdown_valves: true
+
+  feed_to_deethanizer:
+    - tag: XV-501
+      type: shutdown_valve
+      service: feed_isolation
+      pipe_segment: 500-FEED-001
+      station: upstream_of_E-503
+      orientation: horizontal
+      normal_position: open
+      fail_position: FC
+      inlet_port: process_in
+      outlet_port: process_out
+      actuator_port: solenoid_signal
+      feedback:
+        - ZSO-501
+        - ZSC-501
+
+    - tag: FV-501
+      type: control_valve
+      service: feed_flow_control
+      pipe_segment: 500-FEED-002
+      station: downstream_of_E-503_upstream_of_T-501_N1
+      orientation: horizontal
+      normal_position: modulating
+      fail_position: FC
+      inlet_port: process_in
+      outlet_port: process_out
+      actuator_port: actuator_signal
+      controller: FIC-501
+
+  overhead_vapor:
+    - tag: HV-501
+      type: manual_block_valve
+      service: overhead_isolation
+      pipe_segment: 500-OVHD-001
+      station: downstream_of_T-501_N2
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: PV-501
+      type: control_valve
+      service: column_pressure_control_to_condenser_or_hot_vapor_bypass
+      pipe_segment: 500-OVHD-001
+      station: upstream_of_E-502_N1
+      orientation: horizontal
+      normal_position: modulating
+      fail_position: FO
+      inlet_port: process_in
+      outlet_port: process_out
+      actuator_port: actuator_signal
+      controller: PIC-501
+
+  condenser_to_reflux_drum:
+    - tag: HV-502
+      type: manual_block_valve
+      service: condenser_outlet_isolation
+      pipe_segment: 500-COND-001
+      station: downstream_of_E-502_N2
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+  reflux_drum_distillate_product:
+    - tag: LV-501
+      type: control_valve
+      service: reflux_drum_level_control_distillate_product
+      pipe_segment: 500-C2-PROD-001
+      station: downstream_of_V-501_N3
+      orientation: horizontal
+      normal_position: modulating
+      fail_position: FC
+      inlet_port: process_in
+      outlet_port: process_out
+      actuator_port: actuator_signal
+      controller: LIC-501
+
+    - tag: HV-503
+      type: manual_block_valve
+      service: distillate_product_isolation
+      pipe_segment: 500-C2-PROD-001
+      station: upstream_of_OPC_C2_OVERHEAD
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+  reflux_pump_suction:
+    - tag: HV-504A
+      type: manual_block_valve
+      service: P-501A_suction_isolation
+      pipe_segment: 500-RFLX-SUC-001A
+      station: upstream_of_P-501A_N1
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-504B
+      type: manual_block_valve
+      service: P-501B_suction_isolation
+      pipe_segment: 500-RFLX-SUC-001B
+      station: upstream_of_P-501B_N1
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+  reflux_pump_discharge:
+    - tag: NRV-501A
+      type: check_valve
+      service: P-501A_discharge_check
+      pipe_segment: 500-RFLX-DIS-001A
+      station: immediately_downstream_of_P-501A_N2
+      orientation: horizontal
+      normal_position: flow_forward
+      fail_position: non_return
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-505A
+      type: manual_block_valve
+      service: P-501A_discharge_isolation
+      pipe_segment: 500-RFLX-DIS-001A
+      station: downstream_of_NRV-501A
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: NRV-501B
+      type: check_valve
+      service: P-501B_discharge_check
+      pipe_segment: 500-RFLX-DIS-001B
+      station: immediately_downstream_of_P-501B_N2
+      orientation: horizontal
+      normal_position: flow_forward
+      fail_position: non_return
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-505B
+      type: manual_block_valve
+      service: P-501B_discharge_isolation
+      pipe_segment: 500-RFLX-DIS-001B
+      station: downstream_of_NRV-501B
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: FV-502
+      type: control_valve
+      service: reflux_flow_control
+      pipe_segment: 500-RFLX-001
+      station: common_reflux_header_upstream_of_T-501_N3
+      orientation: horizontal
+      normal_position: modulating
+      fail_position: FC
+      inlet_port: process_in
+      outlet_port: process_out
+      actuator_port: actuator_signal
+      controller: FIC-502
+
+  reflux_minimum_flow_recycle:
+    - tag: HV-506
+      type: manual_block_valve
+      service: reflux_minimum_flow_isolation
+      pipe_segment: 500-RFLX-MIN-001
+      station: takeoff_from_common_reflux_discharge_header
+      orientation: vertical
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: RO-501
+      type: restriction_orifice
+      service: reflux_minimum_flow_restriction
+      pipe_segment: 500-RFLX-MIN-001
+      station: downstream_of_HV-506
+      orientation: vertical
+      normal_position: fixed
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+  reboiler_circulation:
+    - tag: HV-507
+      type: manual_block_valve
+      service: reboiler_liquid_inlet_isolation
+      pipe_segment: 500-RB-001
+      station: between_T-501_N4_and_E-501_N1
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-508
+      type: manual_block_valve
+      service: reboiler_vapor_return_isolation
+      pipe_segment: 500-RB-002
+      station: between_E-501_N2_and_T-501_N5
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+  reboiler_utility:
+    - tag: TV-501
+      type: control_valve
+      service: reboiler_heat_input_control
+      pipe_segment: 500-HM-001
+      station: hot_utility_supply_to_E-501_N4
+      orientation: horizontal
+      normal_position: modulating
+      fail_position: FC
+      inlet_port: process_in
+      outlet_port: process_out
+      actuator_port: actuator_signal
+      controller: TIC-501
+
+    - tag: HV-509
+      type: manual_block_valve
+      service: reboiler_utility_supply_isolation
+      pipe_segment: 500-HM-001
+      station: upstream_of_TV-501
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-510
+      type: manual_block_valve
+      service: reboiler_utility_return_isolation
+      pipe_segment: 500-HM-002
+      station: downstream_of_E-501_N5
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+  bottoms_pump_suction:
+    - tag: HV-511A
+      type: manual_block_valve
+      service: P-502A_suction_isolation
+      pipe_segment: 500-BTM-SUC-001A
+      station: upstream_of_P-502A_N1
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-511B
+      type: manual_block_valve
+      service: P-502B_suction_isolation
+      pipe_segment: 500-BTM-SUC-001B
+      station: upstream_of_P-502B_N1
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+  bottoms_pump_discharge:
+    - tag: NRV-502A
+      type: check_valve
+      service: P-502A_discharge_check
+      pipe_segment: 500-BTM-DIS-001A
+      station: immediately_downstream_of_P-502A_N2
+      orientation: horizontal
+      normal_position: flow_forward
+      fail_position: non_return
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-512A
+      type: manual_block_valve
+      service: P-502A_discharge_isolation
+      pipe_segment: 500-BTM-DIS-001A
+      station: downstream_of_NRV-502A
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: NRV-502B
+      type: check_valve
+      service: P-502B_discharge_check
+      pipe_segment: 500-BTM-DIS-001B
+      station: immediately_downstream_of_P-502B_N2
+      orientation: horizontal
+      normal_position: flow_forward
+      fail_position: non_return
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-512B
+      type: manual_block_valve
+      service: P-502B_discharge_isolation
+      pipe_segment: 500-BTM-DIS-001B
+      station: downstream_of_NRV-502B
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: LV-502
+      type: control_valve
+      service: column_bottom_level_control
+      pipe_segment: 500-C3PLUS-002
+      station: downstream_of_E-503_hot_bottoms_out
+      orientation: horizontal
+      normal_position: modulating
+      fail_position: FC
+      inlet_port: process_in
+      outlet_port: process_out
+      actuator_port: actuator_signal
+      controller: LIC-502
+
+  condenser_utility:
+    - tag: TV-502
+      type: control_valve
+      service: overhead_condenser_cooling_control
+      pipe_segment: 500-CW-001
+      station: cooling_utility_supply_to_E-502_N3
+      orientation: horizontal
+      normal_position: modulating
+      fail_position: FO
+      inlet_port: process_in
+      outlet_port: process_out
+      actuator_port: actuator_signal
+      controller: PIC-501_or_TIC-502
+
+    - tag: HV-513
+      type: manual_block_valve
+      service: condenser_cooling_supply_isolation
+      pipe_segment: 500-CW-001
+      station: upstream_of_TV-502
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-514
+      type: manual_block_valve
+      service: condenser_cooling_return_isolation
+      pipe_segment: 500-CW-002
+      station: downstream_of_E-502_N4
+      orientation: horizontal
+      normal_position: open
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+  relief_and_vent:
+    - tag: PSV-501A
+      type: relief_valve
+      service: deethanizer_column_relief
+      pipe_segment: 500-FL-501A
+      station: connected_to_T-501_N9_psv_tap
+      orientation: vertical
+      normal_position: closed
+      fail_position: relief_open
+      inlet_port: inlet
+      outlet_port: outlet_to_flare
+
+    - tag: PSV-501B
+      type: relief_valve
+      service: deethanizer_column_relief_spare_or_parallel
+      pipe_segment: 500-FL-501B
+      station: connected_to_T-501_N9_psv_tap
+      orientation: vertical
+      normal_position: closed
+      fail_position: relief_open
+      inlet_port: inlet
+      outlet_port: outlet_to_flare
+
+    - tag: PSV-502
+      type: relief_valve
+      service: reflux_drum_relief
+      pipe_segment: 500-FL-502
+      station: connected_to_V-501_N6_psv_tap
+      orientation: vertical
+      normal_position: closed
+      fail_position: relief_open
+      inlet_port: inlet
+      outlet_port: outlet_to_flare
+
+    - tag: HV-515
+      type: manual_block_valve
+      service: column_manual_vent_to_flare
+      pipe_segment: 500-VT-501
+      station: downstream_of_T-501_N7
+      orientation: vertical
+      normal_position: closed
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-516
+      type: manual_block_valve
+      service: reflux_drum_manual_vent_to_flare
+      pipe_segment: 500-VT-502
+      station: downstream_of_V-501_N2
+      orientation: vertical
+      normal_position: closed
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+  drains:
+    - tag: HV-517
+      type: manual_block_valve
+      service: column_closed_drain
+      pipe_segment: 500-CD-501
+      station: downstream_of_T-501_N8
+      orientation: vertical
+      normal_position: closed
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-518
+      type: manual_block_valve
+      service: reflux_drum_closed_drain
+      pipe_segment: 500-CD-502
+      station: downstream_of_V-501_N5
+      orientation: vertical
+      normal_position: closed
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-519
+      type: manual_block_valve
+      service: reboiler_drain
+      pipe_segment: 500-CD-503
+      station: downstream_of_E-501_N7
+      orientation: vertical
+      normal_position: closed
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out
+
+    - tag: HV-520
+      type: manual_block_valve
+      service: condenser_drain
+      pipe_segment: 500-CD-504
+      station: downstream_of_E-502_N6
+      orientation: vertical
+      normal_position: closed
+      fail_position: none
+      inlet_port: process_in
+      outlet_port: process_out

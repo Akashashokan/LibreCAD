@@ -1,0 +1,434 @@
+nozzle_placement:
+  sequence:
+    - draw_equipment_body
+    - draw_nozzle_wall_points
+    - draw_nozzle_stubs
+    - draw_flange_or_connection_ticks
+    - store_nozzle_connection_ports
+    - route_piping_to_nozzle_connection_ports_only
+
+  T-501_deethanizer_column:
+    tag: T-501
+    nozzles:
+      N1_feed_inlet:
+        service: deethanizer_feed
+        side: left
+        elevation_zone: feed_tray
+        wall_point: [-28, 35]
+        stub_end: [-44, 35]
+        flange_point: [-48, 35]
+        connection_point: [-52, 35]
+      N2_overhead_vapor_outlet:
+        service: overhead_vapor_to_condenser
+        side: top
+        elevation_zone: column_top
+        wall_point: [0, 115]
+        stub_end: [0, 132]
+        flange_point: [0, 137]
+        connection_point: [0, 142]
+      N3_reflux_return:
+        service: reflux_return
+        side: right
+        elevation_zone: upper_column
+        wall_point: [28, 78]
+        stub_end: [44, 78]
+        flange_point: [48, 78]
+        connection_point: [52, 78]
+      N4_reboiler_liquid_draw:
+        service: reboiler_liquid_draw
+        side: right
+        elevation_zone: column_bottom_liquid
+        wall_point: [28, -82]
+        stub_end: [44, -82]
+        flange_point: [48, -82]
+        connection_point: [52, -82]
+      N5_reboiler_vapor_return:
+        service: reboiler_vapor_return
+        side: right
+        elevation_zone: lower_column_vapor
+        wall_point: [28, -48]
+        stub_end: [44, -48]
+        flange_point: [48, -48]
+        connection_point: [52, -48]
+      N6_bottoms_outlet:
+        service: column_bottoms_product
+        side: bottom
+        elevation_zone: column_sump
+        wall_point: [0, -115]
+        stub_end: [0, -132]
+        flange_point: [0, -137]
+        connection_point: [0, -142]
+      N7_column_vent_to_flare:
+        service: column_manual_vent_to_flare
+        side: top_right
+        elevation_zone: column_top
+        wall_point: [12, 112]
+        stub_end: [24, 124]
+        flange_point: [28, 128]
+        connection_point: [32, 132]
+      N8_column_drain:
+        service: column_closed_drain
+        side: bottom_right
+        elevation_zone: column_sump
+        wall_point: [12, -112]
+        stub_end: [24, -124]
+        flange_point: [28, -128]
+        connection_point: [32, -132]
+      N9_psv_tap:
+        service: column_relief_to_psv
+        side: top_left
+        elevation_zone: column_top
+        wall_point: [-12, 112]
+        stub_end: [-24, 124]
+        flange_point: [-28, 128]
+        connection_point: [-32, 132]
+      N10_pressure_tap:
+        service: overhead_pressure_tap
+        side: left
+        elevation_zone: upper_column
+        wall_point: [-28, 92]
+        stub_end: [-40, 92]
+        flange_point: [-44, 92]
+        connection_point: [-48, 92]
+      N11_dp_high_tap:
+        service: column_dp_high_tap
+        side: left
+        elevation_zone: upper_column
+        wall_point: [-28, 72]
+        stub_end: [-40, 72]
+        flange_point: [-44, 72]
+        connection_point: [-48, 72]
+      N12_dp_low_tap:
+        service: column_dp_low_tap
+        side: left
+        elevation_zone: lower_column
+        wall_point: [-28, -72]
+        stub_end: [-40, -72]
+        flange_point: [-44, -72]
+        connection_point: [-48, -72]
+      N13_temperature_tap_upper:
+        service: upper_tray_temperature
+        side: right
+        elevation_zone: rectifying_section
+        wall_point: [28, 48]
+        stub_end: [40, 48]
+        flange_point: [44, 48]
+        connection_point: [48, 48]
+      N14_temperature_tap_mid:
+        service: sensitive_tray_temperature
+        side: right
+        elevation_zone: feed_section
+        wall_point: [28, 0]
+        stub_end: [40, 0]
+        flange_point: [44, 0]
+        connection_point: [48, 0]
+      N15_temperature_tap_lower:
+        service: lower_tray_temperature
+        side: right
+        elevation_zone: stripping_section
+        wall_point: [28, -38]
+        stub_end: [40, -38]
+        flange_point: [44, -38]
+        connection_point: [48, -38]
+      N16_level_tap_high:
+        service: bottom_level_high_tap
+        side: left
+        elevation_zone: column_sump
+        wall_point: [-28, -82]
+        stub_end: [-40, -82]
+        flange_point: [-44, -82]
+        connection_point: [-48, -82]
+      N17_level_tap_low:
+        service: bottom_level_low_tap
+        side: left
+        elevation_zone: column_sump
+        wall_point: [-28, -104]
+        stub_end: [-40, -104]
+        flange_point: [-44, -104]
+        connection_point: [-48, -104]
+
+  E-501_reboiler:
+    tag: E-501
+    nozzles:
+      N1_column_liquid_in:
+        service: reboiler_liquid_from_column
+        side: left_lower
+        wall_point: [-43, -10]
+        stub_end: [-52, -10]
+        flange_point: [-56, -10]
+        connection_point: [-60, -10]
+      N2_vapor_return:
+        service: reboiler_vapor_to_column
+        side: left_upper
+        wall_point: [-43, 12]
+        stub_end: [-52, 12]
+        flange_point: [-56, 12]
+        connection_point: [-60, 12]
+      N3_bottoms_liquid_out:
+        service: bottoms_product
+        side: right_lower
+        wall_point: [43, -10]
+        stub_end: [52, -10]
+        flange_point: [56, -10]
+        connection_point: [60, -10]
+      N4_hot_utility_in:
+        service: reboiler_heating_medium_supply
+        side: top_right
+        wall_point: [20, 21]
+        stub_end: [20, 30]
+        flange_point: [20, 34]
+        connection_point: [20, 38]
+      N5_hot_utility_out:
+        service: reboiler_heating_medium_return
+        side: top_left
+        wall_point: [-20, 21]
+        stub_end: [-20, 30]
+        flange_point: [-20, 34]
+        connection_point: [-20, 38]
+      N6_reboiler_vent:
+        service: reboiler_vent
+        side: top
+        wall_point: [34, 21]
+        stub_end: [34, 30]
+        flange_point: [34, 34]
+        connection_point: [34, 38]
+      N7_reboiler_drain:
+        service: reboiler_drain
+        side: bottom
+        wall_point: [34, -21]
+        stub_end: [34, -30]
+        flange_point: [34, -34]
+        connection_point: [34, -38]
+
+  E-502_overhead_condenser:
+    tag: E-502
+    nozzles:
+      N1_overhead_vapor_in:
+        service: overhead_vapor_from_column
+        side: left
+        wall_point: [-38, 0]
+        stub_end: [-46, 0]
+        flange_point: [-50, 0]
+        connection_point: [-54, 0]
+      N2_condensate_out:
+        service: condensate_to_reflux_drum
+        side: right
+        wall_point: [38, 0]
+        stub_end: [46, 0]
+        flange_point: [50, 0]
+        connection_point: [54, 0]
+      N3_cooling_utility_in:
+        service: cooling_medium_supply
+        side: bottom_right
+        wall_point: [18, -17]
+        stub_end: [18, -24]
+        flange_point: [18, -28]
+        connection_point: [18, -32]
+      N4_cooling_utility_out:
+        service: cooling_medium_return
+        side: bottom_left
+        wall_point: [-18, -17]
+        stub_end: [-18, -24]
+        flange_point: [-18, -28]
+        connection_point: [-18, -32]
+      N5_condenser_vent:
+        service: condenser_vent
+        side: top_right
+        wall_point: [30, 17]
+        stub_end: [30, 22]
+        flange_point: [30, 26]
+        connection_point: [30, 30]
+      N6_condenser_drain:
+        service: condenser_drain
+        side: bottom_right
+        wall_point: [30, -17]
+        stub_end: [30, -22]
+        flange_point: [30, -26]
+        connection_point: [30, -30]
+
+  V-501_reflux_drum:
+    tag: V-501
+    nozzles:
+      N1_condensate_inlet:
+        service: condensate_from_condenser
+        side: left
+        wall_point: [-46, 0]
+        stub_end: [-58, 0]
+        flange_point: [-62, 0]
+        connection_point: [-66, 0]
+      N2_vapor_vent_to_flare:
+        service: reflux_drum_vent_to_flare
+        side: top
+        wall_point: [0, 19]
+        stub_end: [0, 31]
+        flange_point: [0, 35]
+        connection_point: [0, 39]
+      N3_distillate_outlet:
+        service: net_c2_overhead_product
+        side: right
+        wall_point: [46, 0]
+        stub_end: [58, 0]
+        flange_point: [62, 0]
+        connection_point: [66, 0]
+      N4_reflux_pump_suction:
+        service: reflux_pump_suction
+        side: bottom_right
+        wall_point: [18, -19]
+        stub_end: [18, -31]
+        flange_point: [18, -35]
+        connection_point: [18, -39]
+      N5_drain:
+        service: reflux_drum_closed_drain
+        side: bottom_left
+        wall_point: [-18, -19]
+        stub_end: [-18, -31]
+        flange_point: [-18, -35]
+        connection_point: [-18, -39]
+      N6_psv_tap:
+        service: reflux_drum_relief_to_psv
+        side: top_left
+        wall_point: [-24, 19]
+        stub_end: [-24, 31]
+        flange_point: [-24, 35]
+        connection_point: [-24, 39]
+      N7_level_tap_high:
+        service: reflux_drum_level_high_tap
+        side: left_upper
+        wall_point: [-46, 10]
+        stub_end: [-58, 10]
+        flange_point: [-62, 10]
+        connection_point: [-66, 10]
+      N8_level_tap_low:
+        service: reflux_drum_level_low_tap
+        side: left_lower
+        wall_point: [-46, -10]
+        stub_end: [-58, -10]
+        flange_point: [-62, -10]
+        connection_point: [-66, -10]
+      N9_pressure_tap:
+        service: reflux_drum_pressure_tap
+        side: top_right
+        wall_point: [32, 19]
+        stub_end: [32, 31]
+        flange_point: [32, 35]
+        connection_point: [32, 39]
+
+  E-503_feed_bottoms_exchanger:
+    tag: E-503
+    nozzles:
+      N1_cold_feed_in:
+        service: cold_feed_in
+        side: left_lower
+        wall_point: [-38, -8]
+        stub_end: [-46, -8]
+        flange_point: [-50, -8]
+        connection_point: [-54, -8]
+      N2_cold_feed_out:
+        service: preheated_feed_to_column
+        side: right_lower
+        wall_point: [38, -8]
+        stub_end: [46, -8]
+        flange_point: [50, -8]
+        connection_point: [54, -8]
+      N3_hot_bottoms_in:
+        service: hot_bottoms_from_column
+        side: right_upper
+        wall_point: [38, 8]
+        stub_end: [46, 8]
+        flange_point: [50, 8]
+        connection_point: [54, 8]
+      N4_hot_bottoms_out:
+        service: cooled_bottoms_product
+        side: left_upper
+        wall_point: [-38, 8]
+        stub_end: [-46, 8]
+        flange_point: [-50, 8]
+        connection_point: [-54, 8]
+      N5_exchanger_vent:
+        service: exchanger_vent
+        side: top_right
+        wall_point: [30, 17]
+        stub_end: [30, 22]
+        flange_point: [30, 26]
+        connection_point: [30, 30]
+      N6_exchanger_drain:
+        service: exchanger_drain
+        side: bottom_right
+        wall_point: [30, -17]
+        stub_end: [30, -22]
+        flange_point: [30, -26]
+        connection_point: [30, -30]
+
+  pumps:
+    P-501A:
+      service: reflux_pump_A
+      nozzles:
+        N1_suction:
+          wall_point: [-17, 0]
+          stub_end: [-24, 0]
+          flange_point: [-28, 0]
+          connection_point: [-32, 0]
+        N2_discharge:
+          wall_point: [17, 0]
+          stub_end: [24, 0]
+          flange_point: [28, 0]
+          connection_point: [32, 0]
+        N3_drain:
+          wall_point: [0, -12]
+          stub_end: [0, -18]
+          flange_point: [0, -22]
+          connection_point: [0, -26]
+    P-501B:
+      service: reflux_pump_B
+      nozzles:
+        N1_suction:
+          wall_point: [-17, 0]
+          stub_end: [-24, 0]
+          flange_point: [-28, 0]
+          connection_point: [-32, 0]
+        N2_discharge:
+          wall_point: [17, 0]
+          stub_end: [24, 0]
+          flange_point: [28, 0]
+          connection_point: [32, 0]
+        N3_drain:
+          wall_point: [0, -12]
+          stub_end: [0, -18]
+          flange_point: [0, -22]
+          connection_point: [0, -26]
+    P-502A:
+      service: bottoms_pump_A
+      nozzles:
+        N1_suction:
+          wall_point: [-17, 0]
+          stub_end: [-24, 0]
+          flange_point: [-28, 0]
+          connection_point: [-32, 0]
+        N2_discharge:
+          wall_point: [17, 0]
+          stub_end: [24, 0]
+          flange_point: [28, 0]
+          connection_point: [32, 0]
+        N3_drain:
+          wall_point: [0, -12]
+          stub_end: [0, -18]
+          flange_point: [0, -22]
+          connection_point: [0, -26]
+    P-502B:
+      service: bottoms_pump_B
+      nozzles:
+        N1_suction:
+          wall_point: [-17, 0]
+          stub_end: [-24, 0]
+          flange_point: [-28, 0]
+          connection_point: [-32, 0]
+        N2_discharge:
+          wall_point: [17, 0]
+          stub_end: [24, 0]
+          flange_point: [28, 0]
+          connection_point: [32, 0]
+        N3_drain:
+          wall_point: [0, -12]
+          stub_end: [0, -18]
+          flange_point: [0, -22]
+          connection_point: [0, -26]

@@ -1,0 +1,367 @@
+signal_routing:
+  routing_rule:
+    pass: after_process_piping_and_valves
+    method: signal_trunk
+    avoid_direct_diagonal_lines: true
+    route_pattern:
+      - source_signal_port
+      - horizontal_leader
+      - vertical_or_horizontal_signal_trunk
+      - horizontal_leader
+      - target_port
+    avoid:
+      - crossing_equipment_body
+      - crossing_instrument_bubbles
+      - crossing_valve_tags
+      - using_process_pipe_layer
+    require:
+      - isa_signal_line_style
+      - source_and_target_ports
+      - signal_type
+      - trunk_assignment
+      - line_jump_at_process_crossings_if_unavoidable
+
+  line_styles:
+    impulse_line:
+      layer: IMPULSE_LINE
+      style: dotted
+      service: instrument_to_process_tap
+    electric_signal:
+      layer: SIGNAL_ELECTRIC
+      style: dashed
+      service: field_instrument_to_dcs_or_actuator
+    pneumatic_signal:
+      layer: SIGNAL_PNEUMATIC
+      style: double_dashed
+      service: controller_to_pneumatic_actuator
+    software_signal:
+      layer: SIGNAL_SOFTWARE
+      style: dot_dash
+      service: dcs_internal_logic
+    safety_signal:
+      layer: SIGNAL_SIS
+      style: bold_dash_dot
+      service: sis_trip_or_esd_signal
+
+  trunks:
+    COLUMN_LEFT_SIGNAL_TRUNK:
+      trunk_x: left_of_T-501_instrument_zone
+      serves:
+        - column_pressure
+        - column_dp
+        - column_bottom_level
+        - column_pressure_alarms
+    COLUMN_RIGHT_SIGNAL_TRUNK:
+      trunk_x: right_of_T-501_instrument_zone
+      serves:
+        - column_temperature_profile
+        - reboiler_temperature_control
+    FEED_CONTROL_SIGNAL_TRUNK:
+      trunk_y: above_feed_control_station
+      serves:
+        - feed_flow_control
+        - feed_shutdown_valve_feedback
+    OVERHEAD_SIGNAL_TRUNK:
+      trunk_y: above_overhead_line
+      serves:
+        - overhead_pressure_control
+        - condenser_cooling_control
+    REFLUX_DRUM_SIGNAL_TRUNK:
+      trunk_x: left_of_V-501
+      serves:
+        - reflux_drum_level
+        - reflux_drum_pressure
+        - reflux_drum_alarms
+    REFLUX_PUMP_SIGNAL_TRUNK:
+      trunk_y: above_reflux_pump_discharge_header
+      serves:
+        - reflux_flow_control
+        - reflux_pump_status
+    BOTTOMS_SIGNAL_TRUNK:
+      trunk_y: above_bottoms_export_header
+      serves:
+        - bottoms_level_control
+        - bottoms_flow_or_composition
+        - bottoms_pump_status
+    ANALYZER_SIGNAL_TRUNK:
+      trunk_x: right_of_analyzer_zone
+      serves:
+        - overhead_analyzer
+        - bottoms_analyzer
+    SIS_SIGNAL_TRUNK:
+      trunk_y: upper_safety_signal_lane
+      serves:
+        - PSHH-501
+        - LSHH-501
+        - LSL-502
+        - XV-501
+
+  routes:
+    PT-501_to_PIC-501:
+      source: PT-501.signal
+      target: PIC-501.input_signal
+      signal_type: electric_signal
+      trunk: COLUMN_LEFT_SIGNAL_TRUNK
+      route:
+        - PT-501.signal
+        - horizontal_leader_to_COLUMN_LEFT_SIGNAL_TRUNK
+        - vertical_trunk_to_PIC-501_level
+        - horizontal_leader_to_PIC-501.input_signal
+
+    PT-501_to_PAH_PAL:
+      source: PT-501.signal
+      targets:
+        - PAH-501.input_signal
+        - PAL-501.input_signal
+      signal_type: software_signal
+      trunk: COLUMN_LEFT_SIGNAL_TRUNK
+      route:
+        - PT-501.signal
+        - horizontal_leader_to_COLUMN_LEFT_SIGNAL_TRUNK
+        - vertical_trunk_to_alarm_stack
+        - horizontal_leaders_to_PAH-501_and_PAL-501
+
+    PIC-501_to_PV-501:
+      source: PIC-501.output_signal
+      target: PV-501.actuator_signal
+      signal_type: pneumatic_signal
+      trunk: OVERHEAD_SIGNAL_TRUNK
+      route:
+        - PIC-501.output_signal
+        - horizontal_leader_to_OVERHEAD_SIGNAL_TRUNK
+        - horizontal_trunk_above_overhead_line
+        - vertical_drop_to_PV-501.actuator_signal
+
+    PSHH-501_to_XV-501:
+      source: PSHH-501.signal
+      target: XV-501.solenoid_signal
+      signal_type: safety_signal
+      trunk: SIS_SIGNAL_TRUNK
+      route:
+        - PSHH-501.signal
+        - vertical_leader_to_SIS_SIGNAL_TRUNK
+        - horizontal_sis_trunk_to_XV-501
+        - vertical_drop_to_XV-501.solenoid_signal
+
+    FE-501_to_FT-501:
+      source: FE-501.process_tap
+      target: FT-501.process_tap
+      signal_type: impulse_line
+      trunk: FEED_CONTROL_SIGNAL_TRUNK
+      route:
+        - FE-501.process_tap
+        - short_vertical_leader
+        - horizontal_leader_to_FT-501.process_tap
+
+    FT-501_to_FIC-501:
+      source: FT-501.signal
+      target: FIC-501.input_signal
+      signal_type: electric_signal
+      trunk: FEED_CONTROL_SIGNAL_TRUNK
+      route:
+        - FT-501.signal
+        - horizontal_leader_to_FEED_CONTROL_SIGNAL_TRUNK
+        - horizontal_trunk_to_FIC-501.input_signal
+
+    FIC-501_to_FV-501:
+      source: FIC-501.output_signal
+      target: FV-501.actuator_signal
+      signal_type: pneumatic_signal
+      trunk: FEED_CONTROL_SIGNAL_TRUNK
+      route:
+        - FIC-501.output_signal
+        - horizontal_leader_to_FEED_CONTROL_SIGNAL_TRUNK
+        - vertical_drop_to_FV-501.actuator_signal
+
+    ZSO-501_ZSC-501_to_XV-501:
+      sources:
+        - ZSO-501.signal
+        - ZSC-501.signal
+      targets:
+        - XV-501.zso_signal
+        - XV-501.zsc_signal
+      signal_type: electric_signal
+      trunk: FEED_CONTROL_SIGNAL_TRUNK
+      route:
+        - ZSO_ZSC_stack_signal_ports
+        - horizontal_leaders_to_FEED_CONTROL_SIGNAL_TRUNK
+        - vertical_drop_to_XV-501_feedback_ports
+
+    DPIT-501_to_column_taps:
+      source: DPIT-501.process_tap
+      targets:
+        - T-501.N11_dp_high_tap.connection_point
+        - T-501.N12_dp_low_tap.connection_point
+      signal_type: impulse_line
+      trunk: COLUMN_LEFT_SIGNAL_TRUNK
+      route:
+        - DPIT-501.process_tap
+        - split_impulse_pair
+        - orthogonal_leader_to_N11_dp_high_tap
+        - orthogonal_leader_to_N12_dp_low_tap
+
+    TT-501A_to_column_upper_tap:
+      source: TT-501A.process_tap
+      target: T-501.N13_temperature_tap_upper.connection_point
+      signal_type: impulse_line
+      trunk: COLUMN_RIGHT_SIGNAL_TRUNK
+      route:
+        - TT-501A.process_tap
+        - horizontal_leader_to_N13_temperature_tap_upper
+
+    TT-501B_to_TIC-501:
+      source: TT-501B.signal
+      target: TIC-501.input_signal
+      signal_type: electric_signal
+      trunk: COLUMN_RIGHT_SIGNAL_TRUNK
+      route:
+        - TT-501B.signal
+        - horizontal_leader_to_COLUMN_RIGHT_SIGNAL_TRUNK
+        - vertical_trunk_to_TIC-501
+        - horizontal_leader_to_TIC-501.input_signal
+
+    TIC-501_to_TV-501:
+      source: TIC-501.output_signal
+      target: TV-501.actuator_signal
+      signal_type: pneumatic_signal
+      trunk: COLUMN_RIGHT_SIGNAL_TRUNK
+      route:
+        - TIC-501.output_signal
+        - horizontal_leader_to_COLUMN_RIGHT_SIGNAL_TRUNK
+        - vertical_trunk_to_REBOILER_CONTROL_ZONE
+        - horizontal_leader_to_TV-501.actuator_signal
+
+    LT-502_to_column_bottom_taps:
+      source: LT-502.process_tap
+      targets:
+        - T-501.N16_level_tap_high.connection_point
+        - T-501.N17_level_tap_low.connection_point
+      signal_type: impulse_line
+      trunk: COLUMN_LEFT_SIGNAL_TRUNK
+      route:
+        - LT-502.process_tap
+        - split_impulse_pair
+        - orthogonal_leader_to_N16_level_tap_high
+        - orthogonal_leader_to_N17_level_tap_low
+
+    LT-502_to_LIC-502:
+      source: LT-502.signal
+      target: LIC-502.input_signal
+      signal_type: electric_signal
+      trunk: COLUMN_LEFT_SIGNAL_TRUNK
+      route:
+        - LT-502.signal
+        - horizontal_leader_to_COLUMN_LEFT_SIGNAL_TRUNK
+        - vertical_trunk_to_LIC-502
+        - horizontal_leader_to_LIC-502.input_signal
+
+    LIC-502_to_LV-502:
+      source: LIC-502.output_signal
+      target: LV-502.actuator_signal
+      signal_type: pneumatic_signal
+      trunk: BOTTOMS_SIGNAL_TRUNK
+      route:
+        - LIC-502.output_signal
+        - horizontal_leader_to_BOTTOMS_SIGNAL_TRUNK
+        - horizontal_trunk_to_LV-502
+        - vertical_drop_to_LV-502.actuator_signal
+
+    LT-501_to_reflux_drum_taps:
+      source: LT-501.process_tap
+      targets:
+        - V-501.N7_level_tap_high.connection_point
+        - V-501.N8_level_tap_low.connection_point
+      signal_type: impulse_line
+      trunk: REFLUX_DRUM_SIGNAL_TRUNK
+      route:
+        - LT-501.process_tap
+        - split_impulse_pair
+        - orthogonal_leader_to_N7_level_tap_high
+        - orthogonal_leader_to_N8_level_tap_low
+
+    LT-501_to_LIC-501:
+      source: LT-501.signal
+      target: LIC-501.input_signal
+      signal_type: electric_signal
+      trunk: REFLUX_DRUM_SIGNAL_TRUNK
+      route:
+        - LT-501.signal
+        - horizontal_leader_to_REFLUX_DRUM_SIGNAL_TRUNK
+        - vertical_trunk_to_LIC-501
+        - horizontal_leader_to_LIC-501.input_signal
+
+    LIC-501_to_LV-501:
+      source: LIC-501.output_signal
+      target: LV-501.actuator_signal
+      signal_type: pneumatic_signal
+      trunk: REFLUX_DRUM_SIGNAL_TRUNK
+      route:
+        - LIC-501.output_signal
+        - horizontal_leader_to_REFLUX_DRUM_SIGNAL_TRUNK
+        - horizontal_trunk_to_LV-501
+        - vertical_drop_to_LV-501.actuator_signal
+
+    FE-502_to_FT-502:
+      source: FE-502.process_tap
+      target: FT-502.process_tap
+      signal_type: impulse_line
+      trunk: REFLUX_PUMP_SIGNAL_TRUNK
+      route:
+        - FE-502.process_tap
+        - short_vertical_leader
+        - horizontal_leader_to_FT-502.process_tap
+
+    FT-502_to_FIC-502:
+      source: FT-502.signal
+      target: FIC-502.input_signal
+      signal_type: electric_signal
+      trunk: REFLUX_PUMP_SIGNAL_TRUNK
+      route:
+        - FT-502.signal
+        - horizontal_leader_to_REFLUX_PUMP_SIGNAL_TRUNK
+        - horizontal_trunk_to_FIC-502.input_signal
+
+    FIC-502_to_FV-502:
+      source: FIC-502.output_signal
+      target: FV-502.actuator_signal
+      signal_type: pneumatic_signal
+      trunk: REFLUX_PUMP_SIGNAL_TRUNK
+      route:
+        - FIC-502.output_signal
+        - horizontal_leader_to_REFLUX_PUMP_SIGNAL_TRUNK
+        - vertical_drop_to_FV-502.actuator_signal
+
+    AIT-501_to_AIC-501:
+      source: AIT-501.signal
+      target: AIC-501.input_signal
+      signal_type: electric_signal
+      trunk: ANALYZER_SIGNAL_TRUNK
+      route:
+        - AIT-501.signal
+        - horizontal_leader_to_ANALYZER_SIGNAL_TRUNK
+        - vertical_trunk_to_AIC-501
+        - horizontal_leader_to_AIC-501.input_signal
+
+    AIT-502_to_AIC-502:
+      source: AIT-502.signal
+      target: AIC-502.input_signal
+      signal_type: electric_signal
+      trunk: ANALYZER_SIGNAL_TRUNK
+      route:
+        - AIT-502.signal
+        - horizontal_leader_to_ANALYZER_SIGNAL_TRUNK
+        - vertical_trunk_to_AIC-502
+        - horizontal_leader_to_AIC-502.input_signal
+
+    pump_status_feedback:
+      signal_type: electric_signal
+      trunk: BOTTOMS_SIGNAL_TRUNK
+      routes:
+        - source: P-501A.motor_status_signal
+          target: XS-501A.input_signal
+        - source: P-501B.motor_status_signal
+          target: XS-501B.input_signal
+        - source: P-502A.motor_status_signal
+          target: XS-502A.input_signal
+        - source: P-502B.motor_status_signal
+          target: XS-502B.input_signal

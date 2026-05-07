@@ -9,20 +9,18 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from drier_pipeline.export import export_pdf_if_available
 from drier_pipeline.drier_template_layout import render_fixed_drier_template
 
 
 def main() -> None:
     script_dir = Path(__file__).parent
-
-    parser = argparse.ArgumentParser(description="Production-style fixed dual-drier P&ID generator")
-    parser.add_argument("--spec", default=str(script_dir / "drier_pipeline" / "drier_pid_spec.json"))
-    parser.add_argument("--output", default=str(script_dir / "drier_operation_pid.dxf"))
-    parser.add_argument("--pdf-output", default=str(script_dir / "drier_operation_pid.pdf"))
+    parser = argparse.ArgumentParser(description="Generate the fixed dual molecular sieve drier P&ID template")
+    parser.add_argument("--spec", default=str(script_dir / "specs" / "drier_U300.json"), help="Reserved for Stage 2 tag/line parameterization")
+    parser.add_argument("--template", default="dual_mol_sieve", choices=["dual_mol_sieve"])
+    parser.add_argument("--output", default=str(script_dir / "outputs" / "U300-PID-301.dxf"))
     parser.add_argument("--style", default="final", choices=["final", "debug"])
     parser.add_argument("--qa-overlay", action="store_true")
-    parser.add_argument("--no-validate", action="store_true", help="Skip template QA checks")
+    parser.add_argument("--no-validate", action="store_true")
     args = parser.parse_args()
 
     if args.spec and not Path(args.spec).exists():
@@ -30,7 +28,6 @@ def main() -> None:
 
     render_fixed_drier_template(Path(args.output), validate=not args.no_validate, style=args.style, qa_overlay=args.qa_overlay)
     print(f"Wrote DXF: {args.output}")
-    print(export_pdf_if_available(Path(args.output), Path(args.pdf_output)))
 
 
 if __name__ == "__main__":

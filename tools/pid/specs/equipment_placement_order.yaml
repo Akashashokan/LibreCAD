@@ -1,0 +1,138 @@
+equipment_placement_order:
+  - step: 1
+    equipment: T-501
+    description: deethanizer_column
+    register:
+      - equipment_bounding_box
+      - forbidden_zone
+      - nozzle_points
+      - tray_zone
+      - equipment_tag_location
+      - instrument_attachment_zones
+      - allowed_connection_points
+
+  - step: 2
+    equipment: E-501
+    description: deethanizer_reboiler
+    register:
+      - equipment_bounding_box
+      - forbidden_zone
+      - process_nozzles
+      - utility_nozzles
+      - equipment_tag_location
+      - allowed_connection_points
+
+  - step: 3
+    equipment: E-502
+    description: overhead_condenser
+    register:
+      - equipment_bounding_box
+      - forbidden_zone
+      - process_nozzles
+      - cooling_utility_nozzles
+      - equipment_tag_location
+      - allowed_connection_points
+
+  - step: 4
+    equipment: V-501
+    description: reflux_drum
+    register:
+      - equipment_bounding_box
+      - forbidden_zone
+      - nozzle_points
+      - relief_connection_point
+      - vent_connection_point
+      - drain_connection_point
+      - equipment_tag_location
+      - level_instrument_zone
+      - allowed_connection_points
+
+  - step: 5
+    equipment: P-501A
+    description: reflux_pump_A
+    register:
+      - equipment_bounding_box
+      - forbidden_zone
+      - suction_connection
+      - discharge_connection
+      - recycle_connection
+      - equipment_tag_location
+      - allowed_connection_points
+
+  - step: 6
+    equipment: P-501B
+    description: reflux_pump_B
+    register:
+      - equipment_bounding_box
+      - forbidden_zone
+      - suction_connection
+      - discharge_connection
+      - recycle_connection
+      - equipment_tag_location
+      - allowed_connection_points
+
+  - step: 7
+    equipment: E-503
+    description: feed_bottoms_exchanger
+    register:
+      - equipment_bounding_box
+      - forbidden_zone
+      - hot_side_nozzles
+      - cold_side_nozzles
+      - utility_clearance_zone
+      - equipment_tag_location
+      - allowed_connection_points
+
+  - step: 8
+    equipment: P-502A
+    description: bottoms_product_pump_A
+    register:
+      - equipment_bounding_box
+      - forbidden_zone
+      - suction_connection
+      - discharge_connection
+      - recycle_connection
+      - equipment_tag_location
+      - allowed_connection_points
+
+  - step: 9
+    equipment: P-502B
+    description: bottoms_product_pump_B
+    register:
+      - equipment_bounding_box
+      - forbidden_zone
+      - suction_connection
+      - discharge_connection
+      - recycle_connection
+      - equipment_tag_location
+      - allowed_connection_points
+
+  - step: 10
+    equipment: PSV-501A
+    description: column_pressure_safety_valve_A
+    register:
+      - equipment_bounding_box
+      - flare_connection
+      - inlet_connection
+      - discharge_direction
+      - equipment_tag_location
+
+  - step: 11
+    equipment: PSV-501B
+    description: column_pressure_safety_valve_B
+    register:
+      - equipment_bounding_box
+      - flare_connection
+      - inlet_connection
+      - discharge_direction
+      - equipment_tag_location
+
+  - step: 12
+    equipment: PSV-502
+    description: reflux_drum_pressure_safety_valve
+    register:
+      - equipment_bounding_box
+      - flare_connection
+      - inlet_connection
+      - discharge_direction
+      - equipment_tag_location

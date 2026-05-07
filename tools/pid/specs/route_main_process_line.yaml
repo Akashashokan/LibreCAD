@@ -1,0 +1,296 @@
+route_main_process_lines:
+  routing_rules:
+    primary_flow_direction: left_to_right
+    preferred_line_style: orthogonal
+    avoid:
+      - diagonal_process_lines
+      - pipe_entry_into_equipment_body
+      - routing_through_forbidden_zones
+      - crossing_instrument_bubbles
+      - crossing_equipment_tags
+    require:
+      - connect_only_to_nozzle_connection_points
+      - line_label_on_long_straight_segments
+      - flow_arrow_on_each_major_header
+      - flow_arrow_after_each_major_branch
+      - line_jump_or_gap_at_crossings
+      - offpage_connector_at_battery_limit
+      - unique_line_number_per_service_segment
+
+  routes:
+    feed_to_deethanizer:
+      service: deethanizer_feed
+      from: OPC_FEED_FROM_UPSTREAM_C2_C3_SECTION
+      to: T-501.N1_feed_inlet.connection_point
+      path:
+        - OPC_FEED_FROM_UPSTREAM_C2_C3_SECTION.continuation
+        - feed_isolation_valve
+        - E-503.N1_cold_feed_in.connection_point
+        - E-503.N2_cold_feed_out.connection_point
+        - feed_flow_control_station
+        - T-501.N1_feed_inlet.connection_point
+      valves:
+        - manual_block_valve_feed_isolation
+        - FV-501_feed_control_valve
+      instruments:
+        - FE-501
+        - FT-501
+        - FIC-501
+      labels:
+        - line_number: 500-FEED-001
+          placement: upstream_long_horizontal_segment
+        - line_number: 500-FEED-002
+          placement: exchanger_to_column_segment
+      arrows:
+        - after_offpage_connector
+        - upstream_of_E-503
+        - downstream_of_FV-501
+      crossing_policy: jump_secondary_lines_over_feed
+
+    overhead_vapor_to_condenser:
+      service: column_overhead_vapor
+      from: T-501.N2_overhead_vapor_outlet.connection_point
+      to: E-502.N1_overhead_vapor_in.connection_point
+      path:
+        - T-501.N2_overhead_vapor_outlet.connection_point
+        - overhead_vertical_riser
+        - overhead_horizontal_run
+        - overhead_pressure_control_takeoff
+        - E-502.N1_overhead_vapor_in.connection_point
+      valves:
+        - overhead_isolation_valve_if_required
+      instruments:
+        - PT-501
+        - PIC-501
+        - PAH-501
+        - PAL-501
+      labels:
+        - line_number: 500-OVHD-001
+          placement: top_horizontal_segment
+      arrows:
+        - leaving_column_top
+        - before_E-502
+      crossing_policy: keep_above_column_instrument_zone
+
+    condenser_to_reflux_drum:
+      service: condensed_overhead
+      from: E-502.N2_condensate_out.connection_point
+      to: V-501.N1_condensate_inlet.connection_point
+      path:
+        - E-502.N2_condensate_out.connection_point
+        - short_horizontal_run
+        - vertical_drop_if_required
+        - V-501.N1_condensate_inlet.connection_point
+      valves:
+        - condenser_outlet_isolation_valve_if_required
+      instruments:
+        - TI-502_condensate_temperature_if_required
+      labels:
+        - line_number: 500-COND-001
+          placement: condenser_to_drum_horizontal_segment
+      arrows:
+        - downstream_of_E-502
+      crossing_policy: no_crossing_with_psv_discharge
+
+    reflux_drum_to_reflux_pumps:
+      service: reflux_pump_suction
+      from: V-501.N4_reflux_pump_suction.connection_point
+      to:
+        - P-501A.N1_suction.connection_point
+        - P-501B.N1_suction.connection_point
+      path:
+        - V-501.N4_reflux_pump_suction.connection_point
+        - reflux_suction_drop_leg
+        - reflux_pump_suction_header
+        - branch_to_P-501A_suction
+        - branch_to_P-501B_suction
+      valves:
+        - P-501A_suction_block_valve
+        - P-501B_suction_block_valve
+      labels:
+        - line_number: 500-RFLX-SUC-001
+          placement: suction_header
+      arrows:
+        - on_suction_drop_leg
+        - on_each_pump_suction_branch
+      crossing_policy: branches_vertical_then_horizontal
+
+    reflux_pumps_to_column:
+      service: reflux_return
+      from:
+        - P-501A.N2_discharge.connection_point
+        - P-501B.N2_discharge.connection_point
+      to: T-501.N3_reflux_return.connection_point
+      path:
+        - P-501A_discharge_branch
+        - P-501A_discharge_check_valve
+        - P-501A_discharge_block_valve
+        - common_reflux_discharge_header
+        - P-501B_discharge_branch
+        - P-501B_discharge_check_valve
+        - P-501B_discharge_block_valve
+        - reflux_flow_control_station
+        - reflux_return_riser
+        - T-501.N3_reflux_return.connection_point
+      valves:
+        - P-501A_discharge_check_valve
+        - P-501A_discharge_block_valve
+        - P-501B_discharge_check_valve
+        - P-501B_discharge_block_valve
+        - FV-502_reflux_control_valve
+      instruments:
+        - FE-502
+        - FT-502
+        - FIC-502
+      labels:
+        - line_number: 500-RFLX-001
+          placement: common_reflux_header
+      arrows:
+        - after_common_pump_header
+        - downstream_of_FV-502
+        - entering_column_reflux_nozzle
+      crossing_policy: route_outside_column_forbidden_zone
+
+    net_overhead_product:
+      service: c2_overhead_product
+      from: V-501.N3_distillate_outlet.connection_point
+      to: OPC_C2_OVERHEAD_TO_ACETYLENE_HYDROGENATION_OR_C2_SPLITTER
+      path:
+        - V-501.N3_distillate_outlet.connection_point
+        - distillate_level_control_station
+        - overhead_product_sample_point
+        - OPC_C2_OVERHEAD_TO_ACETYLENE_HYDROGENATION_OR_C2_SPLITTER.continuation
+      valves:
+        - LV-501_distillate_level_control_valve
+        - product_isolation_valve
+      instruments:
+        - LT-501
+        - LIC-501
+        - AIT-501_overhead_composition
+        - AIC-501_overhead_composition
+      labels:
+        - line_number: 500-C2-PROD-001
+          placement: product_export_horizontal_segment
+      arrows:
+        - downstream_of_LV-501
+        - before_offpage_connector
+      crossing_policy: route_rightward_clear_of_reflux_drum_relief
+
+    column_bottoms_to_reboiler:
+      service: reboiler_circulation_liquid
+      from: T-501.N4_reboiler_liquid_draw.connection_point
+      to: E-501.N1_column_liquid_in.connection_point
+      path:
+        - T-501.N4_reboiler_liquid_draw.connection_point
+        - reboiler_liquid_draw_horizontal_run
+        - E-501.N1_column_liquid_in.connection_point
+      valves:
+        - reboiler_inlet_isolation_valve
+      labels:
+        - line_number: 500-RB-001
+          placement: column_to_reboiler_liquid_segment
+      arrows:
+        - leaving_column_bottom_draw
+      crossing_policy: keep_below_reflux_return_line
+
+    reboiler_vapor_return_to_column:
+      service: reboiler_vapor_return
+      from: E-501.N2_vapor_return.connection_point
+      to: T-501.N5_reboiler_vapor_return.connection_point
+      path:
+        - E-501.N2_vapor_return.connection_point
+        - reboiler_vapor_return_horizontal_run
+        - T-501.N5_reboiler_vapor_return.connection_point
+      valves:
+        - reboiler_vapor_return_isolation_valve_if_required
+      labels:
+        - line_number: 500-RB-002
+          placement: reboiler_to_column_vapor_segment
+      arrows:
+        - leaving_reboiler
+        - entering_column
+      crossing_policy: do_not_cross_bottom_level_instruments
+
+    column_bottoms_product:
+      service: c3plus_bottoms_product
+      from: T-501.N6_bottoms_outlet.connection_point
+      to:
+        - P-502A.N1_suction.connection_point
+        - P-502B.N1_suction.connection_point
+      path:
+        - T-501.N6_bottoms_outlet.connection_point
+        - bottoms_drop_leg
+        - bottoms_pump_suction_header
+        - branch_to_P-502A_suction
+        - branch_to_P-502B_suction
+      valves:
+        - P-502A_suction_block_valve
+        - P-502B_suction_block_valve
+      instruments:
+        - LT-502
+        - LIC-502
+      labels:
+        - line_number: 500-BTM-SUC-001
+          placement: bottoms_suction_header
+      arrows:
+        - on_bottoms_drop_leg
+        - on_each_pump_suction_branch
+      crossing_policy: keep_above_closed_drain_header
+
+    bottoms_pumps_to_export:
+      service: c3plus_bottoms_export
+      from:
+        - P-502A.N2_discharge.connection_point
+        - P-502B.N2_discharge.connection_point
+      to: OPC_C3PLUS_BOTTOMS_EXPORT
+      path:
+        - P-502A_discharge_branch
+        - P-502A_discharge_check_valve
+        - P-502A_discharge_block_valve
+        - common_bottoms_discharge_header
+        - P-502B_discharge_branch
+        - P-502B_discharge_check_valve
+        - P-502B_discharge_block_valve
+        - E-503.N3_hot_bottoms_in.connection_point
+        - E-503.N4_hot_bottoms_out.connection_point
+        - bottoms_product_control_station
+        - bottoms_sample_point
+        - OPC_C3PLUS_BOTTOMS_EXPORT.continuation
+      valves:
+        - P-502A_discharge_check_valve
+        - P-502A_discharge_block_valve
+        - P-502B_discharge_check_valve
+        - P-502B_discharge_block_valve
+        - LV-502_bottoms_level_control_valve
+        - bottoms_export_isolation_valve
+      instruments:
+        - FT-503_bottoms_flow_if_required
+        - AIT-502_bottoms_composition
+      labels:
+        - line_number: 500-C3PLUS-001
+          placement: common_bottoms_export_header
+        - line_number: 500-C3PLUS-002
+          placement: downstream_E-503_export_segment
+      arrows:
+        - after_common_pump_header
+        - downstream_of_E-503
+        - before_offpage_connector
+      crossing_policy: route_left_zone_clear_of_feed_line
+
+    reflux_pump_minimum_flow_recycle:
+      service: reflux_minimum_flow_recycle
+      from: common_reflux_discharge_header
+      to: V-501.N1_condensate_inlet.connection_point
+      path:
+        - common_reflux_discharge_header_takeoff
+        - minimum_flow_recycle_valve_or_ro
+        - return_to_reflux_drum_inlet_zone
+      valves:
+        - reflux_minimum_flow_valve
+        - restriction_orifice_if_required
+      labels:
+        - line_number: 500-RFLX-MIN-001
+          placement: recycle_vertical_segment
+      arrows:
+        - on_recycle_return
+      crossing_policy: treat_as_secondary_process_line_with_jumps

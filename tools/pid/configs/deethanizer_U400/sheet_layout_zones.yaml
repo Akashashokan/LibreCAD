@@ -1,0 +1,156 @@
+sheet_layout_zones:
+  sheet:
+    format: A0_landscape
+    width: 1189
+    height: 841
+    drawing_area:
+      x_min: 30
+      y_min: 40
+      x_max: 1135
+      y_max: 790
+
+  top_zone:
+    y_range: [690, 790]
+    contents:
+      - flare_header
+      - column_psv_discharge_header
+      - reflux_drum_psv_discharge_header
+      - overhead_vapor_line_to_condenser
+      - cooling_utility_supply_return_for_condenser
+      - overhead_pressure_control_loop
+      - offpage_connectors_to_flare_and_c2_section
+
+  upper_middle_zone:
+    y_range: [530, 690]
+    contents:
+      - overhead_condenser_E-502
+      - reflux_drum_V-501
+      - reflux_drum_pressure_instruments
+      - reflux_drum_level_control
+      - reflux_drum_vent_and_drain
+      - distillate_product_line
+      - reflux_pump_suction_header
+
+  center_zone:
+    y_range: [260, 650]
+    contents:
+      - deethanizer_column_T-501
+      - column_feed_nozzle
+      - reflux_return_nozzle
+      - column_pressure_taps
+      - column_dp_taps
+      - column_temperature_profile
+      - column_bottom_level_taps
+      - column_internal_tray_indication
+      - main_column_tag_and_service_label
+
+  left_zone:
+    x_range: [40, 310]
+    contents:
+      - feed_from_upstream_offpage_connector
+      - feed_bottoms_exchanger_E-503
+      - feed_isolation_valves
+      - feed_control_valve
+      - feed_flow_control_loop
+      - feed_sample_point
+      - feed_line_labels
+
+  right_zone:
+    x_range: [760, 1085]
+    contents:
+      - overhead_condenser_E-502
+      - reflux_drum_V-501
+      - distillate_product_control_valve
+      - overhead_product_offpage_connector
+      - reflux_return_control_valve
+      - reflux_flow_control_loop
+      - overhead_analyzer_sample_point
+      - reflux_drum_psv_and_vent_connections
+
+  lower_middle_zone:
+    y_range: [120, 300]
+    contents:
+      - reboiler_E-501
+      - reboiler_circulation_supply_and_return
+      - reboiler_utility_supply_return
+      - reboiler_temperature_control_loop
+      - column_bottoms_draw_line
+      - bottoms_level_control_loop
+
+  lower_left_zone:
+    x_range: [120, 420]
+    y_range: [90, 240]
+    contents:
+      - bottoms_product_pumps_P-502A_B
+      - pump_suction_isolation_valves
+      - pump_discharge_check_valves
+      - pump_discharge_isolation_valves
+      - bottoms_product_control_valve
+      - bottoms_sample_point
+      - bottoms_to_C3plus_export_offpage_connector
+
+  lower_right_zone:
+    x_range: [740, 1030]
+    y_range: [90, 260]
+    contents:
+      - reflux_pumps_P-501A_B
+      - reflux_pump_suction_isolation_valves
+      - reflux_pump_discharge_check_valves
+      - reflux_pump_discharge_isolation_valves
+      - reflux_minimum_flow_recycle
+      - reflux_return_line_to_column
+
+  bottom_zone:
+    y_range: [40, 120]
+    contents:
+      - closed_drain_header
+      - oily_closed_drain_connections
+      - utility_condensate_return_header
+      - sample_drain_header
+      - low_point_drains
+      - offpage_connectors_to_closed_drain_system
+
+  instrument_zone_left:
+    x_range: [300, 455]
+    y_range: [250, 680]
+    contents:
+      - feed_FIC
+      - column_PIC
+      - column_DPIT
+      - column_TT_TI_stack
+      - column_bottom_LIC
+      - column_pressure_alarms
+
+  instrument_zone_right:
+    x_range: [660, 820]
+    y_range: [300, 690]
+    contents:
+      - reflux_drum_LIC
+      - reflux_FIC
+      - reboiler_TIC
+      - overhead_AIT_AIC
+      - distillate_product_control
+      - shutdown_feedback_ZSO_ZSC
+
+  notes_and_tables_zone:
+    x_range: [900, 1135]
+    y_range: [360, 650]
+    contents:
+      - operating_notes
+      - control_philosophy_notes
+      - PSV_notes
+      - vent_drain_notes
+      - analyzer_notes
+      - line_legend
+      - instrument_legend
+
+  title_block_zone:
+    x_range: [900, 1135]
+    y_range: [40, 180]
+    contents:
+      - title_block
+      - revision_table
+      - drawing_number
+      - package_type
+      - area_code_500
+      - sheet_references

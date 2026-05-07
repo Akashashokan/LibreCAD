@@ -1,0 +1,300 @@
+instrument_placements:
+  placement_rule:
+    method: place_instrument_stack
+    use_zones: true
+    avoid_random_scatter: true
+    minimum_bubble_spacing: 18
+    split_overcrowded_zones: true
+    connect_to:
+      - process_taps
+      - valve_actuator_ports
+      - dcs_controller_ports
+    signal_routing: orthogonal
+    prefer_short_signal_lines: true
+
+  zones:
+    COLUMN_LEFT_PRESSURE_DP_ZONE:
+      anchor: left_of_T-501_upper_section
+      preferred_side: left
+      stack_direction: vertical
+      instruments:
+        - tag: PT-501
+          type: field_instrument
+          service: column_overhead_pressure
+          connect_to: T-501.N10_pressure_tap.connection_point
+        - tag: PI-501
+          type: field_instrument
+          service: local_column_pressure_indication
+          connect_to: T-501.N10_pressure_tap.connection_point
+        - tag: DPIT-501
+          type: field_instrument
+          service: column_differential_pressure
+          connect_to:
+            high_tap: T-501.N11_dp_high_tap.connection_point
+            low_tap: T-501.N12_dp_low_tap.connection_point
+        - tag: PAH-501
+          type: dcs_alarm
+          service: column_pressure_high_alarm
+          source: PT-501
+        - tag: PAL-501
+          type: dcs_alarm
+          service: column_pressure_low_alarm
+          source: PT-501
+
+    COLUMN_LEFT_BOTTOM_LEVEL_ZONE:
+      anchor: left_of_T-501_bottom_sump
+      preferred_side: left
+      stack_direction: vertical
+      instruments:
+        - tag: LT-502
+          type: field_instrument
+          service: column_bottom_level
+          connect_to:
+            high_tap: T-501.N16_level_tap_high.connection_point
+            low_tap: T-501.N17_level_tap_low.connection_point
+        - tag: LIC-502
+          type: dcs_controller
+          service: column_bottom_level_control
+          input_from: LT-502
+          output_to: LV-502.actuator_signal
+        - tag: LAH-502
+          type: dcs_alarm
+          service: column_bottom_level_high_alarm
+          source: LT-502
+        - tag: LAL-502
+          type: dcs_alarm
+          service: column_bottom_level_low_alarm
+          source: LT-502
+        - tag: LSL-502
+          type: safety_switch
+          service: low_low_column_bottom_level_reboiler_trip
+          connect_to: T-501.N17_level_tap_low.connection_point
+
+    COLUMN_RIGHT_TEMPERATURE_PROFILE_ZONE:
+      anchor: right_of_T-501_middle_section
+      preferred_side: right
+      stack_direction: vertical
+      instruments:
+        - tag: TT-501A
+          type: field_instrument
+          service: upper_tray_temperature
+          connect_to: T-501.N13_temperature_tap_upper.connection_point
+        - tag: TI-501A
+          type: field_instrument
+          service: upper_tray_local_temperature_indicator
+          connect_to: T-501.N13_temperature_tap_upper.connection_point
+        - tag: TT-501B
+          type: field_instrument
+          service: sensitive_tray_temperature
+          connect_to: T-501.N14_temperature_tap_mid.connection_point
+        - tag: TIC-501
+          type: dcs_controller
+          service: reboiler_heat_input_temperature_control
+          input_from: TT-501B
+          output_to: TV-501.actuator_signal
+        - tag: TT-501C
+          type: field_instrument
+          service: lower_tray_temperature
+          connect_to: T-501.N15_temperature_tap_lower.connection_point
+        - tag: TI-501C
+          type: field_instrument
+          service: lower_tray_local_temperature_indicator
+          connect_to: T-501.N15_temperature_tap_lower.connection_point
+        - tag: TAH-501
+          type: dcs_alarm
+          service: column_temperature_high_alarm
+          source: TT-501B
+        - tag: TAL-501
+          type: dcs_alarm
+          service: column_temperature_low_alarm
+          source: TT-501B
+
+    FEED_CONTROL_ZONE:
+      anchor: left_feed_line_near_FV-501
+      preferred_side: above
+      stack_direction: horizontal
+      instruments:
+        - tag: FE-501
+          type: primary_element
+          service: deethanizer_feed_flow_element
+          place_on_line: 500-FEED-002
+        - tag: FT-501
+          type: field_instrument
+          service: deethanizer_feed_flow_transmitter
+          connect_to: FE-501
+        - tag: FIC-501
+          type: dcs_controller
+          service: deethanizer_feed_flow_control
+          input_from: FT-501
+          output_to: FV-501.actuator_signal
+
+    OVERHEAD_PRESSURE_CONTROL_ZONE:
+      anchor: top_of_T-501_near_overhead_line
+      preferred_side: above
+      stack_direction: horizontal
+      instruments:
+        - tag: PIC-501
+          type: dcs_controller
+          service: column_overhead_pressure_control
+          input_from: PT-501
+          output_to: PV-501.actuator_signal
+        - tag: PSHH-501
+          type: safety_switch
+          service: column_high_high_pressure_trip
+          source: PT-501
+          output_to:
+            - XV-501.solenoid_signal
+            - ESD_system
+
+    REFLUX_DRUM_LEVEL_PRESSURE_ZONE:
+      anchor: left_of_V-501
+      preferred_side: left
+      stack_direction: vertical
+      instruments:
+        - tag: LT-501
+          type: field_instrument
+          service: reflux_drum_level
+          connect_to:
+            high_tap: V-501.N7_level_tap_high.connection_point
+            low_tap: V-501.N8_level_tap_low.connection_point
+        - tag: LIC-501
+          type: dcs_controller
+          service: reflux_drum_level_control
+          input_from: LT-501
+          output_to: LV-501.actuator_signal
+        - tag: LAH-501
+          type: dcs_alarm
+          service: reflux_drum_level_high_alarm
+          source: LT-501
+        - tag: LAL-501
+          type: dcs_alarm
+          service: reflux_drum_level_low_alarm
+          source: LT-501
+        - tag: LSHH-501
+          type: safety_switch
+          service: reflux_drum_high_high_level_trip
+          source: LT-501
+        - tag: PT-502
+          type: field_instrument
+          service: reflux_drum_pressure
+          connect_to: V-501.N9_pressure_tap.connection_point
+        - tag: PI-502
+          type: field_instrument
+          service: local_reflux_drum_pressure_indication
+          connect_to: V-501.N9_pressure_tap.connection_point
+
+    REFLUX_FLOW_CONTROL_ZONE:
+      anchor: right_lower_zone_near_reflux_return_header
+      preferred_side: above
+      stack_direction: horizontal
+      instruments:
+        - tag: FE-502
+          type: primary_element
+          service: reflux_flow_element
+          place_on_line: 500-RFLX-001
+        - tag: FT-502
+          type: field_instrument
+          service: reflux_flow_transmitter
+          connect_to: FE-502
+        - tag: FIC-502
+          type: dcs_controller
+          service: reflux_flow_control
+          input_from: FT-502
+          output_to: FV-502.actuator_signal
+
+    REBOILER_CONTROL_ZONE:
+      anchor: near_E-501_reboiler_utility_station
+      preferred_side: above
+      stack_direction: vertical
+      instruments:
+        - tag: TIC-501
+          type: dcs_controller
+          service: reboiler_temperature_control
+          input_from: TT-501B
+          output_to: TV-501.actuator_signal
+        - tag: TT-503
+          type: field_instrument
+          service: reboiler_outlet_temperature
+          connect_to: E-501.N2_vapor_return.connection_point
+        - tag: TI-503
+          type: field_instrument
+          service: local_reboiler_outlet_temperature
+          connect_to: E-501.N2_vapor_return.connection_point
+
+    OVERHEAD_ANALYZER_ZONE:
+      anchor: right_of_distillate_product_line
+      preferred_side: above
+      stack_direction: vertical
+      instruments:
+        - tag: AIT-501
+          type: analyzer
+          service: overhead_C2_composition_analyzer
+          connect_to: overhead_product_sample_point
+        - tag: AIC-501
+          type: dcs_controller
+          service: overhead_composition_indication_control
+          input_from: AIT-501
+        - tag: AS-501
+          type: sample_system
+          service: overhead_sample_conditioning
+          connect_to:
+            sample_in: overhead_sample_point
+            sample_vent: sample_vent_header
+            sample_drain: sample_drain_header
+
+    BOTTOMS_ANALYZER_ZONE:
+      anchor: lower_left_zone_near_bottoms_export_line
+      preferred_side: above
+      stack_direction: vertical
+      instruments:
+        - tag: AIT-502
+          type: analyzer
+          service: bottoms_C3plus_composition_analyzer
+          connect_to: bottoms_sample_point
+        - tag: AIC-502
+          type: dcs_controller
+          service: bottoms_composition_indication_control
+          input_from: AIT-502
+        - tag: AS-502
+          type: sample_system
+          service: bottoms_sample_conditioning
+          connect_to:
+            sample_in: bottoms_sample_point
+            sample_vent: sample_vent_header
+            sample_drain: sample_drain_header
+
+    PUMP_STATUS_ZONE:
+      anchor: lower_pump_area
+      preferred_side: below
+      stack_direction: grid
+      instruments:
+        - tag: XS-501A
+          type: motor_status_feedback
+          service: P-501A_running_status
+          connect_to: P-501A.motor_status_signal
+        - tag: XS-501B
+          type: motor_status_feedback
+          service: P-501B_running_status
+          connect_to: P-501B.motor_status_signal
+        - tag: XS-502A
+          type: motor_status_feedback
+          service: P-502A_running_status
+          connect_to: P-502A.motor_status_signal
+        - tag: XS-502B
+          type: motor_status_feedback
+          service: P-502B_running_status
+          connect_to: P-502B.motor_status_signal
+
+    SHUTDOWN_VALVE_FEEDBACK_ZONE:
+      anchor: near_XV-501
+      preferred_side: above
+      stack_direction: vertical
+      instruments:
+        - tag: ZSO-501
+          type: valve_open_feedback
+          service: XV-501_open_status
+          connect_to: XV-501.zso_signal
+        - tag: ZSC-501
+          type: valve_closed_feedback
+          service: XV-501_closed_status
+          connect_to: XV-501.zsc_signal

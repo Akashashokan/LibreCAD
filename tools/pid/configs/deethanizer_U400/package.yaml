@@ -1,0 +1,5 @@
+package_type: deethanizer_column
+service: c2_c3_fractionation
+area_code: 500
+number_of_columns: 1
+template: deethanizer_column_template

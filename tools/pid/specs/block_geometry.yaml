@@ -1,0 +1,305 @@
+block_geometry:
+  deethanizer_column:
+    block: deethanizer_column
+    size:
+      width: 56
+      height: 230
+    body:
+      shape: vertical_trayed_column
+      tray_zone_height: 170
+      top_head_height: 18
+      bottom_sump_height: 28
+    nozzles:
+      N1_feed_inlet:
+        wall_point: [-28, 35]
+        stub_end: [-44, 35]
+        pipe_connection: [-52, 35]
+        side: left
+      N2_overhead_vapor_outlet:
+        wall_point: [0, 115]
+        stub_end: [0, 132]
+        pipe_connection: [0, 142]
+        side: top
+      N3_reflux_return:
+        wall_point: [28, 78]
+        stub_end: [44, 78]
+        pipe_connection: [52, 78]
+        side: right
+      N4_reboiler_liquid_draw:
+        wall_point: [28, -82]
+        stub_end: [44, -82]
+        pipe_connection: [52, -82]
+        side: right
+      N5_reboiler_vapor_return:
+        wall_point: [28, -48]
+        stub_end: [44, -48]
+        pipe_connection: [52, -48]
+        side: right
+      N6_bottoms_outlet:
+        wall_point: [0, -115]
+        stub_end: [0, -132]
+        pipe_connection: [0, -142]
+        side: bottom
+      N7_column_vent_to_flare:
+        wall_point: [12, 112]
+        stub_end: [24, 124]
+        pipe_connection: [32, 132]
+        side: top_right
+      N8_column_drain:
+        wall_point: [12, -112]
+        stub_end: [24, -124]
+        pipe_connection: [32, -132]
+        side: bottom_right
+      N9_psv_tap:
+        wall_point: [-12, 112]
+        stub_end: [-24, 124]
+        pipe_connection: [-32, 132]
+        side: top_left
+      N10_pressure_tap:
+        wall_point: [-28, 92]
+        stub_end: [-40, 92]
+        pipe_connection: [-48, 92]
+        side: left
+      N11_dp_high_tap:
+        wall_point: [-28, 72]
+        stub_end: [-40, 72]
+        pipe_connection: [-48, 72]
+        side: left
+      N12_dp_low_tap:
+        wall_point: [-28, -72]
+        stub_end: [-40, -72]
+        pipe_connection: [-48, -72]
+        side: left
+      N13_temperature_tap_upper:
+        wall_point: [28, 48]
+        stub_end: [40, 48]
+        pipe_connection: [48, 48]
+        side: right
+      N14_temperature_tap_mid:
+        wall_point: [28, 0]
+        stub_end: [40, 0]
+        pipe_connection: [48, 0]
+        side: right
+      N15_temperature_tap_lower:
+        wall_point: [28, -38]
+        stub_end: [40, -38]
+        pipe_connection: [48, -38]
+        side: right
+      N16_level_tap_high:
+        wall_point: [-28, -82]
+        stub_end: [-40, -82]
+        pipe_connection: [-48, -82]
+        side: left
+      N17_level_tap_low:
+        wall_point: [-28, -104]
+        stub_end: [-40, -104]
+        pipe_connection: [-48, -104]
+        side: left
+
+  overhead_condenser:
+    block: shell_and_tube_heat_exchanger
+    size:
+      width: 76
+      height: 34
+    ports:
+      process_in: [-46, 0]
+      process_out: [46, 0]
+      cooling_utility_in: [18, -24]
+      cooling_utility_out: [-18, -24]
+      vent: [30, 22]
+      drain: [30, -22]
+
+  reflux_drum:
+    block: horizontal_vessel
+    size:
+      width: 92
+      height: 38
+    nozzles:
+      N1_condensate_inlet:
+        wall_point: [-46, 0]
+        stub_end: [-58, 0]
+        pipe_connection: [-66, 0]
+        side: left
+      N2_vapor_vent_to_flare:
+        wall_point: [0, 19]
+        stub_end: [0, 31]
+        pipe_connection: [0, 39]
+        side: top
+      N3_distillate_outlet:
+        wall_point: [46, 0]
+        stub_end: [58, 0]
+        pipe_connection: [66, 0]
+        side: right
+      N4_reflux_pump_suction:
+        wall_point: [18, -19]
+        stub_end: [18, -31]
+        pipe_connection: [18, -39]
+        side: bottom
+      N5_drain:
+        wall_point: [-18, -19]
+        stub_end: [-18, -31]
+        pipe_connection: [-18, -39]
+        side: bottom
+      N6_psv_tap:
+        wall_point: [-24, 19]
+        stub_end: [-24, 31]
+        pipe_connection: [-24, 39]
+        side: top
+      N7_level_tap_high:
+        wall_point: [-46, 10]
+        stub_end: [-58, 10]
+        pipe_connection: [-66, 10]
+        side: left
+      N8_level_tap_low:
+        wall_point: [-46, -10]
+        stub_end: [-58, -10]
+        pipe_connection: [-66, -10]
+        side: left
+      N9_pressure_tap:
+        wall_point: [32, 19]
+        stub_end: [32, 31]
+        pipe_connection: [32, 39]
+        side: top
+
+  reboiler:
+    block: kettle_reboiler
+    size:
+      width: 86
+      height: 42
+    ports:
+      column_liquid_in: [-52, -10]
+      vapor_return_to_column: [-52, 12]
+      bottoms_liquid_out: [52, -10]
+      hot_utility_in: [20, 30]
+      hot_utility_out: [-20, 30]
+      vent: [34, 28]
+      drain: [34, -28]
+
+  feed_bottoms_exchanger:
+    block: shell_and_tube_heat_exchanger
+    size:
+      width: 76
+      height: 34
+    ports:
+      cold_feed_in: [-46, -8]
+      cold_feed_out: [46, -8]
+      hot_bottoms_in: [46, 8]
+      hot_bottoms_out: [-46, 8]
+      vent: [30, 22]
+      drain: [30, -22]
+
+  centrifugal_pump:
+    block: centrifugal_pump
+    size:
+      width: 34
+      height: 24
+    ports:
+      suction: [-24, 0]
+      discharge: [24, 0]
+      drain: [0, -18]
+      seal_flush: [0, 18]
+      motor_status_signal: [0, 26]
+
+  control_valve:
+    block: control_valve
+    size:
+      width: 22
+      height: 14
+    ports:
+      process_in: [-14, 0]
+      process_out: [14, 0]
+      actuator_signal: [0, 16]
+      instrument_air: [-8, 16]
+
+  shutdown_valve:
+    block: shutdown_valve
+    size:
+      width: 22
+      height: 16
+    ports:
+      process_in: [-14, 0]
+      process_out: [14, 0]
+      solenoid_signal: [0, 18]
+      zso_signal: [-8, 18]
+      zsc_signal: [8, 18]
+
+  manual_block_valve:
+    block: manual_block_valve
+    size:
+      width: 16
+      height: 10
+    ports:
+      process_in: [-10, 0]
+      process_out: [10, 0]
+
+  check_valve:
+    block: check_valve
+    size:
+      width: 16
+      height: 10
+    ports:
+      process_in: [-10, 0]
+      process_out: [10, 0]
+
+  relief_valve:
+    block: pressure_safety_valve
+    size:
+      width: 22
+      height: 28
+    ports:
+      inlet: [0, -18]
+      outlet_to_flare: [18, 8]
+
+  field_instrument:
+    block: field_instrument
+    size:
+      width: 12
+      height: 12
+    ports:
+      process_tap: [0, -8]
+      signal: [8, 0]
+
+  dcs_controller:
+    block: dcs_instrument
+    size:
+      width: 14
+      height: 14
+    ports:
+      input_signal: [-9, 0]
+      output_signal: [9, 0]
+
+  analyzer:
+    block: analyzer_instrument
+    size:
+      width: 16
+      height: 16
+    ports:
+      sample_in: [-10, -4]
+      sample_return_or_vent: [10, -4]
+      signal: [10, 4]
+
+  sample_point:
+    block: sample_point
+    size:
+      width: 14
+      height: 10
+    ports:
+      process_connection: [-10, 0]
+      sample_outlet: [10, 0]
+
+  offpage_connector:
+    block: offpage_connector
+    size:
+      width: 24
+      height: 12
+    ports:
+      line_connection: [-14, 0]
+      continuation: [14, 0]
+
+  flow_arrow:
+    block: flow_arrow
+    size:
+      width: 10
+      height: 6
+    ports:
+      line_center: [0, 0]

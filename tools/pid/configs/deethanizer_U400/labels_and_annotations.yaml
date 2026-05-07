@@ -1,0 +1,298 @@
+labels_and_annotations:
+  deterministic_rules:
+    equipment_tags:
+      function: equipment_tag_position
+      placement:
+        vertical_column: centered_below_column_body
+        horizontal_vessel: centered_below_vessel
+        exchanger: centered_above_or_below_clear_side
+        pump: centered_below_pump
+        psv: above_psv_body
+      avoid:
+        - inside_equipment_body
+        - process_line_routes
+        - valve_symbols
+        - instrument_bubbles
+        - nozzle_stubs
+      required_text:
+        - equipment_tag
+        - equipment_service_name
+
+    valve_tags:
+      function: valve_tag_position
+      placement:
+        horizontal_valve: above_valve
+        vertical_valve: right_of_valve
+        control_valve: above_body_with_controller_reference_near_actuator
+        shutdown_valve: above_body_with_zso_zsc_feedback_near_actuator
+        psv: above_or_right_of_psv
+      fail_position:
+        function: valve_fail_text_position
+        placement: below_actuator_or_below_valve_body
+        required_for:
+          - control_valve
+          - shutdown_valve
+          - relief_valve
+      normal_position:
+        placement: small_note_near_manual_valve_if_not_normally_open
+      avoid:
+        - overlap_with_pipe
+        - overlap_with_line_label
+        - overlap_with_instrument_signal_line
+
+    line_labels:
+      function: line_label_position
+      segment_selection: pick_label_segment
+      placement:
+        preferred_segment: longest_straight_segment
+        horizontal_line: above_line
+        vertical_line: right_of_line
+      offset:
+        process_line: 6
+        utility_line: 5
+        flare_line: 6
+        drain_line: 5
+      avoid_distance_from:
+        valve: 18
+        elbow: 14
+        equipment_nozzle: 20
+        flow_arrow: 12
+        offpage_connector: 18
+      required_fields:
+        - line_number
+        - service_code
+        - nominal_size
+        - piping_class
+        - insulation_or_tracing_code_if_applicable
+
+    offpage_labels:
+      placement:
+        service_name: above_connector
+        drawing_reference: below_connector
+        continuation_direction: aligned_with_connector_arrow
+      required_fields:
+        - source_or_destination_service
+        - target_drawing_or_area
+        - line_number
+      examples:
+        feed_from_upstream:
+          top_text: FEED FROM C2/C3 SECTION
+          bottom_text: FROM PID-400
+        overhead_product:
+          top_text: C2 OVERHEAD TO ACETYLENE HYDROGENATION / C2 SPLITTER
+          bottom_text: TO PID-520 / PID-600
+        bottoms_product:
+          top_text: C3+ BOTTOMS EXPORT
+          bottom_text: TO PID-600 / EXPORT
+        flare:
+          top_text: TO FLARE HEADER
+          bottom_text: TO PID-700
+        closed_drain:
+          top_text: TO CLOSED DRAIN
+          bottom_text: TO PID-700
+
+    instrument_tags:
+      placement:
+        field_instrument: centered_inside_bubble
+        dcs_controller: centered_inside_dcs_symbol
+        analyzer: centered_inside_analyzer_symbol
+        split_tag_format:
+          line_1: function_letters
+          line_2: loop_number
+      avoid:
+        - text_outside_bubble
+        - overlap_with_signal_line
+        - overlap_with_process_line
+      examples:
+        PT-501:
+          line_1: PT
+          line_2: "501"
+        FIC-501:
+          line_1: FIC
+          line_2: "501"
+        DPIT-501:
+          line_1: DPIT
+          line_2: "501"
+
+  equipment_label_map:
+    T-501:
+      tag_text: T-501
+      service_text: DEETHANIZER COLUMN
+      position_rule: centered_below_column
+      secondary_notes:
+        - TRAYED COLUMN
+        - AREA 500
+    E-501:
+      tag_text: E-501
+      service_text: DEETHANIZER REBOILER
+      position_rule: centered_below_reboiler
+    E-502:
+      tag_text: E-502
+      service_text: OVERHEAD CONDENSER
+      position_rule: centered_above_exchanger_if_bottom_congested
+    V-501:
+      tag_text: V-501
+      service_text: REFLUX DRUM
+      position_rule: centered_below_horizontal_vessel
+    E-503:
+      tag_text: E-503
+      service_text: FEED/BOTTOMS EXCHANGER
+      position_rule: centered_below_exchanger
+    P-501A:
+      tag_text: P-501A
+      service_text: REFLUX PUMP A
+      position_rule: centered_below_pump
+    P-501B:
+      tag_text: P-501B
+      service_text: REFLUX PUMP B
+      position_rule: centered_below_pump
+    P-502A:
+      tag_text: P-502A
+      service_text: BOTTOMS PUMP A
+      position_rule: centered_below_pump
+    P-502B:
+      tag_text: P-502B
+      service_text: BOTTOMS PUMP B
+      position_rule: centered_below_pump
+
+  valve_label_map:
+    FV-501:
+      tag_text: FV-501
+      service_text: FEED FLOW CONTROL
+      fail_text: FC
+      position_rule: above_horizontal_control_valve
+    PV-501:
+      tag_text: PV-501
+      service_text: COLUMN PRESSURE CONTROL
+      fail_text: FO
+      position_rule: above_horizontal_control_valve
+    LV-501:
+      tag_text: LV-501
+      service_text: REFLUX DRUM LEVEL CONTROL
+      fail_text: FC
+      position_rule: above_horizontal_control_valve
+    FV-502:
+      tag_text: FV-502
+      service_text: REFLUX FLOW CONTROL
+      fail_text: FC
+      position_rule: above_horizontal_control_valve
+    TV-501:
+      tag_text: TV-501
+      service_text: REBOILER DUTY CONTROL
+      fail_text: FC
+      position_rule: above_horizontal_control_valve
+    TV-502:
+      tag_text: TV-502
+      service_text: CONDENSER COOLING CONTROL
+      fail_text: FO
+      position_rule: above_horizontal_control_valve
+    LV-502:
+      tag_text: LV-502
+      service_text: COLUMN BOTTOM LEVEL CONTROL
+      fail_text: FC
+      position_rule: above_horizontal_control_valve
+    XV-501:
+      tag_text: XV-501
+      service_text: FEED SHUTDOWN VALVE
+      fail_text: FC
+      feedback_text: ZSO/ZSC
+      position_rule: above_horizontal_shutdown_valve
+    PSV-501A:
+      tag_text: PSV-501A
+      service_text: COLUMN RELIEF
+      set_pressure_note: SEE PSV DATASHEET
+      position_rule: right_of_psv_if_top_congested
+    PSV-501B:
+      tag_text: PSV-501B
+      service_text: COLUMN RELIEF SPARE/PARALLEL
+      set_pressure_note: SEE PSV DATASHEET
+      position_rule: right_of_psv_if_top_congested
+    PSV-502:
+      tag_text: PSV-502
+      service_text: REFLUX DRUM RELIEF
+      set_pressure_note: SEE PSV DATASHEET
+      position_rule: right_of_psv_if_top_congested
+
+  line_label_map:
+    500-FEED-001:
+      service: DEETHANIZER FEED
+      label_rule: longest_horizontal_segment_before_E-503
+    500-FEED-002:
+      service: PREHEATED FEED TO T-501
+      label_rule: longest_horizontal_segment_between_E-503_and_T-501
+    500-OVHD-001:
+      service: COLUMN OVERHEAD VAPOR
+      label_rule: top_horizontal_segment_before_E-502
+    500-COND-001:
+      service: CONDENSATE TO REFLUX DRUM
+      label_rule: horizontal_segment_between_E-502_and_V-501
+    500-C2-PROD-001:
+      service: C2 OVERHEAD PRODUCT
+      label_rule: right_export_segment_after_LV-501
+    500-RFLX-SUC-001:
+      service: REFLUX PUMP SUCTION
+      label_rule: common_suction_header
+    500-RFLX-001:
+      service: REFLUX RETURN TO COLUMN
+      label_rule: common_reflux_discharge_header
+    500-RFLX-MIN-001:
+      service: REFLUX MINIMUM FLOW RECYCLE
+      label_rule: recycle_vertical_or_horizontal_clear_segment
+    500-RB-001:
+      service: REBOILER LIQUID DRAW
+      label_rule: column_to_reboiler_lower_segment
+    500-RB-002:
+      service: REBOILER VAPOR RETURN
+      label_rule: reboiler_to_column_upper_segment
+    500-BTM-SUC-001:
+      service: COLUMN BOTTOMS TO PUMPS
+      label_rule: bottoms_suction_header
+    500-C3PLUS-001:
+      service: HOT C3+ BOTTOMS TO E-503
+      label_rule: pump_discharge_to_E-503_segment
+    500-C3PLUS-002:
+      service: C3+ BOTTOMS EXPORT
+      label_rule: downstream_E-503_export_segment
+    500-FL-501:
+      service: COLUMN RELIEF TO FLARE
+      label_rule: vertical_riser_to_flare_header
+    500-FL-502:
+      service: REFLUX DRUM RELIEF TO FLARE
+      label_rule: vertical_riser_to_flare_header
+    500-CD-501:
+      service: COLUMN CLOSED DRAIN
+      label_rule: drop_to_closed_drain_header
+    500-CD-502:
+      service: REFLUX DRUM CLOSED DRAIN
+      label_rule: drop_to_closed_drain_header
+    500-CW-001:
+      service: COOLING WATER SUPPLY TO E-502
+      label_rule: utility_supply_segment
+    500-CW-002:
+      service: COOLING WATER RETURN FROM E-502
+      label_rule: utility_return_segment
+    500-HM-001:
+      service: REBOILER HEATING MEDIUM SUPPLY
+      label_rule: utility_supply_segment
+    500-HM-002:
+      service: REBOILER HEATING MEDIUM RETURN
+      label_rule: utility_return_segment
+
+  annotation_notes:
+    process_notes:
+      - column_feed_nozzle_and_tray_location_to_be_confirmed_during_FEED
+      - reboiler_type_and_utility_medium_to_be_confirmed_by_datasheet
+      - condenser_cooling_medium_and_pressure_control_scheme_to_be_confirmed
+      - PSV_tags_shown_for_P&ID_reference_set_pressure_on_datasheet
+      - all_vents_to_flare_and_hydrocarbon_drains_to_closed_drain
+      - sample_system_vents_and_drains_to_safe_headers
+    control_notes:
+      - PIC-501_controls_column_pressure_via_overhead_or_condenser_cooling_scheme_as_selected
+      - TIC-501_controls_reboiler_heat_input_from_sensitive_tray_temperature
+      - LIC-501_controls_reflux_drum_level_via_net_overhead_product
+      - LIC-502_controls_column_bottom_level_via_bottoms_product
+    drafting_notes:
+      - no_pipe_shall_enter_equipment_body
+      - all_process_connections_shall_terminate_at_nozzle_connection_points
+      - signal_lines_shall_use_ISA_style_line_types
+      - labels_shall_not_overlap_symbols_lines_or_forbidden_zones
