@@ -369,10 +369,10 @@ nozzle_placement:
           flange_point: [-28, 0]
           connection_point: [-32, 0]
         N2_discharge:
-          wall_point: [17, 0]
-          stub_end: [24, 0]
-          flange_point: [28, 0]
-          connection_point: [32, 0]
+          wall_point: [17, 8]
+          stub_end: [24, 8]
+          flange_point: [28, 8]
+          connection_point: [32, 8]
         N3_drain:
           wall_point: [0, -12]
           stub_end: [0, -18]
@@ -387,10 +387,10 @@ nozzle_placement:
           flange_point: [-28, 0]
           connection_point: [-32, 0]
         N2_discharge:
-          wall_point: [17, 0]
-          stub_end: [24, 0]
-          flange_point: [28, 0]
-          connection_point: [32, 0]
+          wall_point: [17, 8]
+          stub_end: [24, 8]
+          flange_point: [28, 8]
+          connection_point: [32, 8]
         N3_drain:
           wall_point: [0, -12]
           stub_end: [0, -18]
@@ -405,10 +405,10 @@ nozzle_placement:
           flange_point: [-28, 0]
           connection_point: [-32, 0]
         N2_discharge:
-          wall_point: [17, 0]
-          stub_end: [24, 0]
-          flange_point: [28, 0]
-          connection_point: [32, 0]
+          wall_point: [17, 8]
+          stub_end: [24, 8]
+          flange_point: [28, 8]
+          connection_point: [32, 8]
         N3_drain:
           wall_point: [0, -12]
           stub_end: [0, -18]
@@ -423,10 +423,10 @@ nozzle_placement:
           flange_point: [-28, 0]
           connection_point: [-32, 0]
         N2_discharge:
-          wall_point: [17, 0]
-          stub_end: [24, 0]
-          flange_point: [28, 0]
-          connection_point: [32, 0]
+          wall_point: [17, 8]
+          stub_end: [24, 8]
+          flange_point: [28, 8]
+          connection_point: [32, 8]
         N3_drain:
           wall_point: [0, -12]
           stub_end: [0, -18]

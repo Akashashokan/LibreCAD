@@ -195,7 +195,7 @@ block_geometry:
       height: 24
     ports:
       suction: [-24, 0]
-      discharge: [24, 0]
+      discharge: [24, 8]
       drain: [0, -18]
       seal_flush: [0, 18]
       motor_status_signal: [0, 26]

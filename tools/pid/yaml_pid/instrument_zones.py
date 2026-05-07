@@ -4,17 +4,17 @@ from .cad_primitives import DrawContext, draw_instrument
 from .models import InstrumentPlacement
 
 ZONE_ANCHORS: dict[str, tuple[float, float]] = {
-    "COLUMN_LEFT_PRESSURE_DP_ZONE": (410, 535),
-    "COLUMN_LEFT_BOTTOM_LEVEL_ZONE": (405, 330),
-    "COLUMN_RIGHT_TEMPERATURE_PROFILE_ZONE": (615, 435),
-    "FEED_CONTROL_ZONE": (360, 460),
+    "COLUMN_LEFT_PRESSURE_DP_ZONE": (365, 585),
+    "COLUMN_LEFT_BOTTOM_LEVEL_ZONE": (365, 360),
+    "COLUMN_RIGHT_TEMPERATURE_PROFILE_ZONE": (720, 505),
+    "FEED_CONTROL_ZONE": (300, 505),
     "OVERHEAD_PRESSURE_CONTROL_ZONE": (540, 710),
-    "REFLUX_DRUM_LEVEL_PRESSURE_ZONE": (735, 610),
-    "REFLUX_FLOW_CONTROL_ZONE": (690, 525),
-    "REBOILER_CONTROL_ZONE": (760, 370),
-    "OVERHEAD_ANALYZER_ZONE": (1010, 610),
-    "BOTTOMS_ANALYZER_ZONE": (260, 260),
-    "PUMP_STATUS_ZONE": (710, 180),
+    "REFLUX_DRUM_LEVEL_PRESSURE_ZONE": (1010, 545),
+    "REFLUX_FLOW_CONTROL_ZONE": (560, 625),
+    "REBOILER_CONTROL_ZONE": (780, 415),
+    "OVERHEAD_ANALYZER_ZONE": (1010, 655),
+    "BOTTOMS_ANALYZER_ZONE": (250, 310),
+    "PUMP_STATUS_ZONE": (600, 125),
     "SHUTDOWN_VALVE_FEEDBACK_ZONE": (210, 450),
 }
 
@@ -36,4 +36,3 @@ def _symbol_type(typ: str, location: str) -> str:
     if location == "dcs/shared_control":
         return "dcs_controller"
     return typ
-

@@ -56,6 +56,9 @@ class SceneRegistry:
     evidence: dict[str, set[str]] = field(default_factory=lambda: {"equipment": set(), "valve": set(), "instrument": set(), "line": set(), "line_label": set(), "offpage": set(), "document": set(), "nozzle": set()})
     route_endpoints: dict[str, tuple[Point, Point]] = field(default_factory=dict)
     fallbacks: list[str] = field(default_factory=list)
+    failed_block_imports: list[str] = field(default_factory=list)
+    primitive_symbols_created: list[str] = field(default_factory=list)
+    existing_blocks_used: list[str] = field(default_factory=list)
 
     def add_item(self, kind: str, tag: str, layer: str, bbox: BBox) -> None:
         self.items.append(PlacedItem(kind, tag, layer, bbox))
@@ -77,4 +80,3 @@ def bbox_from_center(x: float, y: float, w: float, h: float, label: str, kind: s
 
 def text_bbox(text: str, x: float, y: float, height: float, label: str) -> BBox:
     return BBox(x, y, x + max(1, len(text)) * height * 0.58, y + height, label, "text")
-

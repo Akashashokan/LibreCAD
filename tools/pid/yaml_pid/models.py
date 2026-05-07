@@ -93,6 +93,7 @@ class ValvePlacement:
     service: str
     pipe_segment: str
     orientation: str
+    station: str = ""
     normal_position: str = ""
     fail_position: str = ""
     controller: str = ""
@@ -182,4 +183,3 @@ class PidConfig:
     signals: list[SignalRoute]
     labels: LabelAnnotationRule
     warnings: list[str] = field(default_factory=list)
-

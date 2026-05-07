@@ -3,6 +3,7 @@ symbols:
     object_types:
       - T-501
     candidates:
+      - downloaded_blocks/Distilation Column.dxf::DISTILLATION_COLUMN
       - ISO Equipments/2_vessel-general-column.dxf
       - ISO Equipments/6_vessel-trays.dxf
 
@@ -16,6 +17,7 @@ symbols:
     object_types:
       - E-501
     candidates:
+      - downloaded_blocks/Exchanger Double End.dxf::EXCHANGER_1_I
       - ISO Equipments/34_heat-exchanger-steam-boiler.dxf
       - ISO Equipments/21_heat-exchanger-general-1.dxf
 
@@ -23,6 +25,7 @@ symbols:
     object_types:
       - E-502
     candidates:
+      - downloaded_blocks/Exchanger Double Bed.dxf::EXCHANGER_3_I
       - ISO Equipments/21_heat-exchanger-general-1.dxf
       - ISO Equipments/32_heat-exchanger-shell-and-tube.dxf
 
@@ -30,6 +33,7 @@ symbols:
     object_types:
       - E-503
     candidates:
+      - downloaded_blocks/Exchanger Double End.dxf::EXCHANGER_1_I
       - ISO Equipments/21_heat-exchanger-general-1.dxf
       - ISO Equipments/32_heat-exchanger-shell-and-tube.dxf
 
@@ -37,6 +41,7 @@ symbols:
     object_types:
       - V-501
     candidates:
+      - downloaded_blocks/Horizontal Vessel.dxf::Horizontal Vessel
       - ISO Equipments/5_vessel-dished-head.dxf
       - ISO Equipments/3_vessel-general.dxf
 
@@ -47,6 +52,7 @@ symbols:
       - P-502A
       - P-502B
     candidates:
+      - downloaded_blocks/Horizontal Pump.dxf::PUMP_HORIZ_I
       - ISO Equipments/18_pump.dxf
 
   field_instrument:
@@ -162,6 +168,7 @@ symbols:
       - vessel_nozzle
       - exchanger_nozzle
     candidates:
+      - downloaded_blocks/Nozzle.dxf::NOZZLE_1
       - ISO Fittings/4_flange-connection.dxf
 
   sample_point:

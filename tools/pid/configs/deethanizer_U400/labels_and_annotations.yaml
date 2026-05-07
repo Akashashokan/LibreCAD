@@ -40,30 +40,7 @@ labels_and_annotations:
         - overlap_with_line_label
         - overlap_with_instrument_signal_line
 
-    line_labels:
-      function: line_label_position
-      segment_selection: pick_label_segment
-      placement:
-        preferred_segment: longest_straight_segment
-        horizontal_line: above_line
-        vertical_line: right_of_line
-      offset:
-        process_line: 6
-        utility_line: 5
-        flare_line: 6
-        drain_line: 5
-      avoid_distance_from:
-        valve: 18
-        elbow: 14
-        equipment_nozzle: 20
-        flow_arrow: 12
-        offpage_connector: 18
-      required_fields:
-        - line_number
-        - service_code
-        - nominal_size
-        - piping_class
-        - insulation_or_tracing_code_if_applicable
+    line_labels: {}
 
     offpage_labels:
       placement:
@@ -73,7 +50,6 @@ labels_and_annotations:
       required_fields:
         - source_or_destination_service
         - target_drawing_or_area
-        - line_number
       examples:
         feed_from_upstream:
           top_text: FEED FROM C2/C3 SECTION
@@ -213,70 +189,7 @@ labels_and_annotations:
       set_pressure_note: SEE PSV DATASHEET
       position_rule: right_of_psv_if_top_congested
 
-  line_label_map:
-    500-FEED-001:
-      service: DEETHANIZER FEED
-      label_rule: longest_horizontal_segment_before_E-503
-    500-FEED-002:
-      service: PREHEATED FEED TO T-501
-      label_rule: longest_horizontal_segment_between_E-503_and_T-501
-    500-OVHD-001:
-      service: COLUMN OVERHEAD VAPOR
-      label_rule: top_horizontal_segment_before_E-502
-    500-COND-001:
-      service: CONDENSATE TO REFLUX DRUM
-      label_rule: horizontal_segment_between_E-502_and_V-501
-    500-C2-PROD-001:
-      service: C2 OVERHEAD PRODUCT
-      label_rule: right_export_segment_after_LV-501
-    500-RFLX-SUC-001:
-      service: REFLUX PUMP SUCTION
-      label_rule: common_suction_header
-    500-RFLX-001:
-      service: REFLUX RETURN TO COLUMN
-      label_rule: common_reflux_discharge_header
-    500-RFLX-MIN-001:
-      service: REFLUX MINIMUM FLOW RECYCLE
-      label_rule: recycle_vertical_or_horizontal_clear_segment
-    500-RB-001:
-      service: REBOILER LIQUID DRAW
-      label_rule: column_to_reboiler_lower_segment
-    500-RB-002:
-      service: REBOILER VAPOR RETURN
-      label_rule: reboiler_to_column_upper_segment
-    500-BTM-SUC-001:
-      service: COLUMN BOTTOMS TO PUMPS
-      label_rule: bottoms_suction_header
-    500-C3PLUS-001:
-      service: HOT C3+ BOTTOMS TO E-503
-      label_rule: pump_discharge_to_E-503_segment
-    500-C3PLUS-002:
-      service: C3+ BOTTOMS EXPORT
-      label_rule: downstream_E-503_export_segment
-    500-FL-501:
-      service: COLUMN RELIEF TO FLARE
-      label_rule: vertical_riser_to_flare_header
-    500-FL-502:
-      service: REFLUX DRUM RELIEF TO FLARE
-      label_rule: vertical_riser_to_flare_header
-    500-CD-501:
-      service: COLUMN CLOSED DRAIN
-      label_rule: drop_to_closed_drain_header
-    500-CD-502:
-      service: REFLUX DRUM CLOSED DRAIN
-      label_rule: drop_to_closed_drain_header
-    500-CW-001:
-      service: COOLING WATER SUPPLY TO E-502
-      label_rule: utility_supply_segment
-    500-CW-002:
-      service: COOLING WATER RETURN FROM E-502
-      label_rule: utility_return_segment
-    500-HM-001:
-      service: REBOILER HEATING MEDIUM SUPPLY
-      label_rule: utility_supply_segment
-    500-HM-002:
-      service: REBOILER HEATING MEDIUM RETURN
-      label_rule: utility_return_segment
+  line_label_map: {}
 
   annotation_notes:
     process_notes:

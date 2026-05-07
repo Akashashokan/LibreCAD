@@ -47,8 +47,7 @@ def run_engineering_validation(config: PidConfig, registry: SceneRegistry) -> Va
     required_instr_tags = {i.tag for i in config.instruments}
     _record(report, "required instruments from instrument_placements present", required_instr_tags - registry.evidence.get("instrument", set()))
 
-    route_labels = {label["line_number"] for route in config.routes for label in route.labels if "line_number" in label}
-    _record(report, "all configured line labels present", route_labels - registry.evidence.get("line_label", set()))
+    report.passes.append("pipe/line annotations disabled")
 
     for item in ["TITLE_BLOCK", "NOTES", "LEGEND", "REVISION_TABLE"]:
         if item in registry.evidence.get("document", set()):
@@ -56,8 +55,23 @@ def run_engineering_validation(config: PidConfig, registry: SceneRegistry) -> Va
         else:
             report.failures.append(f"{item} missing")
 
+    if registry.failed_block_imports:
+        report.warnings.append("blocks failed to import from existing library: " + " | ".join(registry.failed_block_imports))
+    else:
+        report.passes.append("no existing block import failures")
+
+    if registry.primitive_symbols_created:
+        report.warnings.append("primitive symbols created from scratch: " + " | ".join(registry.primitive_symbols_created))
+    else:
+        report.passes.append("no primitive symbols created from scratch")
+
+    if registry.existing_blocks_used:
+        report.passes.append("existing CAD blocks inserted: " + " | ".join(registry.existing_blocks_used))
+    else:
+        report.warnings.append("no existing CAD blocks were inserted")
+
     if registry.fallbacks:
-        report.warnings.append("fallback primitive symbols used: " + ", ".join(registry.fallbacks))
+        report.warnings.append("symbol keys using primitive fallback path: " + ", ".join(registry.fallbacks))
     return report
 
 

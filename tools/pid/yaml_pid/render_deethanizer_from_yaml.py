@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from dataclasses import replace
 
 import ezdxf
 
@@ -21,7 +22,6 @@ from .config_loader import load_pid_config
 from .drafting_standard import DEFAULT_STANDARD, style_from_name
 from .engineering_validation import run_engineering_validation
 from .instrument_zones import place_instruments
-from .label_rules import apply_line_label
 from .models import ConfigError, OffPageConnector
 from .ports import register_geometry_ports, register_nozzle_ports
 from .scene import SceneRegistry
@@ -49,19 +49,25 @@ def render_deethanizer_from_yaml(
     _setup_doc(doc, style_profile)
     msp = doc.modelspace()
     registry = SceneRegistry()
-    ctx = DrawContext(doc, msp, registry, DEFAULT_STANDARD, style_profile, {})
+    ctx = DrawContext(doc, msp, registry, DEFAULT_STANDARD, style_profile, {}, {})
 
     resolver = SymbolResolver(config, block_dir, style)
     resolver.resolve_all()
     resolver.import_required_blocks(doc)
     ctx.block_names = resolver.imported_blocks
+    ctx.block_extents = resolver.block_extents
     registry.fallbacks.extend(resolver.fallback_warnings)
+    registry.failed_block_imports.extend(resolver.failed_imports)
+    registry.failed_block_imports.extend(resolver.missing_blocks)
 
     _draw_sheet(ctx, config)
     _draw_offpages(ctx)
 
     equipment_origins: dict[str, Point] = {}
     for placement in config.equipment:
+        if placement.block_key == "relief_valve":
+            registry.mark("equipment", placement.tag)
+            continue
         geometry = config.block_geometry.get(placement.block_key)
         draw_equipment(ctx, placement, geometry)
         origin = (placement.x, placement.y)
@@ -79,15 +85,23 @@ def render_deethanizer_from_yaml(
             draw_nozzle(ctx, tag, origin, name, nozzle)
 
     route_points = _build_routes(registry)
-    for line_tag, (service, points, major) in route_points.items():
-        if major:
-            draw_header(ctx, points, line_tag, service, _layer_for_line(line_tag))
-        else:
-            draw_branch(ctx, points, line_tag, service, _layer_for_line(line_tag))
-        apply_line_label(ctx, line_tag, service, points)
-
+    route_points = {tag: (service, _orthogonalize(points), major) for tag, (service, points, major) in route_points.items()}
+    valve_layout: dict[str, tuple[object, Point, str]] = {}
+    valve_gaps: dict[str, list[tuple[Point, float]]] = {}
+    station_points = _valve_station_points(config.valves, route_points)
     for valve in config.valves:
-        point = _valve_point(valve.pipe_segment, route_points)
+        point, orientation = station_points[valve.tag]
+        valve_layout[valve.tag] = (replace(valve, orientation=orientation), point, orientation)
+        valve_gaps.setdefault(valve.pipe_segment, []).append((point, 14.0))
+
+    for line_tag, (service, points, major) in route_points.items():
+        gaps = valve_gaps.get(line_tag, [])
+        if major:
+            draw_header(ctx, points, line_tag, service, _layer_for_line(line_tag), gaps)
+        else:
+            draw_branch(ctx, points, line_tag, service, _layer_for_line(line_tag), gaps)
+
+    for valve, point, _orientation in valve_layout.values():
         draw_valve_on_line(ctx, valve, point[0], point[1])
 
     place_instruments(ctx, config.instruments)
@@ -140,9 +154,12 @@ def _setup_doc(doc: ezdxf.EzDxfDocument, style_profile) -> None:
         "DASHED": [0.2, 0.12, -0.06],
         "DOTTED": [0.1, 0.01, -0.05],
         "DASHDOT": [0.3, 0.12, -0.05, 0.01, -0.05],
+        "SHORT_DASH": [1.5, 1.0, -0.5],
     }.items():
         if ltype not in doc.linetypes:
             doc.linetypes.add(ltype, pattern=pattern)
+    doc.header["$LTSCALE"] = 1.0
+    doc.header["$CELTSCALE"] = 1.0
 
 
 def _draw_sheet(ctx: DrawContext, config) -> None:
@@ -210,7 +227,7 @@ def _build_routes(registry: SceneRegistry) -> dict[str, tuple[str, list[Point], 
     routes["500-VT-501"] = ("COLUMN VENT TO FLARE", [p["T-501.N7_column_vent_to_flare.connection_point"], (600, 735), p["OPC_FLARE_HEADER.continuation"]], False)
     routes["500-VT-502"] = ("REFLUX DRUM VENT TO FLARE", [p["V-501.N2_vapor_vent_to_flare.connection_point"], (840, 735), p["OPC_FLARE_HEADER.continuation"]], False)
     routes["500-CD-501"] = ("COLUMN CLOSED DRAIN", [p["T-501.N8_column_drain.connection_point"], (720, 90), p["OPC_CLOSED_DRAIN_HEADER.continuation"]], False)
-    routes["500-CD-502"] = ("REFLUX DRUM CLOSED DRAIN", [p["V-501.N5_drain.connection_point"], (858, 90), p["OPC_CLOSED_DRAIN_HEADER.continuation"]], False)
+    routes["500-CD-502"] = ("REFLUX DRUM CLOSED DRAIN", [p["V-501.N5_drain.connection_point"], (1080, 90), p["OPC_CLOSED_DRAIN_HEADER.continuation"]], False)
     routes["500-CD-503"] = ("REBOILER DRAIN", [p["E-501.N7_reboiler_drain.connection_point"], (734, 90), p["OPC_CLOSED_DRAIN_HEADER.continuation"]], False)
     routes["500-CD-504"] = ("CONDENSER DRAIN", [p["E-502.N6_condenser_drain.connection_point"], (680, 560), p["OPC_CW_RETURN.continuation"]], False)
     routes["500-CW-001"] = ("COOLING WATER SUPPLY", [p["OPC_CW_SUPPLY.continuation"], (700, 690), p["E-502.N3_cooling_utility_in.connection_point"]], False)
@@ -230,7 +247,81 @@ def _layer_for_line(tag: str) -> str:
     return "PROCESS"
 
 
-def _valve_point(pipe_segment: str, routes: dict[str, tuple[str, list[Point], bool]]) -> Point:
+def _orthogonalize(points: list[Point]) -> list[Point]:
+    if len(points) < 2:
+        return points
+    out: list[Point] = [points[0]]
+    for next_point in points[1:]:
+        prev = out[-1]
+        if prev[0] != next_point[0] and prev[1] != next_point[1]:
+            elbow = (next_point[0], prev[1])
+            if elbow != prev:
+                out.append(elbow)
+        if next_point != out[-1]:
+            out.append(next_point)
+    return out
+
+
+def _valve_station_points(valves, routes: dict[str, tuple[str, list[Point], bool]]) -> dict[str, tuple[Point, str]]:
+    by_segment: dict[str, list] = {}
+    for valve in valves:
+        by_segment.setdefault(valve.pipe_segment, []).append(valve)
+    out: dict[str, tuple[Point, str]] = {}
+    for pipe_segment, group in by_segment.items():
+        for idx, valve in enumerate(group, start=1):
+            out[valve.tag] = _valve_point(valve.tag, pipe_segment, routes, valve.orientation, valve.station, idx, len(group))
+    return out
+
+
+def _valve_point(tag: str, pipe_segment: str, routes: dict[str, tuple[str, list[Point], bool]], requested_orientation: str = "horizontal", station: str = "", index: int = 1, count: int = 1) -> tuple[Point, str]:
+    if tag in _EXPLICIT_VALVE_STATIONS:
+        return _EXPLICIT_VALVE_STATIONS[tag]
     _, points, _ = routes.get(pipe_segment, next(iter(routes.values())))
-    p1, p2 = max(zip(points, points[1:]), key=lambda seg: abs(seg[1][0] - seg[0][0]) + abs(seg[1][1] - seg[0][1]))
-    return (p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2
+    segments = list(zip(points, points[1:]))
+    wants_vertical = requested_orientation.startswith("v")
+    matching = [seg for seg in segments if (seg[0][0] == seg[1][0]) == wants_vertical]
+    candidates = matching or segments
+    p1, p2 = _station_segment(candidates, station)
+    orientation = "vertical" if p1[0] == p2[0] else "horizontal"
+    fraction = _station_fraction(station, index, count)
+    return (p1[0] + (p2[0] - p1[0]) * fraction, p1[1] + (p2[1] - p1[1]) * fraction), orientation
+
+
+def _station_segment(segments: list[tuple[Point, Point]], station: str) -> tuple[Point, Point]:
+    if not segments:
+        return ((0.0, 0.0), (0.0, 0.0))
+    station_l = station.lower()
+    if "immediately_downstream" in station_l or "upstream_of_p-" in station_l or "upstream_of_e-" in station_l:
+        return segments[-1]
+    if "connected_to" in station_l or "downstream_of_t-" in station_l or "downstream_of_v-" in station_l:
+        return segments[0]
+    return max(segments, key=lambda seg: abs(seg[1][0] - seg[0][0]) + abs(seg[1][1] - seg[0][1]))
+
+
+def _station_fraction(station: str, index: int, count: int) -> float:
+    station_l = station.lower()
+    if "immediately_downstream" in station_l:
+        return 0.35
+    if "upstream_of_p-" in station_l or "upstream_of_e-" in station_l:
+        return 0.70
+    if "upstream_of_opc" in station_l:
+        return 0.78
+    if "downstream_of_nrv" in station_l:
+        return 0.72
+    if "connected_to" in station_l:
+        return 0.55
+    if "downstream_of_t-" in station_l or "downstream_of_v-" in station_l:
+        return 0.38
+    if "takeoff" in station_l:
+        return 0.30
+    return index / (count + 1)
+
+
+_EXPLICIT_VALVE_STATIONS: dict[str, tuple[Point, str]] = {
+    "HV-515": ((600.0, 710.0), "vertical"),
+    "HV-516": ((840.0, 710.0), "vertical"),
+    "PSV-502": ((820.0, 665.0), "vertical"),
+    "HV-517": ((720.0, 120.0), "vertical"),
+    "HV-518": ((1080.0, 120.0), "vertical"),
+    "HV-519": ((734.0, 120.0), "vertical"),
+}

@@ -187,7 +187,7 @@ def _parse_valves(data: dict[str, Any]) -> list[ValvePlacement]:
             for key in ["tag", "type", "pipe_segment", "orientation"]:
                 if key not in row:
                     raise ConfigError(f"valve_placements.{group} entry missing {key}")
-            out.append(ValvePlacement(str(row["tag"]), str(row["type"]), str(row.get("service", "")), str(row["pipe_segment"]), str(row["orientation"]), str(row.get("normal_position", "")), str(row.get("fail_position", "")), str(row.get("controller", ""))))
+            out.append(ValvePlacement(str(row["tag"]), str(row["type"]), str(row.get("service", "")), str(row["pipe_segment"]), str(row["orientation"]), str(row.get("station", "")), str(row.get("normal_position", "")), str(row.get("fail_position", "")), str(row.get("controller", ""))))
     return out
 
 
