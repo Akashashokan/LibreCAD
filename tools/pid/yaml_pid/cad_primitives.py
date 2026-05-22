@@ -133,20 +133,24 @@ def draw_branch(ctx: DrawContext, points: Sequence[Point], line_tag: str, servic
 
 def draw_valve_on_line(ctx: DrawContext, valve: ValvePlacement, x: float, y: float) -> None:
     h = valve.orientation.startswith("h")
-    s, hh = 14.0, ctx.standard.valve_symbol_ht / 2
+    symbol_w, symbol_h = _valve_target_size(valve.type)
+    s, hh = symbol_w / 2, symbol_h / 2
     if h:
         pts1, pts2 = [(x - s, y - hh), (x, y), (x - s, y + hh), (x - s, y - hh)], [(x + s, y - hh), (x, y), (x + s, y + hh), (x + s, y - hh)]
         ctx.registry.add_port(f"{valve.tag}.process_in", (x - s, y), "valve")
         ctx.registry.add_port(f"{valve.tag}.process_out", (x + s, y), "valve")
-        tagx, tagy = x - 8, y + 10
+        tagx, tagy = x - 8, y + max(6, symbol_h * 0.8)
     else:
         pts1, pts2 = [(x - hh, y + s), (x, y), (x + hh, y + s), (x - hh, y + s)], [(x - hh, y - s), (x, y), (x + hh, y - s), (x - hh, y - s)]
         ctx.registry.add_port(f"{valve.tag}.process_in", (x, y + s), "valve")
         ctx.registry.add_port(f"{valve.tag}.process_out", (x, y - s), "valve")
-        tagx, tagy = x + 28, y
+        tagx, tagy = x + max(10, symbol_w * 0.8), y
+    if valve.type == "relief_valve":
+        tagx, tagy = x + symbol_w * 0.65, y - 1.0
     symbol_key = _valve_symbol_key(valve.type)
     ext_w, ext_h = _block_extent(ctx, symbol_key)
-    used_block = draw_symbol(ctx, symbol_key, valve.tag, x, y, rotation=0 if h else 90, xscale=28.0 / ext_w, yscale=12.0 / ext_h)
+    insert_x, insert_y = _mounted_symbol_insert(x, y, valve.type, 0 if h else 90, symbol_w / ext_w, symbol_h / ext_h)
+    used_block = draw_symbol(ctx, symbol_key, valve.tag, insert_x, insert_y, rotation=0 if h else 90, xscale=symbol_w / ext_w, yscale=symbol_h / ext_h)
     if not used_block:
         ctx.msp.add_lwpolyline(pts1, dxfattribs={"layer": "VALVES"})
         ctx.msp.add_lwpolyline(pts2, dxfattribs={"layer": "VALVES"})
@@ -159,7 +163,7 @@ def draw_valve_on_line(ctx: DrawContext, valve: ValvePlacement, x: float, y: flo
         ctx.registry.add_port(f"{valve.tag}.zsc_signal", (x + 5, y + 15), "actuator")
     draw_valve_tag(ctx, valve.tag, tagx, tagy)
     # Fail positions stay in YAML/report evidence; inline fail text is omitted to avoid symbol clutter.
-    box = BBox(x - 14, y - 14, x + 14, y + 14, valve.tag, "valve")
+    box = BBox(insert_x - symbol_w / 2, insert_y - symbol_h / 2, insert_x + symbol_w / 2, insert_y + symbol_h / 2, valve.tag, "valve")
     ctx.registry.add_item("valve", valve.tag, "VALVES", box)
     if valve.type == "relief_valve":
         ctx.registry.mark("equipment", valve.tag)
@@ -174,22 +178,30 @@ def draw_valve_tag(ctx: DrawContext, tag: str, x: float, y: float) -> None:
     draw_text(ctx, tag, x, y, 1.8, "TEXT", tag, "valve_tag")
 
 
-def draw_instrument(ctx: DrawContext, tag: str, typ: str, x: float, y: float) -> None:
+def draw_instrument(ctx: DrawContext, tag: str, typ: str, x: float, y: float, alarms: Sequence[str] | None = None) -> None:
     r = ctx.standard.instrument_bubble_radius
     symbol_key = _instrument_symbol_key(typ)
-    used_block = draw_symbol(ctx, symbol_key, tag, x, y)
+    ext_w, ext_h = _block_extent(ctx, symbol_key)
+    target_w, target_h = _instrument_target_size(typ)
+    used_block = draw_symbol(ctx, symbol_key, tag, x, y, xscale=target_w / ext_w, yscale=target_h / ext_h)
     if not used_block:
         ctx.msp.add_circle((x, y), r, dxfattribs={"layer": "INSTRUMENT"})
         if typ in {"dcs_controller", "dcs_alarm"}:
             ctx.msp.add_line((x - r, y), (x + r, y), dxfattribs={"layer": "INSTRUMENT"})
         ctx.registry.primitive_symbols_created.append(f"{tag}: primitive instrument bubble for {typ}")
-    draw_text(ctx, tag, x - max(5, len(tag) * 0.9), y - 1.5, ctx.standard.note_text_h, "TEXT", tag, "instrument_text")
-    box = bbox_from_center(x, y, r * 2, r * 2, tag, "instrument")
+    text_y = y + target_h / 2 + 2.0 if typ == "primary_element" else y - 1.5
+    draw_text(ctx, tag, x - max(5, len(tag) * 0.9), text_y, ctx.standard.note_text_h, "TEXT", tag, "instrument_text")
+    for idx, alarm in enumerate(alarms or []):
+        alarm_y = y + 4.0 - idx * 8.0
+        draw_text(ctx, alarm, x + target_w / 2 + 2.0, alarm_y, ctx.standard.note_text_h, "TEXT", f"{tag}:{alarm}", "alarm_indicator")
+    box = bbox_from_center(x, y, target_w, target_h, tag, "instrument")
     ctx.registry.add_item("instrument", tag, "INSTRUMENT", box)
-    ctx.registry.add_port(f"{tag}.process_tap", (x, y - r - 2), "instrument")
-    ctx.registry.add_port(f"{tag}.signal", (x + r + 2, y), "instrument")
-    ctx.registry.add_port(f"{tag}.input_signal", (x - r - 2, y), "instrument")
-    ctx.registry.add_port(f"{tag}.output_signal", (x + r + 2, y), "instrument")
+    ctx.registry.add_port(f"{tag}.process_tap", (x, y - target_h / 2 - 2), "instrument")
+    ctx.registry.add_port(f"{tag}.process_tap_high", (x - target_w * 0.22, y - target_h / 2 - 2), "instrument")
+    ctx.registry.add_port(f"{tag}.process_tap_low", (x + target_w * 0.22, y - target_h / 2 - 2), "instrument")
+    ctx.registry.add_port(f"{tag}.signal", (x + target_w / 2 + 2, y), "instrument")
+    ctx.registry.add_port(f"{tag}.input_signal", (x - target_w / 2 - 2, y), "instrument")
+    ctx.registry.add_port(f"{tag}.output_signal", (x + target_w / 2 + 2, y), "instrument")
     ctx.registry.mark("instrument", tag)
 
 
@@ -217,7 +229,12 @@ def draw_offpage_connector(ctx: DrawContext, connector: OffPageConnector) -> Non
 def draw_signal_line(ctx: DrawContext, points: Sequence[Point], signal_type: str = "electric_signal") -> None:
     layer = {"pneumatic_signal": "SIGNAL_PNEUMATIC", "software_signal": "SIGNAL_SOFTWARE", "safety_signal": "SIGNAL_SIS", "impulse_line": "IMPULSE_LINE"}.get(signal_type, "SIGNAL_ELECTRIC")
     for p1, p2 in zip(points, points[1:]):
-        _draw_short_dashed_segment(ctx, p1, p2, layer)
+        if signal_type == "impulse_line":
+            ctx.msp.add_line(p1, p2, dxfattribs={"layer": layer, "lineweight": ctx.standard.lw_signal})
+        elif signal_type == "pneumatic_signal":
+            _draw_pneumatic_segment(ctx, p1, p2, layer)
+        else:
+            _draw_short_dashed_segment(ctx, p1, p2, layer)
         ctx.registry.add_line_segment(p1, p2, f"signal:{signal_type}", layer, False)
 
 
@@ -387,6 +404,36 @@ def _draw_short_dashed_segment(ctx: DrawContext, p1: Point, p2: Point, layer: st
         ctx.msp.add_line(p1, p2, dxfattribs={"layer": layer, "lineweight": ctx.standard.lw_signal})
 
 
+def _draw_pneumatic_segment(ctx: DrawContext, p1: Point, p2: Point, layer: str) -> None:
+    ctx.msp.add_line(p1, p2, dxfattribs={"layer": layer, "lineweight": ctx.standard.lw_signal})
+    x1, y1 = p1
+    x2, y2 = p2
+    length = abs(x2 - x1) + abs(y2 - y1)
+    if length < 14:
+        return
+    mark_spacing = 28.0
+    first = min(18.0, length / 2)
+    count = max(1, int((length - first) // mark_spacing) + 1)
+    for idx in range(count):
+        offset = first + idx * mark_spacing
+        if offset >= length - 4:
+            break
+        if y1 == y2:
+            direction = 1 if x2 >= x1 else -1
+            mx = x1 + direction * offset
+            _draw_slash_pair(ctx, (mx, y1), layer)
+        elif x1 == x2:
+            direction = 1 if y2 >= y1 else -1
+            my = y1 + direction * offset
+            _draw_slash_pair(ctx, (x1, my), layer)
+
+
+def _draw_slash_pair(ctx: DrawContext, point: Point, layer: str) -> None:
+    x, y = point
+    for delta in (-1.8, 1.8):
+        ctx.msp.add_line((x + delta - 2.0, y - 3.0), (x + delta + 2.0, y + 3.0), dxfattribs={"layer": layer, "lineweight": ctx.standard.lw_signal})
+
+
 def _valve_symbol_key(valve_type: str) -> str:
     return {
         "control_valve": "control_valve",
@@ -398,6 +445,32 @@ def _valve_symbol_key(valve_type: str) -> str:
     }.get(valve_type, "manual_block_valve")
 
 
+def _valve_target_size(valve_type: str) -> tuple[float, float]:
+    if valve_type in {"manual_block_valve", "check_valve"}:
+        return (9.0, 4.0)
+    if valve_type == "restriction_orifice":
+        return (7.0, 4.0)
+    if valve_type == "relief_valve":
+        return (14.0, 6.0)
+    return (28.0, 12.0)
+
+
+def _mounted_symbol_insert(x: float, y: float, valve_type: str, rotation: float, xscale: float, yscale: float) -> Point:
+    # Source block definitions are centered on their full extents. Some include
+    # actuator/stem geometry above the valve body, so their process center is not
+    # the imported block center.
+    offsets = {
+        "control_valve": (0.0, 3.313),
+        "shutdown_valve": (0.0, -0.529),
+        "check_valve": (0.0, 0.132),
+    }
+    ox, oy = offsets.get(valve_type, (0.0, 0.0))
+    dx, dy = ox * xscale, oy * yscale
+    if abs(rotation) == 90:
+        return (x - dy, y + dx)
+    return (x + dx, y + dy)
+
+
 def _instrument_symbol_key(instrument_type: str) -> str:
     if instrument_type in {"dcs_controller", "dcs_alarm"}:
         return "dcs_controller"
@@ -406,8 +479,20 @@ def _instrument_symbol_key(instrument_type: str) -> str:
     if instrument_type == "sample_system":
         return "sample_point"
     if instrument_type == "primary_element":
-        return "field_instrument"
+        return "restriction_orifice"
     return "field_instrument"
+
+
+def _instrument_target_size(instrument_type: str) -> tuple[float, float]:
+    if instrument_type in {"dcs_controller", "dcs_alarm"}:
+        return (18.0, 18.0)
+    if instrument_type == "primary_element":
+        return (7.0, 4.0)
+    if instrument_type == "sample_system":
+        return (14.0, 10.0)
+    if instrument_type == "analyzer":
+        return (16.0, 16.0)
+    return (14.0, 14.0)
 
 
 def _block_extent(ctx: DrawContext, symbol_key: str) -> tuple[float, float]:

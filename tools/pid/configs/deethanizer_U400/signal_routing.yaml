@@ -187,15 +187,15 @@ signal_routing:
         - horizontal_leaders_to_FEED_CONTROL_SIGNAL_TRUNK
         - vertical_drop_to_XV-501_feedback_ports
 
-    DPIT-501_to_column_taps:
-      source: DPIT-501.process_tap
+    DPT-501_to_column_taps:
+      source: DPT-501.process_tap
       targets:
         - T-501.N11_dp_high_tap.connection_point
         - T-501.N12_dp_low_tap.connection_point
       signal_type: impulse_line
       trunk: COLUMN_LEFT_SIGNAL_TRUNK
       route:
-        - DPIT-501.process_tap
+        - DPT-501.process_tap
         - split_impulse_pair
         - orthogonal_leader_to_N11_dp_high_tap
         - orthogonal_leader_to_N12_dp_low_tap

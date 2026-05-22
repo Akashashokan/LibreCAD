@@ -86,8 +86,8 @@ labels_and_annotations:
         FIC-501:
           line_1: FIC
           line_2: "501"
-        DPIT-501:
-          line_1: DPIT
+        DPT-501:
+          line_1: DPT
           line_2: "501"
 
   equipment_label_map:

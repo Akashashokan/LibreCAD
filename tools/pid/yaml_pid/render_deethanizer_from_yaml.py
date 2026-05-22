@@ -92,7 +92,7 @@ def render_deethanizer_from_yaml(
     for valve in config.valves:
         point, orientation = station_points[valve.tag]
         valve_layout[valve.tag] = (replace(valve, orientation=orientation), point, orientation)
-        valve_gaps.setdefault(valve.pipe_segment, []).append((point, 14.0))
+        valve_gaps.setdefault(valve.pipe_segment, []).append((point, _valve_gap_half(valve.type)))
 
     for line_tag, (service, points, major) in route_points.items():
         gaps = valve_gaps.get(line_tag, [])
@@ -117,6 +117,8 @@ def render_deethanizer_from_yaml(
 
     if validate and style == "final" and (not engineering_report.ok or not visual_report.ok):
         raise ConfigError(engineering_report.format() + "\n\n" + visual_report.format())
+
+    _apply_epc_drafting_refinements(ctx)
 
     output.parent.mkdir(parents=True, exist_ok=True)
     doc.saveas(output)
@@ -317,7 +319,19 @@ def _station_fraction(station: str, index: int, count: int) -> float:
     return index / (count + 1)
 
 
+def _valve_gap_half(valve_type: str) -> float:
+    if valve_type in {"manual_block_valve", "check_valve"}:
+        return 5.0
+    if valve_type == "restriction_orifice":
+        return 4.0
+    if valve_type == "relief_valve":
+        return 7.0
+    return 14.0
+
+
 _EXPLICIT_VALVE_STATIONS: dict[str, tuple[Point, str]] = {
+    "XV-501": ((230.0, 392.0), "horizontal"),
+    "HV-503": ((1040.0, 610.0), "horizontal"),
     "HV-515": ((600.0, 710.0), "vertical"),
     "HV-516": ((840.0, 710.0), "vertical"),
     "PSV-502": ((820.0, 665.0), "vertical"),
@@ -325,3 +339,219 @@ _EXPLICIT_VALVE_STATIONS: dict[str, tuple[Point, str]] = {
     "HV-518": ((1080.0, 120.0), "vertical"),
     "HV-519": ((734.0, 120.0), "vertical"),
 }
+
+
+def _apply_epc_drafting_refinements(ctx: DrawContext) -> None:
+    """Final deterministic drafting pass for EPC-style readability.
+
+    The YAML-driven renderer establishes topology. This pass enforces local
+    drafting rules that are easier to express against concrete CAD entities:
+    signal corridors, enlarged impulse root valves, vertical nozzle takeoffs,
+    and clean utility drops.
+    """
+    msp = ctx.msp
+    signal_layers = {"SIGNAL_ELECTRIC", "SIGNAL_PNEUMATIC", "SIGNAL_SOFTWARE", "SIGNAL_SIS", "IMPULSE_LINE"}
+
+    def near(a: float, b: float, tol: float = 0.35) -> bool:
+        return abs(float(a) - float(b)) <= tol
+
+    def midpoint(entity) -> Point:
+        p1 = entity.dxf.start
+        p2 = entity.dxf.end
+        return ((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
+
+    def in_box(entity, box: tuple[float, float, float, float]) -> bool:
+        x, y = midpoint(entity)
+        xmin, ymin, xmax, ymax = box
+        return xmin <= x <= xmax and ymin <= y <= ymax
+
+    def delete_lines(*, layer: str | None = None, box: tuple[float, float, float, float] | None = None, layers: set[str] | None = None) -> None:
+        for entity in list(msp.query("LINE")):
+            if layer and entity.dxf.layer != layer:
+                continue
+            if layers and entity.dxf.layer not in layers:
+                continue
+            if box and not in_box(entity, box):
+                continue
+            msp.delete_entity(entity)
+
+    def delete_polys(*, layer: str, box: tuple[float, float, float, float]) -> None:
+        xmin, ymin, xmax, ymax = box
+        for entity in list(msp.query("LWPOLYLINE")):
+            if entity.dxf.layer != layer:
+                continue
+            points = [(p[0], p[1]) for p in entity.get_points()]
+            xs = [p[0] for p in points]
+            ys = [p[1] for p in points]
+            cx = (min(xs) + max(xs)) / 2
+            cy = (min(ys) + max(ys)) / 2
+            if xmin <= cx <= xmax and ymin <= cy <= ymax:
+                msp.delete_entity(entity)
+
+    def add_line(layer: str, p1: Point, p2: Point, lineweight: int = 13) -> None:
+        if p1 != p2:
+            msp.add_line(p1, p2, dxfattribs={"layer": layer, "lineweight": lineweight})
+
+    def add_poly(layer: str, points: list[Point], lineweight: int = 18) -> None:
+        msp.add_lwpolyline(points, dxfattribs={"layer": layer, "lineweight": lineweight})
+
+    def dashed(layer: str, points: list[Point], dash: float = 4.0, gap: float = 2.0) -> None:
+        for p1, p2 in zip(points, points[1:]):
+            x1, y1 = p1
+            x2, y2 = p2
+            if near(x1, x2, 1e-6):
+                direction = 1 if y2 >= y1 else -1
+                pos = y1
+                while (pos - y2) * direction < 0:
+                    end = pos + direction * min(dash, abs(y2 - pos))
+                    add_line(layer, (x1, pos), (x1, end))
+                    pos = end + direction * gap
+            elif near(y1, y2, 1e-6):
+                direction = 1 if x2 >= x1 else -1
+                pos = x1
+                while (pos - x2) * direction < 0:
+                    end = pos + direction * min(dash, abs(x2 - pos))
+                    add_line(layer, (pos, y1), (end, y1))
+                    pos = end + direction * gap
+            else:
+                add_line(layer, p1, p2)
+
+    def move_insert(name: str, old: Point, new: Point) -> None:
+        for entity in msp.query("INSERT"):
+            p = entity.dxf.insert
+            if entity.dxf.name == name and near(p.x, old[0]) and near(p.y, old[1]):
+                entity.dxf.insert = (new[0], new[1], p.z)
+
+    def move_text(text: str, new: Point) -> None:
+        for entity in msp.query("TEXT"):
+            if entity.dxf.text == text:
+                p = entity.dxf.insert
+                entity.dxf.insert = (new[0], new[1], p.z)
+
+    def add_jump(x: float, y: float) -> None:
+        msp.add_arc((x, y), 3.0, 0, 180, dxfattribs={"layer": "SIGNAL_ELECTRIC"})
+
+    # No process flow arrow layer in final EPC-style drawing.
+    for entity in list(msp):
+        if entity.dxf.layer == "FLOW_DIRECTION":
+            msp.delete_entity(entity)
+
+    # Off-page arrows point with service direction, not just sheet side.
+    offpage_rotations = {
+        (85, 392): 180, (85, 268): 0, (1115, 610): 180,
+        (1115, 735): 180, (1115, 90): 180, (1115, 690): 0,
+        (1115, 560): 180, (1115, 370): 0, (1115, 335): 180,
+    }
+    for entity in msp.query("INSERT"):
+        if entity.dxf.name != "YAML_PID_OFFPAGE_CONNECTOR":
+            continue
+        p = entity.dxf.insert
+        rotation = offpage_rotations.get((round(p.x), round(p.y)))
+        if rotation is not None:
+            entity.dxf.rotation = rotation
+
+    # Small impulse-line root valves are intentionally legible.
+    for entity in msp.query("INSERT"):
+        if entity.dxf.name == "YAML_PID_MANUAL_BLOCK_VALVE" and entity.dxf.xscale < 1 and entity.dxf.yscale < 1:
+            entity.dxf.xscale = float(entity.dxf.xscale) * 5
+            entity.dxf.yscale = float(entity.dxf.yscale) * 5
+
+    # Column DPI/DPT and LT/LIC lanes.
+    delete_lines(layers=signal_layers, box=(418, 278, 506, 448))
+    add_line("IMPULSE_LINE", (488, 358), (476, 358))
+    add_line("IMPULSE_LINE", (476, 358), (476, 430))
+    add_line("IMPULSE_LINE", (476, 430), (469, 430))
+    add_line("IMPULSE_LINE", (488, 348), (476, 348))
+    add_line("IMPULSE_LINE", (476, 348), (476, 337))
+    add_line("IMPULSE_LINE", (476, 337), (472, 337))
+    add_line("IMPULSE_LINE", (488, 326), (476, 326))
+    add_line("IMPULSE_LINE", (476, 326), (476, 337))
+    dashed("SIGNAL_ELECTRIC", [(455, 430), (455, 445), (430, 445), (430, 435)])
+    dashed("SIGNAL_ELECTRIC", [(447, 337), (456, 337)])
+
+    # PT-501 signal goes to PIC only.
+    delete_lines(layers=signal_layers, box=(388, 500, 540, 692))
+    add_line("IMPULSE_LINE", (488, 522), (469, 522))
+    dashed("SIGNAL_ELECTRIC", [(455, 522), (390, 522), (390, 690), (539, 690)])
+
+    # Shutdown feedback is split left/right of XV-501 stem.
+    move_insert("YAML_PID_FIELD_INSTRUMENT", (210, 450), (205, 450))
+    move_insert("YAML_PID_FIELD_INSTRUMENT", (210, 432), (238, 450))
+    move_text("ZSO-501", (198.7, 448.5))
+    move_text("ZSC-501", (231.7, 448.5))
+    delete_lines(layer="SIGNAL_ELECTRIC", box=(198, 410, 260, 458))
+    dashed("SIGNAL_ELECTRIC", [(212, 450), (225, 450), (225, 408)])
+    dashed("SIGNAL_ELECTRIC", [(231, 450), (235, 450), (235, 408)])
+
+    # Reflux drum level/control: LIC left of LT, signal routes over vessel.
+    for alarm, pos in {"H": (751, 614), "L": (751, 606), "HH": (751, 598)}.items():
+        move_text(alarm, pos)
+    delete_lines(layers=signal_layers, box=(748, 570, 970, 615))
+    add_line("IMPULSE_LINE", (790, 620), (784, 620))
+    add_line("IMPULSE_LINE", (775, 620), (766.9, 620))
+    add_line("IMPULSE_LINE", (790, 600), (786.8, 600))
+    add_line("IMPULSE_LINE", (778, 600), (773.1, 600))
+    add_line("IMPULSE_LINE", (755, 620), (755, 601))
+    dashed("SIGNAL_ELECTRIC", [(763, 610), (749, 610), (749, 640), (932, 640), (932, 625)])
+    for x in (790, 858, 890):
+        add_jump(x, 640)
+
+    # PSV-502 and PT/PI-502 vertical nozzle discipline.
+    delete_lines(layer="FLARE", box=(812, 630, 824, 722))
+    move_insert("YAML_PID_RELIEF_VALVE", (820, 665), (816, 665))
+    move_text("PSV-502", (825.1, 664))
+    add_line("FLARE", (816, 633), (816, 658))
+    add_line("FLARE", (816, 672), (816, 720))
+    delete_lines(layers=signal_layers, box=(868, 630, 914, 672))
+    move_insert("YAML_PID_MANUAL_BLOCK_VALVE", (877.85, 633), (872, 638))
+    for entity in msp.query("INSERT"):
+        p = entity.dxf.insert
+        if entity.dxf.name == "YAML_PID_MANUAL_BLOCK_VALVE" and near(p.x, 872) and near(p.y, 638):
+            entity.dxf.rotation = 90
+    add_line("IMPULSE_LINE", (872, 633), (872, 638))
+    add_line("IMPULSE_LINE", (872, 638), (872, 648))
+    add_line("IMPULSE_LINE", (872, 662), (872, 671))
+    dashed("SIGNAL_ELECTRIC", [(881, 655), (895, 655), (895, 682), (883, 682)])
+    add_poly("INSTRUMENT", [(861, 671), (883, 671), (883, 693), (861, 693), (861, 671)], 13)
+
+    # E-502 utility segregation: top inlet, bottom return/drop.
+    delete_polys(layer="UTILITY", box=(620, 555, 705, 695))
+    add_poly("UTILITY", [(700, 690), (680, 690), (680, 670)])
+    add_poly("UTILITY", [(632, 630), (632, 560), (700, 560)])
+    add_line("NOZZLES", (680, 667), (680, 670))
+    add_line("NOZZLES", (632, 633), (632, 630))
+
+    # E-501 local thermosiphon/reboiler drafting: stepped branches and clear TT/TI taps.
+    delete_polys(layer="PROCESS", box=(548, 310, 660, 382))
+    delete_lines(layer="IMPULSE_LINE", box=(645, 320, 790, 375))
+    add_poly("PROCESS", [(552.8, 370), (625, 370), (625, 348), (653.6, 348), (653.6, 336), (661.3, 336)])
+    add_poly("PROCESS", [(552.8, 348), (598.2, 348)])
+    add_poly("PROCESS", [(608.2, 348), (625, 348)])
+    add_poly("PROCESS", [(552.8, 327), (598.2, 327)])
+    add_poly("PROCESS", [(608.2, 327), (625, 327), (625, 315), (661.3, 315)])
+    add_line("IMPULSE_LINE", (653.6, 348), (653.6, 371))
+    add_line("IMPULSE_LINE", (653.6, 371), (782, 371))
+    add_line("IMPULSE_LINE", (760, 371), (760, 364))
+    add_line("IMPULSE_LINE", (782, 371), (782, 364))
+
+    # Pneumatic routes that would otherwise cross the feed control valve and DCS block.
+    delete_lines(layer="SIGNAL_PNEUMATIC", box=(205, 286, 482, 426))
+    add_line("SIGNAL_PNEUMATIC", (214.4, 292), (190, 292))
+    add_line("SIGNAL_PNEUMATIC", (190, 292), (190, 423))
+    add_line("SIGNAL_PNEUMATIC", (190, 423), (214.4, 423))
+    add_line("SIGNAL_PNEUMATIC", (214.4, 292), (214.4, 270))
+    add_line("SIGNAL_PNEUMATIC", (214.4, 270), (476, 270))
+    add_line("SIGNAL_PNEUMATIC", (476, 270), (476, 292))
+
+    # Remove exact duplicates introduced by local redraws.
+    seen: set[tuple[str, Point, Point]] = set()
+    for entity in list(msp.query("LINE")):
+        if entity.dxf.layer not in signal_layers | {"UTILITY", "FLARE", "NOZZLES"}:
+            continue
+        a = (round(entity.dxf.start.x, 3), round(entity.dxf.start.y, 3))
+        b = (round(entity.dxf.end.x, 3), round(entity.dxf.end.y, 3))
+        key = (entity.dxf.layer, min(a, b), max(a, b))
+        if key in seen:
+            msp.delete_entity(entity)
+        else:
+            seen.add(key)

@@ -64,6 +64,8 @@ symbols:
       - LT
       - FT
       - DPIT
+      - DPT
+      - DPI
       - PAH
       - PAL
       - LAH
@@ -74,6 +76,7 @@ symbols:
       - LSHH
       - LSL
     candidates:
+      - downloaded_blocks/Instrumnet Local Block.dxf::DI_LOCAL
       - ISO Instruments/3_field-discrete-instrument.dxf
 
   dcs_controller:
@@ -84,6 +87,7 @@ symbols:
       - TIC
       - AIC
     candidates:
+      - downloaded_blocks/Shared Local Instrument Block.dxf::SH_LOCAL
       - ISO Instruments/1_aux-accessible-dcs.dxf
 
   analyzer:
@@ -119,6 +123,7 @@ symbols:
       - vent_valve
       - drain_valve
     candidates:
+      - downloaded_blocks/Instrumnet Local Block.dxf::VAL_GATE
       - ISO Valves/0_general-valve-no.dxf
       - ISO Valves/8_gate-valve-no.dxf
 
@@ -142,6 +147,7 @@ symbols:
       - pump_minimum_flow_ro
       - vent_ro
     candidates:
+      - downloaded_blocks/Instrumnet Local Block.dxf::ORIFICE
       - ISO Instruments/9_restriction-orifice.dxf
 
   flow_arrow:

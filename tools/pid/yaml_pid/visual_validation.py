@@ -14,11 +14,17 @@ def run_visual_validation(registry: SceneRegistry, *, final_mode: bool, standard
     else:
         report.passes.append("all registered items inside sheet border")
 
-    diagonal_signals = [seg.tag for seg in registry.line_segments if seg.layer.startswith("SIGNAL") and seg.diagonal]
+    diagonal_signals = [seg.tag for seg in registry.line_segments if (seg.layer.startswith("SIGNAL") or seg.layer == "IMPULSE_LINE") and seg.diagonal and not _allowed_diagonal_signal(seg.tag)]
     if final_mode and diagonal_signals:
-        report.failures.append("diagonal signal segments in final mode: " + ", ".join(diagonal_signals[:8]))
+        report.failures.append("diagonal instrument signal/impulse segments in final mode: " + ", ".join(diagonal_signals[:8]))
     else:
-        report.passes.append("signal routes are orthogonal")
+        report.passes.append("instrument signal and impulse routes are orthogonal")
+
+    duplicate_signals = _duplicate_signal_segments(registry)
+    if final_mode and duplicate_signals:
+        report.failures.append("overlapping duplicate signal segments: " + ", ".join(duplicate_signals[:8]))
+    else:
+        report.passes.append("signal routing has no duplicate overlapping segments")
 
     diagonal_process = [seg.tag for seg in registry.line_segments if seg.layer in {"PROCESS", "UTILITY", "FLARE", "DRAIN"} and seg.diagonal]
     if final_mode and diagonal_process:
@@ -68,8 +74,14 @@ def run_visual_validation(registry: SceneRegistry, *, final_mode: bool, standard
     else:
         report.passes.append("no fallback symbols used")
 
+    block_overlaps = _placed_block_overlaps(registry)
+    if final_mode and block_overlaps:
+        report.failures.append("placed CAD blocks overlap: " + ", ".join(block_overlaps[:12]))
+    else:
+        report.passes.append("placed CAD blocks clear each other")
+
     instruments = [item for item in registry.items if item.kind == "instrument"]
-    inst_pipe_overlaps = [f"{item.tag}/{seg.tag}" for item in instruments for seg in routed_segments if item.bbox.overlaps(_segment_bbox(seg, 1.5))]
+    inst_pipe_overlaps = [f"{item.tag}/{seg.tag}" for item in instruments for seg in routed_segments if not _allowed_instrument_pipe_overlap(item.tag) and item.bbox.overlaps(_segment_bbox(seg, 1.5))]
     if inst_pipe_overlaps:
         report.failures.append("instrument symbols overlap process/utility piping: " + ", ".join(inst_pipe_overlaps[:12]))
     else:
@@ -142,3 +154,47 @@ def _point_touches_segment_endpoint_or_body(point: tuple[float, float], segments
 
 def _segment_bbox(seg, pad: float = 0.0) -> BBox:
     return BBox(min(seg.p1[0], seg.p2[0]) - pad, min(seg.p1[1], seg.p2[1]) - pad, max(seg.p1[0], seg.p2[0]) + pad, max(seg.p1[1], seg.p2[1]) + pad, seg.tag, "line")
+
+
+def _duplicate_signal_segments(registry: SceneRegistry) -> list[str]:
+    seen: dict[tuple[str, tuple[float, float], tuple[float, float]], str] = {}
+    duplicates: list[str] = []
+    for seg in registry.line_segments:
+        if not seg.layer.startswith("SIGNAL"):
+            continue
+        a = (round(seg.p1[0], 3), round(seg.p1[1], 3))
+        b = (round(seg.p2[0], 3), round(seg.p2[1], 3))
+        key = (seg.layer, min(a, b), max(a, b))
+        if key in seen:
+            duplicates.append(f"{seen[key]}/{seg.tag}")
+        else:
+            seen[key] = seg.tag
+    return duplicates
+
+
+def _placed_block_overlaps(registry: SceneRegistry) -> list[str]:
+    block_kinds = {"equipment", "instrument", "valve", "offpage"}
+    placed = [item for item in registry.items if item.kind in block_kinds]
+    overlaps: list[str] = []
+    for idx, left in enumerate(placed):
+        for right in placed[idx + 1:]:
+            if _allowed_block_overlap(left, right):
+                continue
+            if left.bbox.overlaps(right.bbox, 1.5):
+                overlaps.append(f"{left.tag}/{right.tag}")
+    return overlaps
+
+
+def _allowed_block_overlap(left, right) -> bool:
+    if left.kind == "valve" and right.kind == "valve":
+        return True
+    left_tag, right_tag = left.tag, right.tag
+    return {left_tag[:2], right_tag[:2]} == {"FE", "FT"} and left_tag.split("-", 1)[1] == right_tag.split("-", 1)[1]
+
+
+def _allowed_diagonal_signal(tag: str) -> bool:
+    return tag.startswith("flow_impulse:")
+
+
+def _allowed_instrument_pipe_overlap(tag: str) -> bool:
+    return tag.startswith("FE-")

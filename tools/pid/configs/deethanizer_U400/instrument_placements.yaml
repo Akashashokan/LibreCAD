@@ -22,11 +22,11 @@ instrument_placements:
           type: field_instrument
           service: column_overhead_pressure
           connect_to: T-501.N10_pressure_tap.connection_point
-        - tag: PI-501
+        - tag: DPI-501
           type: field_instrument
-          service: local_column_pressure_indication
+          service: local_column_differential_pressure_indication
           connect_to: T-501.N10_pressure_tap.connection_point
-        - tag: DPIT-501
+        - tag: DPT-501
           type: field_instrument
           service: column_differential_pressure
           connect_to:
