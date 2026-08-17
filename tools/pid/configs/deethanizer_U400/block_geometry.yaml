@@ -26,15 +26,15 @@ block_geometry:
         pipe_connection: [52, 78]
         side: right
       N4_reboiler_liquid_draw:
-        wall_point: [28, -82]
-        stub_end: [44, -82]
-        pipe_connection: [52, -82]
-        side: right
+        wall_point: [-28, -82]
+        stub_end: [-44, -82]
+        pipe_connection: [-52, -82]
+        side: left
       N5_reboiler_vapor_return:
-        wall_point: [28, -48]
-        stub_end: [44, -48]
-        pipe_connection: [52, -48]
-        side: right
+        wall_point: [-28, -48]
+        stub_end: [-44, -48]
+        pipe_connection: [-52, -48]
+        side: left
       N6_bottoms_outlet:
         wall_point: [0, -115]
         stub_end: [0, -132]
@@ -168,12 +168,11 @@ block_geometry:
       height: 42
     ports:
       column_liquid_in: [-52, -10]
-      vapor_return_to_column: [-52, 12]
+      vapor_return_to_column: [52, 12]
       bottoms_liquid_out: [52, -10]
       hot_utility_in: [20, 30]
       hot_utility_out: [-20, 30]
       vent: [34, 28]
-      drain: [34, -28]
 
   feed_bottoms_exchanger:
     block: shell_and_tube_heat_exchanger
@@ -185,8 +184,6 @@ block_geometry:
       cold_feed_out: [46, -8]
       hot_bottoms_in: [46, 8]
       hot_bottoms_out: [-46, 8]
-      vent: [30, 22]
-      drain: [30, -22]
 
   centrifugal_pump:
     block: centrifugal_pump
@@ -290,11 +287,11 @@ block_geometry:
   offpage_connector:
     block: offpage_connector
     size:
-      width: 24
-      height: 12
+      width: 18
+      height: 20
     ports:
-      line_connection: [-14, 0]
-      continuation: [14, 0]
+      line_connection: [-10, 0]
+      continuation: [10, 0]
 
   flow_arrow:
     block: flow_arrow

@@ -139,9 +139,18 @@ def _parse_equipment(data: dict[str, Any], symbols: dict[str, SymbolBlock], geom
     if not isinstance(root, list):
         raise ConfigError("equipment_placement_order.yaml missing equipment_placement_order list")
     anchors = {
-        "T-501": (520, 430), "E-501": (700, 315), "E-502": (650, 650), "V-501": (840, 610),
-        "P-501A": (820, 495), "P-501B": (820, 450), "E-503": (300, 400),
-        "P-502A": (470, 205), "P-502B": (470, 160), "PSV-501A": (430, 660), "PSV-501B": (465, 660), "PSV-502": (820, 690),
+        "T-501": (500, 430),
+        "E-503": (305, 473),
+        "E-501": (420, 280),
+        "E-502": (640, 650),
+        "V-501": (840, 650),
+        "P-501A": (815, 545),
+        "P-501B": (815, 500),
+        "P-502A": (620, 240),
+        "P-502B": (620, 190),
+        "PSV-501A": (430, 715),
+        "PSV-501B": (465, 715),
+        "PSV-502": (805, 730),
     }
     out: list[EquipmentPlacement] = []
     for row in sorted(root, key=lambda r: r.get("step", 0)):

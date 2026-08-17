@@ -1,0 +1,340 @@
+{
+  "source": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production.dxf",
+  "rendered_image": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\rendered_full.png",
+  "cleaned_image": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\cleaned_full.png",
+  "overview_image": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segment_overview.png",
+  "image_width": 4607,
+  "image_height": 3253,
+  "segment_count": 15,
+  "settings": {
+    "dpi": 300,
+    "render_width": 5000,
+    "dxf_units": "auto",
+    "pdf_page": 1,
+    "tile_size": 1200,
+    "overlap": 160,
+    "min_content_ratio": 0.002,
+    "keep_empty": false,
+    "binarize": true,
+    "binarize_threshold": 248,
+    "max_width": null
+  },
+  "model_instruction": "Review each segment for P&ID drafting, tag, routing, symbol, and readability issues. Return comments keyed by segment id and bbox_px so they can be mapped back to the full sheet.",
+  "segments": [
+    {
+      "id": "segment_001",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_001_r00_c00_x0_y0.png",
+      "row": 0,
+      "col": 0,
+      "bbox_px": [
+        0,
+        0,
+        1200,
+        1200
+      ],
+      "bbox_normalized": [
+        0.0,
+        0.0,
+        0.260473,
+        0.36889
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.003494
+    },
+    {
+      "id": "segment_002",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_002_r00_c01_x1040_y0.png",
+      "row": 0,
+      "col": 1,
+      "bbox_px": [
+        1040,
+        0,
+        2240,
+        1200
+      ],
+      "bbox_normalized": [
+        0.225743,
+        0.0,
+        0.486217,
+        0.36889
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.006431
+    },
+    {
+      "id": "segment_003",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_003_r00_c02_x2080_y0.png",
+      "row": 0,
+      "col": 2,
+      "bbox_px": [
+        2080,
+        0,
+        3280,
+        1200
+      ],
+      "bbox_normalized": [
+        0.451487,
+        0.0,
+        0.71196,
+        0.36889
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.016249
+    },
+    {
+      "id": "segment_004",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_004_r00_c03_x3120_y0.png",
+      "row": 0,
+      "col": 3,
+      "bbox_px": [
+        3120,
+        0,
+        4320,
+        1200
+      ],
+      "bbox_normalized": [
+        0.67723,
+        0.0,
+        0.937703,
+        0.36889
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.018292
+    },
+    {
+      "id": "segment_005",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_005_r00_c04_x3407_y0.png",
+      "row": 0,
+      "col": 4,
+      "bbox_px": [
+        3407,
+        0,
+        4607,
+        1200
+      ],
+      "bbox_normalized": [
+        0.739527,
+        0.0,
+        1.0,
+        0.36889
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.014916
+    },
+    {
+      "id": "segment_006",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_006_r01_c00_x0_y1040.png",
+      "row": 1,
+      "col": 0,
+      "bbox_px": [
+        0,
+        1040,
+        1200,
+        2240
+      ],
+      "bbox_normalized": [
+        0.0,
+        0.319705,
+        0.260473,
+        0.688595
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.012918
+    },
+    {
+      "id": "segment_007",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_007_r01_c01_x1040_y1040.png",
+      "row": 1,
+      "col": 1,
+      "bbox_px": [
+        1040,
+        1040,
+        2240,
+        2240
+      ],
+      "bbox_normalized": [
+        0.225743,
+        0.319705,
+        0.486217,
+        0.688595
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.021281
+    },
+    {
+      "id": "segment_008",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_008_r01_c02_x2080_y1040.png",
+      "row": 1,
+      "col": 2,
+      "bbox_px": [
+        2080,
+        1040,
+        3280,
+        2240
+      ],
+      "bbox_normalized": [
+        0.451487,
+        0.319705,
+        0.71196,
+        0.688595
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.015026
+    },
+    {
+      "id": "segment_009",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_009_r01_c03_x3120_y1040.png",
+      "row": 1,
+      "col": 3,
+      "bbox_px": [
+        3120,
+        1040,
+        4320,
+        2240
+      ],
+      "bbox_normalized": [
+        0.67723,
+        0.319705,
+        0.937703,
+        0.688595
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.008129
+    },
+    {
+      "id": "segment_010",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_010_r01_c04_x3407_y1040.png",
+      "row": 1,
+      "col": 4,
+      "bbox_px": [
+        3407,
+        1040,
+        4607,
+        2240
+      ],
+      "bbox_normalized": [
+        0.739527,
+        0.319705,
+        1.0,
+        0.688595
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.006193
+    },
+    {
+      "id": "segment_011",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_011_r02_c00_x0_y2053.png",
+      "row": 2,
+      "col": 0,
+      "bbox_px": [
+        0,
+        2053,
+        1200,
+        3253
+      ],
+      "bbox_normalized": [
+        0.0,
+        0.63111,
+        0.260473,
+        1.0
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.013058
+    },
+    {
+      "id": "segment_012",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_012_r02_c01_x1040_y2053.png",
+      "row": 2,
+      "col": 1,
+      "bbox_px": [
+        1040,
+        2053,
+        2240,
+        3253
+      ],
+      "bbox_normalized": [
+        0.225743,
+        0.63111,
+        0.486217,
+        1.0
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.012453
+    },
+    {
+      "id": "segment_013",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_013_r02_c02_x2080_y2053.png",
+      "row": 2,
+      "col": 2,
+      "bbox_px": [
+        2080,
+        2053,
+        3280,
+        3253
+      ],
+      "bbox_normalized": [
+        0.451487,
+        0.63111,
+        0.71196,
+        1.0
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.015406
+    },
+    {
+      "id": "segment_014",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_014_r02_c03_x3120_y2053.png",
+      "row": 2,
+      "col": 3,
+      "bbox_px": [
+        3120,
+        2053,
+        4320,
+        3253
+      ],
+      "bbox_normalized": [
+        0.67723,
+        0.63111,
+        0.937703,
+        1.0
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.011457
+    },
+    {
+      "id": "segment_015",
+      "file": "D:\\GitHub\\LibreCAD\\tools\\pid\\outputs\\deethanizer_column_pid_production-image-segments\\segments\\segment_015_r02_c04_x3407_y2053.png",
+      "row": 2,
+      "col": 4,
+      "bbox_px": [
+        3407,
+        2053,
+        4607,
+        3253
+      ],
+      "bbox_normalized": [
+        0.739527,
+        0.63111,
+        1.0,
+        1.0
+      ],
+      "width": 1200,
+      "height": 1200,
+      "content_ratio": 0.011155
+    }
+  ]
+}

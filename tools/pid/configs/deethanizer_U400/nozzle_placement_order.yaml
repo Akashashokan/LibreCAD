@@ -36,20 +36,20 @@ nozzle_placement:
         connection_point: [52, 78]
       N4_reboiler_liquid_draw:
         service: reboiler_liquid_draw
-        side: right
+        side: left
         elevation_zone: column_bottom_liquid
-        wall_point: [28, -82]
-        stub_end: [44, -82]
-        flange_point: [48, -82]
-        connection_point: [52, -82]
+        wall_point: [-28, -82]
+        stub_end: [-44, -82]
+        flange_point: [-48, -82]
+        connection_point: [-52, -82]
       N5_reboiler_vapor_return:
         service: reboiler_vapor_return
-        side: right
+        side: left
         elevation_zone: lower_column_vapor
-        wall_point: [28, -48]
-        stub_end: [44, -48]
-        flange_point: [48, -48]
-        connection_point: [52, -48]
+        wall_point: [-28, -48]
+        stub_end: [-44, -48]
+        flange_point: [-48, -48]
+        connection_point: [-52, -48]
       N6_bottoms_outlet:
         service: column_bottoms_product
         side: bottom
@@ -159,11 +159,11 @@ nozzle_placement:
         connection_point: [-60, -10]
       N2_vapor_return:
         service: reboiler_vapor_to_column
-        side: left_upper
-        wall_point: [-43, 12]
-        stub_end: [-52, 12]
-        flange_point: [-56, 12]
-        connection_point: [-60, 12]
+        side: right_upper
+        wall_point: [43, 12]
+        stub_end: [52, 12]
+        flange_point: [56, 12]
+        connection_point: [60, 12]
       N3_bottoms_liquid_out:
         service: bottoms_product
         side: right_lower
@@ -192,13 +192,6 @@ nozzle_placement:
         stub_end: [34, 30]
         flange_point: [34, 34]
         connection_point: [34, 38]
-      N7_reboiler_drain:
-        service: reboiler_drain
-        side: bottom
-        wall_point: [34, -21]
-        stub_end: [34, -30]
-        flange_point: [34, -34]
-        connection_point: [34, -38]
 
   E-502_overhead_condenser:
     tag: E-502
@@ -344,21 +337,6 @@ nozzle_placement:
         stub_end: [-46, 8]
         flange_point: [-50, 8]
         connection_point: [-54, 8]
-      N5_exchanger_vent:
-        service: exchanger_vent
-        side: top_right
-        wall_point: [30, 17]
-        stub_end: [30, 22]
-        flange_point: [30, 26]
-        connection_point: [30, 30]
-      N6_exchanger_drain:
-        service: exchanger_drain
-        side: bottom_right
-        wall_point: [30, -17]
-        stub_end: [30, -22]
-        flange_point: [30, -26]
-        connection_point: [30, -30]
-
   pumps:
     P-501A:
       service: reflux_pump_A

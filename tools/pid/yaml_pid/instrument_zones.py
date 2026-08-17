@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from .cad_primitives import DrawContext, draw_instrument, draw_signal_line, draw_symbol, draw_text
+from .cad_primitives import DrawContext, draw_instrument, draw_signal_line, draw_symbol, draw_text, route_around_equipment
+from .grid import snap_point, snap_points
 from .models import InstrumentPlacement
 from .scene import BBox
 
@@ -23,33 +24,35 @@ EXPLICIT_POINTS: dict[str, tuple[float, float]] = {
     "PT-501": (462, 522),
     "DPI-501": (444, 452),
     "DPT-501": (462, 430),
-    "LT-502": (465, 325),
-    "LIC-502": (465, 303),
+    "LT-502": (335, 385),
+    "LIC-502": (300, 385),
     "TT-501A": (604, 480),
     "TI-501A": (626, 480),
     "TT-501B": (604, 430),
     "TIC-501": (626, 430),
-    "TT-501C": (604, 392),
-    "TI-501C": (626, 392),
-    "PIC-501": (548, 690),
-    "FE-501": (370, 392),
-    "FT-501": (370, 435),
-    "FIC-501": (414, 435),
-    "LT-501": (770, 610),
-    "LIC-501": (740, 610),
-    "PT-502": (872, 655),
-    "PI-502": (872, 675),
-    "FE-502": (715, 525),
-    "FT-502": (715, 505),
-    "FIC-502": (735, 505),
-    "TT-503": (760, 355),
-    "TI-503": (782, 355),
-    "AIT-501": (1010, 700),
-    "AIC-501": (1010, 675),
-    "AS-501": (1010, 650),
-    "AIT-502": (250, 310),
-    "AIC-502": (250, 285),
-    "AS-502": (250, 260),
+    "TT-501C": (640, 400),
+    "TI-501C": (662, 400),
+    "PIC-501": (585, 690),
+    "FE-501": (430, 465),
+    "FT-501": (430, 510),
+    "FIC-501": (345, 525),
+    "LT-501": (750, 585),
+    "LIC-501": (720, 585),
+    "PT-502": (960, 715),
+    "PI-502": (960, 740),
+    "FE-502": (625, 510),
+    "FT-502": (625, 560),
+    "FIC-502": (655, 560),
+    "TT-503": (575, 365),
+    "TI-503": (602, 365),
+    "AIT-501": (1060, 750),
+    "AIC-501": (1060, 725),
+    "AS-501": (1060, 675),
+    "AIT-502": (170, 250),
+    "AIC-502": (170, 225),
+    "AS-502": (170, 200),
+    "ZSO-501": (160, 430),
+    "ZSC-501": (160, 410),
 }
 
 ALARM_LETTERS = {
@@ -87,18 +90,19 @@ def place_instruments(ctx: DrawContext, instruments: list[InstrumentPlacement]) 
         x0, y0 = ZONE_ANCHORS.get(inst.zone, (100, 100))
         if inst.tag in EXPLICIT_POINTS:
             x, y = EXPLICIT_POINTS[inst.tag]
-        elif inst.zone in {"FEED_CONTROL_ZONE", "OVERHEAD_PRESSURE_CONTROL_ZONE", "REFLUX_FLOW_CONTROL_ZONE", "PUMP_STATUS_ZONE"}:
+        elif inst.zone in {"FEED_CONTROL_ZONE", "OVERHEAD_PRESSURE_CONTROL_ZONE", "REFLUX_FLOW_CONTROL_ZONE", "PUMP_STATUS_ZONE", "SHUTDOWN_VALVE_FEEDBACK_ZONE"}:
             x, y = x0 + idx * 28, y0
         else:
             x, y = x0, y0 - idx * 18
+        x, y = snap_point((x, y))
         if _prefix(inst.tag) == "FIC":
             _draw_flow_controller(ctx, inst.tag, x, y)
             continue
         alarms = _alarms_for(inst, alarms_by_source, process_ref_sources)
         draw_instrument(ctx, inst.tag, _symbol_type(inst.type, inst.location), x, y, alarms)
         if _prefix(inst.tag) in {"DPT", "DPIT"}:
-            ctx.registry.add_port(f"{inst.tag}.process_tap_high", (x, y + 9.0), "instrument")
-            ctx.registry.add_port(f"{inst.tag}.process_tap_low", (x, y - 9.0), "instrument")
+            ctx.registry.add_port(f"{inst.tag}.process_tap_high", snap_point((x, y + 9.0)), "instrument")
+            ctx.registry.add_port(f"{inst.tag}.process_tap_low", snap_point((x, y - 9.0)), "instrument")
 
     _draw_process_hookups(ctx, by_tag, instruments)
     _draw_local_indicator_signals(ctx, instruments)
@@ -186,10 +190,16 @@ def _draw_temperature_well(ctx: DrawContext, inst: InstrumentPlacement) -> None:
     if src is None or dst is None:
         return
     tw_tag = "TW-" + inst.tag.split("-", 1)[1]
-    tw = (src[0] + (12 if dst[0] >= src[0] else -12), src[1])
+    axis = ctx.registry.nozzle_axes.get(src)
+    if axis == "vertical":
+        lift = 15 if dst[1] >= src[1] else -15
+        tw = snap_point((src[0], src[1] + lift))
+    else:
+        direction = 1 if dst[0] >= src[0] else -1
+        tw = snap_point((src[0] + direction * 15, src[1]))
     draw_symbol(ctx, "field_instrument", tw_tag, tw[0], tw[1], scale=0.65)
     ctx.registry.mark("instrument", tw_tag)
-    _draw_text_at(ctx, tw_tag, tw[0] - 8, tw[1] - 10)
+    _draw_text_at(ctx, tw_tag, tw[0] + 15, tw[1] + 20)
     _draw_polyline(ctx, [src, tw, (dst[0], tw[1]), dst])
 
 
@@ -213,12 +223,12 @@ def _draw_flow_transmitter_hookup(ctx: DrawContext, fe_tag: str, ft_tag: str) ->
         return
     direction = 1 if ft[1] >= fe[1] else -1
     left_tap, right_tap = _draw_flow_element(ctx, fe_tag, fe, direction)
-    ft_left = (ft[0] - 7.0, ft[1])
-    ft_right = (ft[0] + 7.0, ft[1])
-    left_riser_x = fe[0] - 22.0
-    right_riser_x = fe[0] + 22.0
-    valve_in_y = fe[1] + direction * 14.0
-    valve_out_y = fe[1] + direction * 31.0
+    ft_left = snap_point((ft[0] - 5.0, ft[1]))
+    ft_right = snap_point((ft[0] + 5.0, ft[1]))
+    left_riser_x = fe[0] - 20.0
+    right_riser_x = fe[0] + 20.0
+    valve_in_y = fe[1] + direction * 15.0
+    valve_out_y = fe[1] + direction * 30.0
     segment_tag = f"flow_impulse:{fe_tag}:{ft_tag}"
     _draw_polyline(ctx, [left_tap, (left_riser_x, valve_in_y), (left_riser_x, valve_out_y), ft_left], segment_tag)
     _draw_polyline(ctx, [right_tap, (right_riser_x, valve_in_y), (right_riser_x, valve_out_y), ft_right], segment_tag)
@@ -231,17 +241,25 @@ def _draw_solid_hookup(ctx: DrawContext, src_ref: str, dst_ref: str, gate_count:
     dst = _point(ctx, dst_ref)
     if src is None or dst is None:
         return
-    elbow = (dst[0], src[1])
+    elbow = _source_nozzle_elbow(ctx, src, dst)
     points = [src, elbow, dst] if elbow != src and elbow != dst else [src, dst]
     _draw_polyline(ctx, points)
     if gate_count:
         first, second = points[0], points[1]
-        gate = (first[0] + (second[0] - first[0]) * 0.45, first[1] + (second[1] - first[1]) * 0.45)
+        gate = snap_point((first[0] + (second[0] - first[0]) * 0.45, first[1] + (second[1] - first[1]) * 0.45))
         orientation = "vertical" if first[0] == second[0] else "horizontal"
         _draw_gate(ctx, gate, orientation)
 
 
+def _source_nozzle_elbow(ctx: DrawContext, src: tuple[float, float], dst: tuple[float, float]) -> tuple[float, float]:
+    axis = ctx.registry.nozzle_axes.get(src)
+    if axis == "vertical":
+        return snap_point((src[0], dst[1]))
+    return snap_point((dst[0], src[1]))
+
+
 def _draw_polyline(ctx: DrawContext, points: list[tuple[float, float]], tag: str = "instrument_hookup") -> None:
+    points = route_around_equipment(ctx, snap_points(points), "IMPULSE_LINE")
     for p1, p2 in zip(points, points[1:]):
         ctx.msp.add_line(p1, p2, dxfattribs={"layer": "IMPULSE_LINE", "lineweight": ctx.standard.lw_signal})
         ctx.registry.add_line_segment(p1, p2, tag, "IMPULSE_LINE", False)
@@ -254,38 +272,41 @@ def _draw_signal_ref(ctx: DrawContext, src_ref: str, dst_ref: str) -> None:
         if abs(src[1] - dst[1]) < 0.1 or abs(src[0] - dst[0]) < 0.1:
             draw_signal_line(ctx, [src, dst], "electric_signal")
             return
-        midx = (src[0] + dst[0]) / 2
+        midx = snap_point(((src[0] + dst[0]) / 2, src[1]))[0]
         draw_signal_line(ctx, [src, (midx, src[1]), (midx, dst[1]), dst], "electric_signal")
 
 
 def _draw_flow_element(ctx: DrawContext, tag: str, point: tuple[float, float], direction: int) -> tuple[tuple[float, float], tuple[float, float]]:
     x, line_y = point
-    plate_half = 7.0
-    tap_y = line_y + direction * 6.0
-    for offset in (-2.2, 2.2):
+    plate_half = 5.0
+    tap_y = line_y + direction * 5.0
+    for offset in (-5.0, 5.0):
         ctx.msp.add_line((x + offset, line_y - plate_half), (x + offset, line_y + plate_half), dxfattribs={"layer": "INSTRUMENT", "lineweight": ctx.standard.lw_signal})
         ctx.registry.add_line_segment((x + offset, line_y - plate_half), (x + offset, line_y + plate_half), f"orifice_plate:{tag}", "INSTRUMENT", False)
-    for offset in (-6.0, 6.0):
+    for offset in (-10.0, 10.0):
         ctx.msp.add_line((x + offset, line_y), (x + offset, tap_y), dxfattribs={"layer": "IMPULSE_LINE", "lineweight": ctx.standard.lw_signal})
         ctx.registry.add_line_segment((x + offset, line_y), (x + offset, tap_y), f"flow_impulse_tap:{tag}", "IMPULSE_LINE", False)
     tag_y = line_y - direction * 13.0
     draw_text(ctx, tag, x - max(5, len(tag) * 0.9), tag_y, ctx.standard.note_text_h, "TEXT", tag, "instrument_text")
-    box = BBox(x - 9.0, line_y - plate_half, x + 9.0, line_y + plate_half, tag, "instrument")
+    box = BBox(x - 10.0, line_y - plate_half, x + 10.0, line_y + plate_half, tag, "instrument")
     ctx.registry.add_item("instrument", tag, "INSTRUMENT", box)
     ctx.registry.add_port(f"{tag}.process_tap", (x, line_y), "instrument")
     ctx.registry.mark("instrument", tag)
-    return (x - 6.0, tap_y), (x + 6.0, tap_y)
+    return snap_point((x - 10.0, tap_y)), snap_point((x + 10.0, tap_y))
 
 
-def _draw_gate(ctx: DrawContext, point: tuple[float, float], orientation: str, scale: float = 0.15) -> None:
+def _draw_gate(ctx: DrawContext, point: tuple[float, float], orientation: str, scale: float = 0.75) -> None:
     rotation = 90 if orientation == "vertical" else 0
-    draw_symbol(ctx, "manual_block_valve", "instrument_root_valve", point[0], point[1], rotation=rotation, scale=scale)
+    x, y = snap_point(point)
+    draw_symbol(ctx, "manual_block_valve", "instrument_root_valve", x, y, rotation=rotation, scale=scale)
 
 
 def _draw_bowtie_valve(ctx: DrawContext, point: tuple[float, float], orientation: str) -> None:
     x, y = point
-    half_w = 4.5
-    half_h = 5.8
+    point = snap_point(point)
+    x, y = point
+    half_w = 1.0
+    half_h = 1.0
     ctx.msp.add_lwpolyline([(x - half_w, y + half_h), (x, y), (x + half_w, y + half_h), (x - half_w, y + half_h)], dxfattribs={"layer": "VALVES"})
     ctx.msp.add_lwpolyline([(x - half_w, y - half_h), (x, y), (x + half_w, y - half_h), (x - half_w, y - half_h)], dxfattribs={"layer": "VALVES"})
 
@@ -296,11 +317,13 @@ def _draw_flow_controller(ctx: DrawContext, tag: str, x: float, y: float) -> Non
     left, right = x - width / 2, x + width / 2
     bottom, top = y - height / 2, y + height / 2
     ctx.msp.add_lwpolyline([(left, bottom), (right, bottom), (right, top), (left, top), (left, bottom)], dxfattribs={"layer": "INSTRUMENT"})
+    ctx.msp.add_circle((x, y), min(width, height) * 0.33, dxfattribs={"layer": "INSTRUMENT"})
     draw_text(ctx, tag, x - max(5, len(tag) * 0.9), y - 1.5, ctx.standard.note_text_h, "TEXT", tag, "instrument_text")
     ctx.registry.add_item("instrument", tag, "INSTRUMENT", BBox(left, bottom, right, top, tag, "instrument"))
     ctx.registry.add_port(f"{tag}.input_signal", (left - 2.0, y), "instrument")
     ctx.registry.add_port(f"{tag}.output_signal", (right + 2.0, y), "instrument")
     ctx.registry.add_port(f"{tag}.signal", (right + 2.0, y), "instrument")
+    ctx.registry.add_port(f"{tag}.right_signal", (right + 2.0, y), "instrument")
     ctx.registry.mark("instrument", tag)
 
 

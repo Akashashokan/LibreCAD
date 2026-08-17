@@ -65,6 +65,7 @@ class SymbolResolver:
                         copied.translate(-center[0], -center[1], 0)
                     except Exception:
                         pass
+                    _normalize_imported_entity(copied)
                     target.add_foreign_entity(copied)
                 self.imported_blocks[key] = name
                 self.block_extents[key] = size
@@ -87,6 +88,12 @@ def _split_candidate(candidate: str) -> tuple[str, str | None]:
         return candidate, None
     path, block_name = candidate.split("::", 1)
     return path, block_name
+
+
+def _normalize_imported_entity(entity) -> None:
+    layer = str(entity.dxf.get("layer", "0")).upper()
+    if layer in {"EQUIP", "EQUIPS", "EQUIPMENT"}:
+        entity.dxf.layer = "EQUIPMENT"
 
 
 def _source_layout(doc: ezdxf.EzDxfDocument, block_name: str | None):

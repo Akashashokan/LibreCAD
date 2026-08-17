@@ -5,13 +5,18 @@ from math import cos, radians, sin
 from typing import Sequence
 
 import ezdxf
+from ezdxf import bbox as ezdxf_bbox
 
 from .drafting_standard import DEFAULT_STANDARD, DraftingStandard, StyleProfile
+from .grid import snap_point, snap_points
 from .models import BlockGeometry, EquipmentPlacement, NozzleSpec, OffPageConnector, ValvePlacement
 from .ports import abs_nozzle
 from .scene import BBox, SceneRegistry, bbox_from_center, text_bbox
 
 Point = tuple[float, float]
+OFFPAGE_CONNECTOR_LENGTH = 18.0
+OFFPAGE_CONNECTOR_HEIGHT = 20.0
+OFFPAGE_CONNECTOR_BBOX_PAD = 2.0
 
 
 @dataclass
@@ -23,9 +28,11 @@ class DrawContext:
     style: StyleProfile | None = None
     block_names: dict[str, str] | None = None
     block_extents: dict[str, tuple[float, float]] | None = None
+    last_symbol_bbox: BBox | None = None
 
 
 def draw_text(ctx: DrawContext, text: str, x: float, y: float, height: float | None = None, layer: str = "TEXT", tag: str | None = None, kind: str = "text", rotation: float = 0) -> BBox:
+    x, y = snap_point((x, y))
     h = height or ctx.standard.note_text_h
     ent = ctx.msp.add_text(str(text), dxfattribs={"height": h, "layer": layer, "rotation": rotation})
     ent.set_placement((x, y))
@@ -36,10 +43,17 @@ def draw_text(ctx: DrawContext, text: str, x: float, y: float, height: float | N
 
 def draw_symbol(ctx: DrawContext, symbol_key: str, tag: str, x: float, y: float, scale: float = 1.0, rotation: float = 0, xscale: float | None = None, yscale: float | None = None) -> bool:
     block_name = (ctx.block_names or {}).get(symbol_key)
+    ctx.last_symbol_bbox = None
     if not block_name:
         ctx.registry.fallbacks.append(f"{tag}: {symbol_key}")
         return False
-    ctx.msp.add_blockref(block_name, (x, y), dxfattribs={"xscale": xscale or scale, "yscale": yscale or scale, "rotation": rotation, "layer": "SYMBOLS"})
+    x, y = snap_point((x, y))
+    ref = ctx.msp.add_blockref(block_name, (x, y), dxfattribs={"xscale": xscale or scale, "yscale": yscale or scale, "rotation": rotation, "layer": "SYMBOLS"})
+    try:
+        ext = ezdxf_bbox.extents([ref])
+        ctx.last_symbol_bbox = BBox(ext.extmin.x, ext.extmin.y, ext.extmax.x, ext.extmax.y, tag, "symbol")
+    except Exception:
+        ctx.last_symbol_bbox = None
     ctx.registry.existing_blocks_used.append(f"{tag}: {symbol_key} -> {block_name}")
     return True
 
@@ -68,7 +82,7 @@ def draw_equipment(ctx: DrawContext, item: EquipmentPlacement, geometry: BlockGe
             ctx.msp.add_lwpolyline(_rect(item.x, item.y, w, h), dxfattribs={"layer": "EQUIPMENT"})
             primitive = "rectangle"
         ctx.registry.primitive_symbols_created.append(f"{item.tag}: {primitive} for {item.block_key}")
-    box = bbox_from_center(item.x, item.y, w, h, item.tag, "equipment")
+    box = _equipment_bbox_from_symbol(ctx, item.tag) if used_block else bbox_from_center(item.x, item.y, w, h, item.tag, "equipment")
     ctx.registry.add_item("equipment", item.tag, "EQUIPMENT", box)
     ctx.registry.mark("equipment", item.tag)
     if item.block_key != "relief_valve":
@@ -92,34 +106,120 @@ def draw_column(ctx: DrawContext, item: EquipmentPlacement, geometry: BlockGeome
     for idx in range(9):
         yy = bottom + 38 + idx * 17
         ctx.msp.add_line((left + 5, yy), (right - 5, yy), dxfattribs={"layer": "EQUIPMENT"})
-    box = bbox_from_center(x, y, w, h, item.tag, "equipment")
+    box = _equipment_bbox_from_symbol(ctx, item.tag) if used_block else bbox_from_center(x, y, w, h, item.tag, "equipment")
     ctx.registry.add_item("equipment", item.tag, "EQUIPMENT", box)
     ctx.registry.add_item("forbidden_zone", item.tag, "EQUIPMENT", box)
     ctx.registry.mark("equipment", item.tag)
-    draw_equipment_tag(ctx, item.tag, left - 24, bottom - 12)
+    draw_equipment_tag(ctx, item.tag, x + 18, box.ymin - 25)
     return box
+
+
+def _equipment_bbox_from_symbol(ctx: DrawContext, tag: str) -> BBox:
+    box = ctx.last_symbol_bbox
+    if box is None:
+        raise ValueError(f"Missing symbol bbox for equipment {tag}")
+    return BBox(box.xmin, box.ymin, box.xmax, box.ymax, tag, "equipment")
 
 
 def draw_nozzle(ctx: DrawContext, equipment_tag: str, origin: Point, name: str, nozzle: NozzleSpec) -> BBox:
     wall, stub, flange, conn = abs_nozzle(nozzle, origin)
-    visual_conn = _draw_reference_nozzle(ctx, wall, stub, flange, conn)
+    wall, stub, flange, conn = snap_points([wall, stub, flange, conn])
+    wall = _attached_nozzle_wall(ctx, equipment_tag, wall, conn, nozzle.side)
+    stub, flange, conn = _axis_aligned_nozzle_points(nozzle.side, wall, stub, flange, conn)
+    visual_conn = snap_point(_draw_reference_nozzle(ctx, wall, stub, flange, conn))
     tag = f"{equipment_tag}.{name}"
     ctx.registry.add_port(f"{tag}.connection_point", visual_conn, "nozzle")
+    ctx.registry.nozzle_axes[visual_conn] = "horizontal" if abs(conn[0] - wall[0]) >= abs(conn[1] - wall[1]) else "vertical"
+    ctx.registry.nozzle_wall_points[tag] = wall
+    ctx.registry.nozzle_sides[tag] = nozzle.side
     box = BBox(min(wall[0], visual_conn[0]) - 2, min(wall[1], visual_conn[1]) - 2, max(wall[0], visual_conn[0]) + 2, max(wall[1], visual_conn[1]) + 2, tag, "nozzle")
     ctx.registry.add_item("nozzle", tag, "NOZZLES", box)
     ctx.registry.mark("nozzle", tag)
     return box
 
 
+def _attached_nozzle_wall(ctx: DrawContext, equipment_tag: str, wall: Point, conn: Point, side: str) -> Point:
+    # Attach the authored tap elevation to the visible equipment edge. Compound
+    # sides such as left_lower preserve the secondary coordinate instead of
+    # snapping to a bbox corner.
+    box = next((item.bbox for item in ctx.registry.items if item.kind == "equipment" and item.tag == equipment_tag), None)
+    if box is None:
+        return wall
+    side_l = side.lower()
+    x, y = wall
+    direction = _nozzle_direction(side, wall, conn)
+    if direction[0] < 0:
+        x = box.xmin
+    elif direction[0] > 0:
+        x = box.xmax
+    elif direction[1] > 0:
+        y = box.ymax
+    elif direction[1] < 0:
+        y = box.ymin
+    if not any(token in side_l for token in ("left", "right", "top", "bottom")):
+        distances = [(abs(wall[0] - box.xmin), "left"), (abs(wall[0] - box.xmax), "right"), (abs(wall[1] - box.ymin), "bottom"), (abs(wall[1] - box.ymax), "top")]
+        nearest = min(distances)[1]
+        if nearest == "left":
+            x = box.xmin
+        elif nearest == "right":
+            x = box.xmax
+        elif nearest == "bottom":
+            y = box.ymin
+        else:
+            y = box.ymax
+    x = min(max(x, box.xmin), box.xmax)
+    y = min(max(y, box.ymin), box.ymax)
+    return (x, y)
+
+
+def _axis_aligned_nozzle_points(side: str, wall: Point, stub: Point, flange: Point, conn: Point) -> tuple[Point, Point, Point]:
+    direction = _nozzle_direction(side, wall, conn)
+    stub_len = _distance(wall, stub)
+    flange_len = _distance(wall, flange)
+    conn_len = _distance(wall, conn)
+    return (
+        snap_point((wall[0] + direction[0] * stub_len, wall[1] + direction[1] * stub_len)),
+        snap_point((wall[0] + direction[0] * flange_len, wall[1] + direction[1] * flange_len)),
+        snap_point((wall[0] + direction[0] * conn_len, wall[1] + direction[1] * conn_len)),
+    )
+
+
+def _nozzle_direction(side: str, wall: Point, conn: Point) -> Point:
+    side_l = side.lower()
+    if "top" in side_l:
+        return (0.0, 1.0)
+    if "bottom" in side_l:
+        return (0.0, -1.0)
+    if "left" in side_l:
+        return (-1.0, 0.0)
+    if "right" in side_l:
+        return (1.0, 0.0)
+    dx, dy = conn[0] - wall[0], conn[1] - wall[1]
+    if abs(dx) >= abs(dy):
+        return (1.0 if dx >= 0 else -1.0, 0.0)
+    return (0.0, 1.0 if dy >= 0 else -1.0)
+
+
+def _distance(a: Point, b: Point) -> float:
+    return ((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2) ** 0.5
+
+
 def draw_pipe(ctx: DrawContext, points: Sequence[Point], line_tag: str, service: str, layer: str = "PROCESS", major: bool = True, gaps: Sequence[tuple[Point, float]] | None = None) -> BBox:
+    points = route_around_equipment(ctx, points, layer)
+    gaps = [(snap_point(point), half) for point, half in (gaps or [])]
+    _validate_route_ownership_before_draw(ctx, points, line_tag, layer)
     for p1, p2 in zip(points, points[1:]):
-        for a, b in _split_segment_for_gaps(p1, p2, gaps or []):
+        for a, b in _split_segment_for_gaps(p1, p2, gaps):
             if a == b:
                 continue
             ctx.msp.add_lwpolyline([a, b], dxfattribs={"layer": layer, "lineweight": ctx.standard.lw_major if major else ctx.standard.lw_minor})
             ctx.registry.add_line_segment(a, b, line_tag, layer, major)
     ctx.registry.mark("line", line_tag)
     ctx.registry.route_endpoints[line_tag] = (points[0], points[-1])
+    ctx.registry.route_endpoint_refs[line_tag] = (
+        ctx.registry.port_ref_at(points[0], {"nozzle", "nozzle_connection", "offpage", "valve", "pipe_junction", ":port"}),
+        ctx.registry.port_ref_at(points[-1], {"nozzle", "nozzle_connection", "offpage", "valve", "pipe_junction", ":port"}),
+    )
     return BBox(min(p[0] for p in points), min(p[1] for p in points), max(p[0] for p in points), max(p[1] for p in points), line_tag, "pipe")
 
 
@@ -132,6 +232,7 @@ def draw_branch(ctx: DrawContext, points: Sequence[Point], line_tag: str, servic
 
 
 def draw_valve_on_line(ctx: DrawContext, valve: ValvePlacement, x: float, y: float) -> None:
+    x, y = snap_point((x, y))
     h = valve.orientation.startswith("h")
     symbol_w, symbol_h = _valve_target_size(valve.type)
     s, hh = symbol_w / 2, symbol_h / 2
@@ -147,6 +248,7 @@ def draw_valve_on_line(ctx: DrawContext, valve: ValvePlacement, x: float, y: flo
         tagx, tagy = x + max(10, symbol_w * 0.8), y
     if valve.type == "relief_valve":
         tagx, tagy = x + symbol_w * 0.65, y - 1.0
+    tagx, tagy = _valve_tag_position(valve.tag, tagx, tagy)
     symbol_key = _valve_symbol_key(valve.type)
     ext_w, ext_h = _block_extent(ctx, symbol_key)
     insert_x, insert_y = _mounted_symbol_insert(x, y, valve.type, 0 if h else 90, symbol_w / ext_w, symbol_h / ext_h)
@@ -165,9 +267,27 @@ def draw_valve_on_line(ctx: DrawContext, valve: ValvePlacement, x: float, y: flo
     # Fail positions stay in YAML/report evidence; inline fail text is omitted to avoid symbol clutter.
     box = BBox(insert_x - symbol_w / 2, insert_y - symbol_h / 2, insert_x + symbol_w / 2, insert_y + symbol_h / 2, valve.tag, "valve")
     ctx.registry.add_item("valve", valve.tag, "VALVES", box)
+    ctx.registry.valve_types[valve.tag] = valve.type
     if valve.type == "relief_valve":
         ctx.registry.mark("equipment", valve.tag)
     ctx.registry.mark("valve", valve.tag)
+
+
+def _valve_tag_position(tag: str, tagx: float, tagy: float) -> Point:
+    offsets = {
+        "XV-501": (25.0, 22.0),
+        "NRV-501A": (30.0, 55.0),
+        "HV-505A": (0.0, 12.0),
+        "HV-513": (16.0, 8.0),
+        "PSV-502": (16.0, 8.0),
+        "HV-512A": (-25.0, 35.0),
+        "HV-512B": (-25.0, 20.0),
+        "HV-520": (15.0, 10.0),
+        "PSV-501A": (-18.0, 10.0),
+        "PSV-501B": (18.0, 10.0),
+    }
+    dx, dy = offsets.get(tag, (0.0, 0.0))
+    return tagx + dx, tagy + dy
 
 
 def draw_control_valve(ctx: DrawContext, valve: ValvePlacement, x: float, y: float) -> None:
@@ -179,6 +299,7 @@ def draw_valve_tag(ctx: DrawContext, tag: str, x: float, y: float) -> None:
 
 
 def draw_instrument(ctx: DrawContext, tag: str, typ: str, x: float, y: float, alarms: Sequence[str] | None = None) -> None:
+    x, y = snap_point((x, y))
     r = ctx.standard.instrument_bubble_radius
     symbol_key = _instrument_symbol_key(typ)
     ext_w, ext_h = _block_extent(ctx, symbol_key)
@@ -197,45 +318,126 @@ def draw_instrument(ctx: DrawContext, tag: str, typ: str, x: float, y: float, al
     box = bbox_from_center(x, y, target_w, target_h, tag, "instrument")
     ctx.registry.add_item("instrument", tag, "INSTRUMENT", box)
     ctx.registry.add_port(f"{tag}.process_tap", (x, y - target_h / 2 - 2), "instrument")
-    ctx.registry.add_port(f"{tag}.process_tap_high", (x - target_w * 0.22, y - target_h / 2 - 2), "instrument")
-    ctx.registry.add_port(f"{tag}.process_tap_low", (x + target_w * 0.22, y - target_h / 2 - 2), "instrument")
+    ctx.registry.add_port(f"{tag}.process_tap_high", (x - target_w / 2 - 2, y + target_h * 0.18), "instrument")
+    ctx.registry.add_port(f"{tag}.process_tap_low", (x + target_w / 2 + 2, y - target_h * 0.18), "instrument")
     ctx.registry.add_port(f"{tag}.signal", (x + target_w / 2 + 2, y), "instrument")
+    ctx.registry.add_port(f"{tag}.top_signal", (x, y + target_h / 2 + 2), "instrument")
     ctx.registry.add_port(f"{tag}.input_signal", (x - target_w / 2 - 2, y), "instrument")
     ctx.registry.add_port(f"{tag}.output_signal", (x + target_w / 2 + 2, y), "instrument")
     ctx.registry.mark("instrument", tag)
 
 
 def draw_offpage_connector(ctx: DrawContext, connector: OffPageConnector) -> None:
-    x, y = connector.x, connector.y
+    x, y = snap_point((connector.x, connector.y))
+    half_height = OFFPAGE_CONNECTOR_HEIGHT / 2
     if connector.direction in {"right", "out"}:
-        pts = [(x - 22, y + 8), (x, y), (x - 22, y - 8), (x - 22, y + 8)]
+        pts = [(x - OFFPAGE_CONNECTOR_LENGTH, y + half_height), (x, y), (x - OFFPAGE_CONNECTOR_LENGTH, y - half_height), (x - OFFPAGE_CONNECTOR_LENGTH, y + half_height)]
     else:
-        pts = [(x + 22, y + 8), (x, y), (x + 22, y - 8), (x + 22, y + 8)]
+        pts = [(x + OFFPAGE_CONNECTOR_LENGTH, y + half_height), (x, y), (x + OFFPAGE_CONNECTOR_LENGTH, y - half_height), (x + OFFPAGE_CONNECTOR_LENGTH, y + half_height)]
     conn = (x, y)
     ext_w, ext_h = _block_extent(ctx, "offpage_connector")
-    used_block = draw_symbol(ctx, "offpage_connector", connector.tag, x, y, rotation=180 if connector.direction in {"right", "out"} else 0, xscale=24.0 / ext_w, yscale=12.0 / ext_h)
+    used_block = draw_symbol(ctx, "offpage_connector", connector.tag, x, y, rotation=180 if connector.direction in {"right", "out"} else 0, xscale=OFFPAGE_CONNECTOR_LENGTH / ext_w, yscale=OFFPAGE_CONNECTOR_HEIGHT / ext_h)
     if not used_block:
         ctx.msp.add_lwpolyline(pts, dxfattribs={"layer": "OFFPAGE"})
         ctx.registry.primitive_symbols_created.append(f"{connector.tag}: primitive off-page connector")
     text_x = x - 100 if connector.direction in {"right", "out"} else x + 30
     draw_text(ctx, connector.service, text_x, y + 18, ctx.standard.note_text_h, "TEXT", connector.tag, "offpage_tag")
     draw_text(ctx, connector.drawing_reference, text_x, y - 18, ctx.standard.note_text_h, "TEXT", f"{connector.tag}:ref", "offpage_ref")
-    ctx.registry.add_item("offpage", connector.tag, "OFFPAGE", BBox(x - 24, y - 10, x + 24, y + 10, connector.tag, "offpage"))
+    half_box_w = OFFPAGE_CONNECTOR_LENGTH + OFFPAGE_CONNECTOR_BBOX_PAD
+    half_box_h = half_height + OFFPAGE_CONNECTOR_BBOX_PAD
+    ctx.registry.add_item("offpage", connector.tag, "OFFPAGE", BBox(x - half_box_w, y - half_box_h, x + half_box_w, y + half_box_h, connector.tag, "offpage"))
     ctx.registry.add_port(f"{connector.tag}.continuation", conn, "offpage")
     ctx.registry.add_port(f"{connector.tag}.line_connection", conn, "offpage")
     ctx.registry.mark("offpage", connector.tag)
 
 
-def draw_signal_line(ctx: DrawContext, points: Sequence[Point], signal_type: str = "electric_signal") -> None:
+def draw_signal_line(ctx: DrawContext, points: Sequence[Point], signal_type: str = "electric_signal", tag: str | None = None) -> None:
     layer = {"pneumatic_signal": "SIGNAL_PNEUMATIC", "software_signal": "SIGNAL_SOFTWARE", "safety_signal": "SIGNAL_SIS", "impulse_line": "IMPULSE_LINE"}.get(signal_type, "SIGNAL_ELECTRIC")
+    points = route_around_equipment(ctx, points, layer)
+    if len(points) < 2:
+        return
+    route_tag = tag or f"signal:{signal_type}"
+    _validate_route_ownership_before_draw(ctx, points, route_tag, layer)
     for p1, p2 in zip(points, points[1:]):
+        drawn = False
         if signal_type == "impulse_line":
-            ctx.msp.add_line(p1, p2, dxfattribs={"layer": layer, "lineweight": ctx.standard.lw_signal})
+            drawn = _add_signal_entity(ctx, p1, p2, layer)
         elif signal_type == "pneumatic_signal":
-            _draw_pneumatic_segment(ctx, p1, p2, layer)
+            drawn = _draw_pneumatic_segment(ctx, p1, p2, layer)
         else:
-            _draw_short_dashed_segment(ctx, p1, p2, layer)
-        ctx.registry.add_line_segment(p1, p2, f"signal:{signal_type}", layer, False)
+            drawn = _draw_short_dashed_segment(ctx, p1, p2, layer)
+        if drawn:
+            ctx.registry.add_line_segment(p1, p2, route_tag, layer, False)
+
+
+def route_around_equipment(ctx: DrawContext, points: Sequence[Point], layer: str, clearance: float = 14.0) -> list[Point]:
+    """Deterministically detour orthogonal routes around registered equipment.
+
+    This is a guardrail, not an auto-layout engine: authored route endpoints stay
+    fixed, but any intermediate segment that would cross an owned equipment body
+    gets a simple orthogonal dogleg around the offending bbox.
+    """
+    routed_layers = {"PROCESS", "UTILITY", "FLARE", "DRAIN", "SIGNAL_ELECTRIC", "SIGNAL_PNEUMATIC", "SIGNAL_SOFTWARE", "SIGNAL_SIS", "IMPULSE_LINE"}
+    out = snap_points(points)
+    if layer not in routed_layers or len(out) < 2:
+        return out
+    for _ in range(8):
+        changed = False
+        next_points: list[Point] = [out[0]]
+        for p1, p2 in zip(out, out[1:]):
+            detour = _equipment_detour(ctx, p1, p2, clearance)
+            if detour:
+                next_points.extend(detour[1:])
+                changed = True
+            else:
+                next_points.append(p2)
+        out = _dedupe_adjacent_points(snap_points(next_points))
+        if not changed:
+            break
+    return out
+
+
+def _equipment_detour(ctx: DrawContext, p1: Point, p2: Point, clearance: float) -> list[Point] | None:
+    if p1[0] != p2[0] and p1[1] != p2[1]:
+        return None
+    for equipment_tag, box in ctx.registry.equipment_bboxes.items():
+        if not _segment_enters_box(p1, p2, box, clearance=0.5):
+            continue
+        if _segment_endpoint_owned_nozzle_for_equipment(ctx, p1, p2, equipment_tag):
+            continue
+        if p1[0] == p2[0]:
+            x = _best_detour_x(ctx, p1, p2, box, clearance)
+            return [p1, snap_point((x, p1[1])), snap_point((x, p2[1])), p2]
+        y = _best_detour_y(ctx, p1, p2, box, clearance)
+        return [p1, snap_point((p1[0], y)), snap_point((p2[0], y)), p2]
+    return None
+
+
+def _best_detour_x(ctx: DrawContext, p1: Point, p2: Point, box: BBox, clearance: float) -> float:
+    candidates = [snap_point((box.xmin - clearance, 0))[0], snap_point((box.xmax + clearance, 0))[0]]
+    return min(candidates, key=lambda x: (_detour_score(ctx, [p1, (x, p1[1]), (x, p2[1]), p2]), abs(x - p1[0])))
+
+
+def _best_detour_y(ctx: DrawContext, p1: Point, p2: Point, box: BBox, clearance: float) -> float:
+    candidates = [snap_point((0, box.ymin - clearance))[1], snap_point((0, box.ymax + clearance))[1]]
+    return min(candidates, key=lambda y: (_detour_score(ctx, [p1, (p1[0], y), (p2[0], y), p2]), abs(y - p1[1])))
+
+
+def _detour_score(ctx: DrawContext, points: Sequence[Point]) -> int:
+    score = 0
+    for p1, p2 in zip(points, points[1:]):
+        for equipment_tag, box in ctx.registry.equipment_bboxes.items():
+            if _segment_enters_box(p1, p2, box, clearance=0.5) and not _segment_endpoint_owned_nozzle_for_equipment(ctx, p1, p2, equipment_tag):
+                score += 1
+    return score
+
+
+def _dedupe_adjacent_points(points: Sequence[Point]) -> list[Point]:
+    out: list[Point] = []
+    for point in points:
+        if not out or point != out[-1]:
+            out.append(point)
+    return out
 
 
 def draw_signal_trunk(ctx: DrawContext, points: Sequence[Point], tag: str) -> None:
@@ -381,36 +583,94 @@ def _split_segment_for_gaps(p1: Point, p2: Point, gaps: Sequence[tuple[Point, fl
     return [((x1, a), (x1, b)) for a, b in spans]
 
 
-def _draw_short_dashed_segment(ctx: DrawContext, p1: Point, p2: Point, layer: str) -> None:
+def _validate_route_ownership_before_draw(ctx: DrawContext, points: Sequence[Point], tag: str, layer: str) -> None:
+    routed_layers = {"PROCESS", "UTILITY", "FLARE", "DRAIN", "SIGNAL_ELECTRIC", "SIGNAL_PNEUMATIC", "SIGNAL_SOFTWARE", "SIGNAL_SIS", "IMPULSE_LINE"}
+    if layer not in routed_layers:
+        return
+    if len(points) < 2:
+        ctx.registry.render_errors.append(f"{tag}: route has fewer than two points")
+        return
+    for p1, p2 in zip(points, points[1:]):
+        if p1[0] != p2[0] and p1[1] != p2[1]:
+            ctx.registry.render_errors.append(f"{tag}: diagonal segment {p1}->{p2}")
+        for equipment_tag, box in ctx.registry.equipment_bboxes.items():
+            if not _segment_enters_box(p1, p2, box, clearance=0.5):
+                continue
+            if _segment_endpoint_owned_nozzle_for_equipment(ctx, p1, p2, equipment_tag):
+                continue
+            ctx.registry.render_errors.append(f"{tag}: segment {p1}->{p2} crosses {equipment_tag} body away from owned nozzle")
+    if layer in {"PROCESS", "UTILITY", "FLARE", "DRAIN"}:
+        allowed = {"nozzle", "nozzle_connection", "offpage", "valve", "pipe_junction", ":port"}
+        for label, point in (("start", points[0]), ("end", points[-1])):
+            if ctx.registry.port_ref_at(point, allowed, tol=0.1) is None:
+                ctx.registry.render_errors.append(f"{tag}: {label} endpoint {point} is not a registered process/nozzle/offpage/valve port")
+
+
+def _segment_endpoint_owned_nozzle_for_equipment(ctx: DrawContext, p1: Point, p2: Point, equipment_tag: str) -> bool:
+    for point, other in ((p1, p2), (p2, p1)):
+        refs = ctx.registry.port_refs_at(point, {"nozzle", "nozzle_connection"}, tol=0.1)
+        if not any(ref.startswith(f"{equipment_tag}.") for ref in refs):
+            continue
+        axis = ctx.registry.nozzle_axes.get(point)
+        if axis == "horizontal" and point[1] == other[1]:
+            return True
+        if axis == "vertical" and point[0] == other[0]:
+            return True
+    return False
+
+
+def _segment_enters_box(p1: Point, p2: Point, box: BBox, clearance: float = 1.0) -> bool:
+    xmin = box.xmin + clearance
+    xmax = box.xmax - clearance
+    ymin = box.ymin + clearance
+    ymax = box.ymax - clearance
+    if xmin >= xmax or ymin >= ymax:
+        return False
     x1, y1 = p1
     x2, y2 = p2
-    dash = 4.0
-    gap = 2.0
+    if y1 == y2:
+        if not ymin < y1 < ymax:
+            return False
+        return max(min(x1, x2), xmin) < min(max(x1, x2), xmax)
+    if x1 == x2:
+        if not xmin < x1 < xmax:
+            return False
+        return max(min(y1, y2), ymin) < min(max(y1, y2), ymax)
+    return not (max(x1, x2) <= xmin or min(x1, x2) >= xmax or max(y1, y2) <= ymin or min(y1, y2) >= ymax)
+
+
+def _draw_short_dashed_segment(ctx: DrawContext, p1: Point, p2: Point, layer: str) -> bool:
+    x1, y1 = p1
+    x2, y2 = p2
+    dash = 5.0
+    gap = 5.0
+    drawn = False
     if x1 == x2:
         direction = 1 if y2 >= y1 else -1
         pos = y1
         while (pos - y2) * direction < 0:
             end = pos + direction * min(dash, abs(y2 - pos))
-            ctx.msp.add_line((x1, pos), (x1, end), dxfattribs={"layer": layer, "lineweight": ctx.standard.lw_signal})
+            drawn = _add_signal_entity(ctx, (x1, pos), (x1, end), layer) or drawn
             pos = end + direction * gap
     elif y1 == y2:
         direction = 1 if x2 >= x1 else -1
         pos = x1
         while (pos - x2) * direction < 0:
             end = pos + direction * min(dash, abs(x2 - pos))
-            ctx.msp.add_line((pos, y1), (end, y1), dxfattribs={"layer": layer, "lineweight": ctx.standard.lw_signal})
+            drawn = _add_signal_entity(ctx, (pos, y1), (end, y1), layer) or drawn
             pos = end + direction * gap
     else:
-        ctx.msp.add_line(p1, p2, dxfattribs={"layer": layer, "lineweight": ctx.standard.lw_signal})
+        drawn = _add_signal_entity(ctx, p1, p2, layer) or drawn
+    return drawn
 
 
-def _draw_pneumatic_segment(ctx: DrawContext, p1: Point, p2: Point, layer: str) -> None:
-    ctx.msp.add_line(p1, p2, dxfattribs={"layer": layer, "lineweight": ctx.standard.lw_signal})
+def _draw_pneumatic_segment(ctx: DrawContext, p1: Point, p2: Point, layer: str) -> bool:
+    drawn = _add_signal_entity(ctx, p1, p2, layer)
     x1, y1 = p1
     x2, y2 = p2
     length = abs(x2 - x1) + abs(y2 - y1)
     if length < 14:
-        return
+        return drawn
     mark_spacing = 28.0
     first = min(18.0, length / 2)
     count = max(1, int((length - first) // mark_spacing) + 1)
@@ -426,12 +686,29 @@ def _draw_pneumatic_segment(ctx: DrawContext, p1: Point, p2: Point, layer: str) 
             direction = 1 if y2 >= y1 else -1
             my = y1 + direction * offset
             _draw_slash_pair(ctx, (x1, my), layer)
+    return drawn
 
 
 def _draw_slash_pair(ctx: DrawContext, point: Point, layer: str) -> None:
     x, y = point
-    for delta in (-1.8, 1.8):
-        ctx.msp.add_line((x + delta - 2.0, y - 3.0), (x + delta + 2.0, y + 3.0), dxfattribs={"layer": layer, "lineweight": ctx.standard.lw_signal})
+    for delta in (-1.0, 1.0):
+        _add_signal_entity(ctx, (x + delta - 1.0, y - 1.8), (x + delta + 1.0, y + 1.8), layer)
+
+
+def _add_signal_entity(ctx: DrawContext, p1: Point, p2: Point, layer: str) -> bool:
+    p1, p2 = snap_point(p1), snap_point(p2)
+    if p1 == p2:
+        return False
+    key = (layer, min(p1, p2), max(p1, p2))
+    seen = getattr(ctx, "_drawn_signal_entities", None)
+    if seen is None:
+        seen = set()
+        setattr(ctx, "_drawn_signal_entities", seen)
+    if key in seen:
+        return False
+    seen.add(key)
+    ctx.msp.add_line(p1, p2, dxfattribs={"layer": layer, "lineweight": ctx.standard.lw_signal})
+    return True
 
 
 def _valve_symbol_key(valve_type: str) -> str:
@@ -511,13 +788,12 @@ def _draw_reference_nozzle(ctx: DrawContext, wall: Point, stub: Point, flange: P
     px, py = -uy, ux
     tick_half = 1.3
     tick_gap = 0.75
-    line_start = wall
-    line_end = (wall[0] + dx * 0.20, wall[1] + dy * 0.20)
-    ctx.msp.add_line(line_start, line_end, dxfattribs={"layer": "NOZZLES", "lineweight": 13})
+    ctx.msp.add_line(wall, conn, dxfattribs={"layer": "NOZZLES", "lineweight": 13})
+    flange = snap_point(flange)
     for offset in (0.0, tick_gap):
-        cx, cy = line_end[0] + ux * offset, line_end[1] + uy * offset
+        cx, cy = flange[0] + ux * offset, flange[1] + uy * offset
         ctx.msp.add_line((cx - px * tick_half, cy - py * tick_half), (cx + px * tick_half, cy + py * tick_half), dxfattribs={"layer": "NOZZLES", "lineweight": 13})
-    return line_end
+    return conn
 
 
 def _nozzle_rotation(side: str, wall: Point, conn: Point) -> float:

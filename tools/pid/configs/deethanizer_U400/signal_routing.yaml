@@ -132,6 +132,17 @@ signal_routing:
         - horizontal_trunk_above_overhead_line
         - vertical_drop_to_PV-501.actuator_signal
 
+    PIC-501_to_TV-502:
+      source: PIC-501.output_signal
+      target: TV-502.actuator_signal
+      signal_type: pneumatic_signal
+      trunk: OVERHEAD_SIGNAL_TRUNK
+      route:
+        - PIC-501.output_signal
+        - horizontal_leader_to_OVERHEAD_SIGNAL_TRUNK
+        - horizontal_trunk_above_overhead_line
+        - vertical_drop_to_TV-502.actuator_signal
+
     PSHH-501_to_XV-501:
       source: PSHH-501.signal
       target: XV-501.solenoid_signal
