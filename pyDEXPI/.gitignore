@@ -1,0 +1,15 @@
+.venv/
+venv/
+__pycache__/
+.vscode/
+/bin/
+# eclipse files
+.classpath
+.project
+.pydevproject
+dist/
+.DS_Store
+
+
+docker-compose.yml
+db/

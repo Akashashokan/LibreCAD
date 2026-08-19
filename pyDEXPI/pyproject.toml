@@ -1,0 +1,60 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyDEXPI"
+version = "1.2.0"
+description = "Package containing the DEXPI data model in Python and a parser to load Proteus .xml data to the data model."
+readme = "README.md"
+requires-python = ">=3.12"
+keywords = [
+    "DEXPI, Proteus, P&ID",
+]
+authors = [
+    { name = "Artur M. Schweidtmann", email = "A.Schweidtmann@tudelft.nl" },
+    { name = "Dominik P. Goldstein", email = "D.P.Goldstein@tudelft.nl" },
+    { name = "Lukas Schulze Balhorn", email = "L.Schulzebalhorn@tudelft.nl" },
+    { name = "Achmad Anggawirya Alimin", email = "A.Alimin@tudelft.nl" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "networkx>=3.2.1",
+    "pydantic>=2.11.7",
+    "pandas>=2.3.2",
+    "openpyxl>=3.1.5",
+    "defusedxml>=0.7.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit>=3.7.1",
+    "ruff>=0.3.0",
+    "pytest>=8.2.0",
+]
+
+[project.urls]
+Homepage = "https://www.pi-research.org/"
+Source = "https://github.com/process-intelligence-research/pyDEXPI"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+extend-select = ["Q", "RUF100", "UP", "I", "E", "F"]
+extend-ignore = [
+    "E501", # line too long
+]
+isort = { combine-as-imports = true }
+
+[tool.ruff.lint.per-file-ignores]
+"pydexpi/dexpi_classes/*.py" = ["F401"]
+"__init__.py" = ["F401"]
+"pydexpi/dexpi_classes/pydantic_classes.py" = []
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
