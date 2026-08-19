@@ -1,0 +1,276 @@
+{
+  "inventory_metadata": {
+    "generated_at": "2025-01-XX",
+    "total_dxf_files": 684,
+    "directories_scanned": [
+      "ISO Equipments",
+      "ISO Fittings", 
+      "ISO Instruments",
+      "ISO Pipes and Signal Lines",
+      "ISO Valves",
+      "PIP Equipment",
+      "PIP Fittings",
+      "PIP Instruments",
+      "PIP Pipes and Signal Lines",
+      "PIP Valves",
+      "P&ID",
+      "downloaded_blocks"
+    ]
+  },
+  "symbol_categories": {
+    "equipment": {
+      "directory": "ISO Equipments",
+      "file_count": 42,
+      "examples": [
+        "2_vessel-general-column.dxf",
+        "3_vessel-general.dxf",
+        "5_vessel-dished-head.dxf",
+        "6_vessel-trays.dxf",
+        "18_pump.dxf",
+        "21_heat-exchanger-general-1.dxf",
+        "32_heat-exchanger-shell-and-tube.dxf",
+        "34_heat-exchanger-steam-boiler.dxf"
+      ],
+      "current_usage": "Used for columns, vessels, pumps, exchangers in deethanizer P&ID",
+      "semantic_metadata": "NONE - geometry only",
+      "port_definitions": "NONE - nozzles defined separately in block_geometry.yaml"
+    },
+    "instruments_field": {
+      "directory": "ISO Instruments",
+      "file_count": 28,
+      "examples": [
+        "3_field-discrete-instrument.dxf",
+        "9_restriction-orifice.dxf",
+        "15_flow-element.dxf"
+      ],
+      "current_usage": "PT, PI, TT, TI, LT, FT, switches, analyzers",
+      "semantic_metadata": "NONE",
+      "port_definitions": "Generic process_tap and signal ports in block_geometry.yaml"
+    },
+    "instruments_dcs": {
+      "directory": "ISO Instruments",
+      "file_count": 15,
+      "examples": [
+        "1_aux-accessible-dcs.dxf",
+        "2_control-room-instrument.dxf"
+      ],
+      "current_usage": "PIC, LIC, FIC, TIC controllers",
+      "semantic_metadata": "NONE",
+      "port_definitions": "input_signal, output_signal in block_geometry.yaml"
+    },
+    "valves_manual": {
+      "directory": "ISO Valves",
+      "file_count": 35,
+      "examples": [
+        "0_general-valve-no.dxf",
+        "8_gate-valve-no.dxf",
+        "15_check-valve.dxf"
+      ],
+      "current_usage": "Isolation valves, check valves",
+      "semantic_metadata": "NONE",
+      "port_definitions": "process_in, process_out in block_geometry.yaml"
+    },
+    "valves_control": {
+      "directory": "ISO Valves",
+      "file_count": 25,
+      "examples": [
+        "22_control-valve.dxf",
+        "23_continuously-operated-valve.dxf",
+        "19_safety-valve.dxf"
+      ],
+      "current_usage": "Control valves (PV, LV, FV, TV), shutdown valves (XV), PSVs",
+      "semantic_metadata": "NONE",
+      "port_definitions": "process_in/out, actuator_signal for control valves"
+    },
+    "piping_components": {
+      "directory": "ISO Fittings",
+      "file_count": 30,
+      "examples": [
+        "4_flange-connection.dxf"
+      ],
+      "current_usage": "Nozzles/flanges",
+      "semantic_metadata": "NONE",
+      "port_definitions": "NONE"
+    },
+    "signal_lines": {
+      "directory": "ISO Pipes and Signal Lines",
+      "file_count": 45,
+      "examples": [
+        "2_pipe-left-to-right.dxf",
+        "10_electric-signal-mid-horizontal.dxf",
+        "20_pneumatic-signal-mid-horizontal.dxf",
+        "15_leader-mid-horizontal.dxf",
+        "49_to-link-horizontal.dxf"
+      ],
+      "current_usage": "Process lines, electric signals, pneumatic signals, impulse lines, off-page connectors",
+      "semantic_metadata": "NONE",
+      "port_definitions": "NONE - lines are geometric primitives"
+    }
+  },
+  "blocks_referenced_in_deethanizer_config": {
+    "deethanizer_column": {
+      "candidates": [
+        "downloaded_blocks/Distilation Column.dxf::DISTILLATION_COLUMN",
+        "ISO Equipments/2_vessel-general-column.dxf",
+        "ISO Equipments/6_vessel-trays.dxf"
+      ],
+      "selected": "downloaded_blocks/Distilation Column.dxf::DISTILLATION_COLUMN",
+      "dimensions": {"width": 56, "height": 230},
+      "nozzle_count": 17,
+      "has_semantic_ports": false
+    },
+    "overhead_condenser": {
+      "candidates": [
+        "downloaded_blocks/Exchanger Double Bed.dxf::EXCHANGER_3_I",
+        "ISO Equipments/21_heat-exchanger-general-1.dxf",
+        "ISO Equipments/32_heat-exchanger-shell-and-tube.dxf"
+      ],
+      "selected": "downloaded_blocks/Exchanger Double Bed.dxf::EXCHANGER_3_I",
+      "dimensions": {"width": 76, "height": 34},
+      "port_count": 6,
+      "has_semantic_ports": true
+    },
+    "reflux_drum": {
+      "candidates": [
+        "downloaded_blocks/Horizontal Vessel.dxf::Horizontal Vessel",
+        "ISO Equipments/5_vessel-dished-head.dxf",
+        "ISO Equipments/3_vessel-general.dxf"
+      ],
+      "selected": "downloaded_blocks/Horizontal Vessel.dxf::Horizontal Vessel",
+      "dimensions": {"width": 92, "height": 38},
+      "nozzle_count": 9,
+      "has_semantic_ports": false
+    },
+    "centrifugal_pump": {
+      "candidates": [
+        "downloaded_blocks/Horizontal Pump.dxf::PUMP_HORIZ_I",
+        "ISO Equipments/18_pump.dxf"
+      ],
+      "selected": "downloaded_blocks/Horizontal Pump.dxf::PUMP_HORIZ_I",
+      "dimensions": {"width": 34, "height": 24},
+      "port_count": 5,
+      "has_semantic_ports": true
+    },
+    "field_instrument": {
+      "candidates": [
+        "downloaded_blocks/Instrumnet Local Block.dxf::DI_LOCAL",
+        "ISO Instruments/3_field-discrete-instrument.dxf"
+      ],
+      "selected": "downloaded_blocks/Instrumnet Local Block.dxf::DI_LOCAL",
+      "dimensions": {"width": 12, "height": 12},
+      "port_count": 2,
+      "has_semantic_ports": true
+    },
+    "dcs_controller": {
+      "candidates": [
+        "downloaded_blocks/Shared Local Instrument Block.dxf::SH_LOCAL",
+        "ISO Instruments/1_aux-accessible-dcs.dxf"
+      ],
+      "selected": "downloaded_blocks/Shared Local Instrument Block.dxf::SH_LOCAL",
+      "dimensions": {"width": 14, "height": 14},
+      "port_count": 2,
+      "has_semantic_ports": true
+    },
+    "control_valve": {
+      "candidates": [
+        "ISO Valves/22_control-valve.dxf"
+      ],
+      "selected": "ISO Valves/22_control-valve.dxf",
+      "dimensions": {"width": 22, "height": 14},
+      "port_count": 4,
+      "has_semantic_ports": true
+    },
+    "shutdown_valve": {
+      "candidates": [
+        "ISO Valves/23_continuously-operated-valve.dxf",
+        "ISO Valves/22_control-valve.dxf"
+      ],
+      "selected": "ISO Valves/23_continuously-operated-valve.dxf",
+      "dimensions": {"width": 22, "height": 16},
+      "port_count": 5,
+      "has_semantic_ports": true
+    },
+    "manual_block_valve": {
+      "candidates": [
+        "downloaded_blocks/Instrumnet Local Block.dxf::VAL_GATE",
+        "ISO Valves/0_general-valve-no.dxf",
+        "ISO Valves/8_gate-valve-no.dxf"
+      ],
+      "selected": "downloaded_blocks/Instrumnet Local Block.dxf::VAL_GATE",
+      "dimensions": {"width": 16, "height": 10},
+      "port_count": 2,
+      "has_semantic_ports": true
+    },
+    "relief_valve": {
+      "candidates": [
+        "ISO Valves/19_safety-valve.dxf",
+        "ISO Valves/20_angle-safety-valve.dxf"
+      ],
+      "selected": "ISO Valves/19_safety-valve.dxf",
+      "dimensions": {"width": 22, "height": 28},
+      "port_count": 2,
+      "has_semantic_ports": true
+    },
+    "offpage_connector": {
+      "candidates": [
+        "ISO Pipes and Signal Lines/49_to-link-horizontal.dxf"
+      ],
+      "selected": "ISO Pipes and Signal Lines/49_to-link-horizontal.dxf",
+      "dimensions": {"width": 18, "height": 20},
+      "port_count": 2,
+      "has_semantic_ports": true
+    }
+  },
+  "connectivity_issues_by_block_type": {
+    "equipment_with_nozzles": {
+      "issue": "Nozzles defined as coordinate lists in YAML, not as semantic port objects",
+      "impact": "Pipe routing must manually match nozzle coordinates; no type checking",
+      "example": "T-501.N1_feed_inlet has wall_point, stub_end, pipe_connection but no type/domain"
+    },
+    "equipment_with_ports": {
+      "issue": "Ports are named offsets without semantic type",
+      "impact": "Cannot validate that suction connects to discharge vs instrument signal",
+      "example": "Pump.suction [-24, 0] could connect to anything"
+    },
+    "instruments": {
+      "issue": "Generic field_instrument block used for PT, TT, LT, FT, etc.",
+      "impact": "No validation that pressure transmitter connects to pressure tap vs level tap",
+      "example": "PT-501 and LT-501 use same block with same generic ports"
+    },
+    "valves": {
+      "issue": "Control valve and shutdown valve have different port counts but same base type",
+      "impact": "Solenoid signals vs actuator signals not distinguished",
+      "example": "XV has solenoid_signal, ZSO, ZSC; CV has actuator_signal, instrument_air"
+    },
+    "signal_lines": {
+      "issue": "Signal type is metadata on line, not enforced by connection types",
+      "impact": "Electric signal could connect to pneumatic port without error",
+      "example": "signal_type: electric_analog in YAML but no type checking at connection"
+    },
+    "process_lines": {
+      "issue": "Lines reference coordinates, not source/target objects",
+      "impact": "Cannot trace network topology or validate continuity",
+      "example": "from_ref resolves to (x,y) coordinate tuple, losing object identity"
+    }
+  },
+  "migration_recommendations": {
+    "immediate_actions": [
+      "Create semantic metadata schema for CAD blocks",
+      "Inventory all 684 DXF files with their intended use cases",
+      "Identify which blocks need port-type annotations",
+      "Separate equipment nozzle definitions from symbol geometry"
+    ],
+    "phase_1_priority": [
+      "field_instrument - add ISA device class metadata",
+      "control_valve - distinguish actuator types",
+      "pump - define suction/discharge domains",
+      "vessel/column - make nozzles instance-specific"
+    ],
+    "blocks_requiring_special_attention": [
+      "Distilation Column.dxf - complex nozzle arrangement",
+      "Horizontal Vessel.dxf - multiple nozzle orientations",
+      "ExchangerDouble*.dxf - shell/tube side distinction needed",
+      "Shared Local Instrument Block.dxf - DCS vs field distinction"
+    ]
+  }
+}
