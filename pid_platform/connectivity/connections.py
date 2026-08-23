@@ -15,7 +15,13 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
-from pid_platform.pid_model.base import Port, PortConnection, PortRef, TerminationState
+from pid_platform.pid_model.base import (
+    InternalContinuity,
+    Port,
+    PortConnection,
+    PortRef,
+    TerminationState,
+)
 
 if TYPE_CHECKING:
     from pid_platform.pid_model.base import PIDObject
@@ -29,17 +35,19 @@ class ConnectionManager:
     The ConnectionManager:
     - Creates and tracks connections between ports
     - Validates port compatibility
-    - Traces paths through the network
+    - Traces paths through the network (external + internal continuity)
     - Detects unresolved ports
     - Builds the connectivity graph
     
     Attributes:
-        connections: All connections
-        port_connections: Map of PortRef → list of connections
+        connections: All external connections between objects
+        internal_continuities: All internal component continuities
+        port_connections: Map of PortRef → list of external connections
         objects: All registered objects
         _port_ref_cache: Cache mapping PortRef → Port for fast lookup
     """
     connections: list[PortConnection] = field(default_factory=list)
+    internal_continuities: list[InternalContinuity] = field(default_factory=list)
     port_connections: dict[PortRef, list[PortConnection]] = field(default_factory=lambda: defaultdict(list))
     objects: dict[str, 'PIDObject'] = field(default_factory=dict)
     _port_ref_cache: dict[PortRef, Port] = field(default_factory=dict)
@@ -69,6 +77,11 @@ class ConnectionManager:
         # Pre-cache all port references
         for port in obj.get_ports():
             self._get_port_ref(port)
+        
+        # Register internal continuities if the object defines them
+        if hasattr(obj, 'get_internal_continuities'):
+            for continuity in obj.get_internal_continuities():
+                self.internal_continuities.append(continuity)
     
     def connect(
         self,
@@ -92,6 +105,15 @@ class ConnectionManager:
         Raises:
             ValueError: If ports are incompatible
         """
+        # Auto-register parent objects if they have internal continuities
+        # This ensures junctions, valves, etc. are captured without explicit registration
+        for port in [source, target]:
+            if port.parent and hasattr(port.parent, 'get_internal_continuities'):
+                # Check if already registered by looking for existing continuities
+                owner_tags = [c.owner.tag for c in self.internal_continuities]
+                if port.parent.tag not in owner_tags:
+                    self.register(port.parent)
+        
         # Validate port compatibility
         if not self._are_ports_compatible(source, target):
             raise ValueError(
@@ -146,16 +168,21 @@ class ConnectionManager:
     
     def _are_ports_compatible(self, port1: Port, port2: Port) -> bool:
         """Check if two ports can be connected."""
-        from pid_platform.pid_model.base import PortDomain
-        
         # Same domain is always compatible
         if port1.domain == port2.domain:
             return True
         
-        # Special compatibility rules
+        # Special compatibility rules for instrument connections
+        # PROCESS can connect to MEASUREMENT (via impulse line or direct tap)
+        from pid_platform.pid_model.base import PortDomain
+        if {port1.domain, port2.domain} == {PortDomain.PROCESS, PortDomain.MEASUREMENT}:
+            return True
+        
+        # Signal compatibility rules
         compatible_pairs = {
             (PortDomain.SIGNAL_ANALOG, PortDomain.SIGNAL_ANALOG),
             (PortDomain.SIGNAL_DIGITAL, PortDomain.SIGNAL_DIGITAL),
+            (PortDomain.SIGNAL_COMMUNICATION, PortDomain.SIGNAL_COMMUNICATION),
             (PortDomain.MEASUREMENT, PortDomain.MEASUREMENT),
         }
         
@@ -198,6 +225,37 @@ class ConnectionManager:
             # Get all connected ports using PortRef lookup
             for conn in self.port_connections.get(current_ref, []):
                 next_port = conn.target if conn.source == current else conn.source
+                next_ref = self._get_port_ref(next_port)
+                
+                if next_ref in visited:
+                    continue
+                
+                if next_ref == end_ref:
+                    return path + [next_port]
+                
+                visited.add(next_ref)
+                queue.append((next_port, path + [next_port]))
+            
+            # ALSO traverse internal continuities within the same component
+            for continuity in self.internal_continuities:
+                if not continuity.is_active():
+                    continue
+                    
+                from_port, to_port = continuity.get_ports()
+                
+                # Check if current port is part of this continuity
+                current_from_ref = self._get_port_ref(from_port)
+                current_to_ref = self._get_port_ref(to_port)
+                
+                next_port = None
+                if current_ref == current_from_ref:
+                    next_port = to_port
+                elif current_ref == current_to_ref and continuity.bidirectional:
+                    next_port = from_port
+                
+                if next_port is None:
+                    continue
+                    
                 next_ref = self._get_port_ref(next_port)
                 
                 if next_ref in visited:

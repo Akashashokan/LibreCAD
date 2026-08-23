@@ -91,17 +91,19 @@ def test_connection_manager():
     assert v101.get_port("N1").termination_state == TerminationState.CONNECTED
     assert p101.get_port("suction").termination_state == TerminationState.CONNECTED
     
-    # Trace path - should work even without explicit internal valve continuity yet
+    # Trace path - MUST find complete path through external + internal connectivity
     path = cm.trace_path(v101.get_port("N1"), p101.get_port("suction"))
-    # Note: This will only find path if internal valve continuity is modeled
-    # For now we just verify the connections exist
-    assert path is not None or len(cm.connections) == 2  # Either path found or we have 2 external connections
+    assert path is not None, "Path tracing failed - should traverse through valve internal continuity"
+    assert len(path) == 4, f"Expected 4 ports in path, got {len(path)}"
+    
+    # Verify the exact path
+    assert path[0] == v101.get_port("N1"), "Path should start at V-101.N1"
+    assert path[1] == xv101.get_port("process_in"), "Then to XV-101.process_in"
+    assert path[2] == xv101.get_port("process_out"), "Through valve internal continuity to process_out"
+    assert path[3] == p101.get_port("suction"), "Finally to P-101.suction"
     
     print("✓ Connection manager tests passed")
-    if path:
-        print(f"  Path: {' → '.join(str(p) for p in path)}")
-    else:
-        print("  Note: Path tracing requires internal component continuity (next milestone)")
+    print(f"  Path: {' → '.join(str(p) for p in path)}")
 
 
 def test_unresolved_ports_detected():

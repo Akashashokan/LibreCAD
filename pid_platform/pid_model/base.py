@@ -188,11 +188,28 @@ class Port:
         return PortRef(owner_uuid=self.parent.uuid, port_id=self.id)
     
     def connect(self, target: Port, connection: PortConnection | None = None) -> None:
-        """Connect this port to another port."""
+        """Connect this port to another port.
+        
+        SPECIAL CASE: Ports with intentional termination states (OFF_PAGE,
+        OPEN_TO_ATMOSPHERE, CAPPED, etc.) preserve their termination state
+        even when connected. Only UNRESOLVED ports become CONNECTED.
+        """
         if connection is None:
             connection = PortConnection(source=self, target=target)
         self.connections.append(connection)
-        self.termination_state = TerminationState.CONNECTED
+        
+        # Preserve intentional termination states
+        intentional_states = {
+            TerminationState.OFF_PAGE,
+            TerminationState.OPEN_TO_ATMOSPHERE,
+            TerminationState.CAPPED,
+            TerminationState.PLUGGED,
+            TerminationState.RESERVED,
+            TerminationState.NOT_APPLICABLE,
+        }
+        
+        if self.termination_state not in intentional_states:
+            self.termination_state = TerminationState.CONNECTED
     
     def disconnect_all(self) -> None:
         """Remove all connections from this port."""
@@ -241,9 +258,74 @@ class PortConnection:
     metadata: dict[str, Any] = field(default_factory=dict)
     
     def __post_init__(self):
-        # Update termination states
-        self.source.termination_state = TerminationState.CONNECTED
-        self.target.termination_state = TerminationState.CONNECTED
+        # Update termination states, but preserve intentional termination states
+        # (OFF_PAGE, OPEN_TO_ATMOSPHERE, CAPPED, etc.)
+        intentional_states = {
+            TerminationState.OFF_PAGE,
+            TerminationState.OPEN_TO_ATMOSPHERE,
+            TerminationState.CAPPED,
+            TerminationState.PLUGGED,
+            TerminationState.RESERVED,
+            TerminationState.NOT_APPLICABLE,
+        }
+        
+        if self.source.termination_state not in intentional_states:
+            self.source.termination_state = TerminationState.CONNECTED
+        
+        if self.target.termination_state not in intentional_states:
+            self.target.termination_state = TerminationState.CONNECTED
     
     def __repr__(self) -> str:
         return f"PortConnection({self.source} ↔ {self.target}, type={self.connection_type})"
+
+
+@dataclass
+class InternalContinuity:
+    """
+    Represents internal process/signal continuity within a component.
+    
+    Unlike external PortConnection which connects two separate objects,
+    InternalContinuity represents the flow path INSIDE a component.
+    
+    Examples:
+    - Valve: process_in ↔ process_out (when open)
+    - Pump: suction ↔ discharge (when running)
+    - Heat Exchanger: tube_in ↔ tube_out, shell_in ↔ shell_out
+    - Check Valve: inlet ↔ outlet (forward only)
+    
+    This enables trace_path() to traverse through components correctly.
+    
+    Attributes:
+        owner: The component that has this internal continuity
+        from_port_id: ID of the source port within the owner
+        to_port_id: ID of the target port within the owner
+        continuity_type: Type of continuity (process, signal, mechanical)
+        condition: Optional condition for continuity (e.g., "valve_open", "pump_running")
+                   If None, continuity is always active
+        bidirectional: Whether flow can go both ways (default True for most cases)
+    """
+    owner: PIDObject
+    from_port_id: str
+    to_port_id: str
+    continuity_type: str = "process"
+    condition: str | None = None
+    bidirectional: bool = True
+    
+    def get_ports(self) -> tuple[Port, Port]:
+        """Get the two ports involved in this continuity."""
+        from_port = self.owner.get_port(self.from_port_id)
+        to_port = self.owner.get_port(self.to_port_id)
+        if from_port is None or to_port is None:
+            raise ValueError(f"Invalid port IDs in internal continuity: {self.from_port_id} or {self.to_port_id}")
+        return from_port, to_port
+    
+    def is_active(self) -> bool:
+        """Check if this continuity is currently active."""
+        # For now, all continuities without conditions are active
+        # Future: could check valve position, pump status, etc.
+        return self.condition is None
+    
+    def __repr__(self) -> str:
+        direction = "↔" if self.bidirectional else "→"
+        cond = f" [{self.condition}]" if self.condition else ""
+        return f"InternalContinuity({self.owner.tag}.{self.from_port_id} {direction} {self.owner.tag}.{self.to_port_id}{cond})"
