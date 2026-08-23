@@ -112,6 +112,9 @@ class Equipment(PIDObject):
         """Get a port by ID (searches nozzles first, then fixed ports)."""
         if port_id in self.nozzles:
             return self.nozzles[port_id]
+        # Call get_ports() to ensure fixed_ports is populated for subclasses
+        # that populate fixed_ports in their get_ports() implementation
+        self.get_ports()
         return self.fixed_ports.get(port_id)
 
 

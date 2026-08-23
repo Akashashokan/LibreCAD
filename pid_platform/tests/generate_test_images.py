@@ -16,7 +16,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from pid_platform.pid_model.equipment import Vessel, Pump, ManualValve
-from pid_platform.pid_model.instruments import Transmitter, Controller, SignalType
+from pid_platform.pid_model.instruments import Transmitter, Controller, ControlValve, SignalType
 from pid_platform.pid_model.base import PortRef
 from pid_platform.connectivity.connections import ConnectionManager
 from pid_platform.cad.adapter import SemanticCADAdapter
@@ -101,14 +101,14 @@ def generate_control_loop():
     print("=" * 60)
     
     # === SEMANTIC MODEL ===
-    transmitter = Transmitter(tag="PT-101", measured_variable="pressure")
+    transmitter = Transmitter(tag="PT-101")
     controller = Controller(tag="PIC-101")
-    valve = ManualValve(tag="PV-101")  # Using manual valve as placeholder
+    valve = ControlValve(tag="PV-101")
     
     # Connect signal chain
     cm = ConnectionManager()
     cm.connect(transmitter.get_port("signal_out"), controller.get_port("pv_in"))
-    cm.connect(controller.get_port("control_out"), valve.get_port("actuator_signal"))
+    cm.connect(controller.get_port("control_out"), valve.get_port("actuator_signal_in"))
     
     print(f"✓ Created semantic model: PT-101 → PIC-101 → PV-101")
     
@@ -128,7 +128,7 @@ def generate_control_loop():
     tx_signal_ref = PortRef("PT-101", "signal_out")
     ctrl_pv_ref = PortRef("PIC-101", "pv_in")
     ctrl_out_ref = PortRef("PIC-101", "control_out")
-    valve_act_ref = PortRef("PV-101", "actuator_signal")
+    valve_act_ref = PortRef("PV-101", "actuator_signal_in")
     
     route1 = signal_router.route(tx_signal_ref, ctrl_pv_ref, SignalType.ELECTRICAL_ANALOG)
     route2 = signal_router.route(ctrl_out_ref, valve_act_ref, SignalType.PNEUMATIC)

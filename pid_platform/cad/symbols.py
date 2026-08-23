@@ -84,7 +84,7 @@ CONTROL_VALVE_SYMBOL = SymbolDefinition(
     anchors=[
         PortAnchor(PortRef("TEMPLATE", "process_in"), -10.0, 0.0, PortDomain.PROCESS),
         PortAnchor(PortRef("TEMPLATE", "process_out"), 10.0, 0.0, PortDomain.PROCESS),
-        PortAnchor(PortRef("TEMPLATE", "actuator_signal"), 0.0, 12.0, PortDomain.SIGNAL_ANALOG),
+        PortAnchor(PortRef("TEMPLATE", "actuator_signal_in"), 0.0, 12.0, PortDomain.SIGNAL_ANALOG),
     ]
 )
 
