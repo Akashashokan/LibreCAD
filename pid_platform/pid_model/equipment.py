@@ -169,6 +169,30 @@ class Pump(Equipment):
             local_anchor=(0.0, 18.0),
             direction_hint="north",
         )
+    
+    def get_internal_continuities(self) -> list['InternalContinuity']:
+        """
+        Return internal process continuities for this pump.
+        
+        A pump has process continuity from suction to discharge
+        when the pump is running. For normal modeling, we assume
+        the pump is in operation.
+        
+        Future enhancement: Add condition="pump_running" to model
+        pump start/stop states.
+        """
+        from .base import InternalContinuity
+        
+        return [
+            InternalContinuity(
+                owner=self,
+                from_port_id="suction",
+                to_port_id="discharge",
+                continuity_type="process",
+                condition=None,  # Could be "pump_running" for dynamic modeling
+                bidirectional=False,  # Pumps typically only flow one way
+            )
+        ]
 
 
 @dataclass
@@ -233,6 +257,37 @@ class HeatExchanger(Equipment):
             parent=self,
             local_anchor=(46.0, -8.0),
         )
+    
+    def get_internal_continuities(self) -> list['InternalContinuity']:
+        """
+        Return internal process continuities for this heat exchanger.
+        
+        A shell-and-tube heat exchanger has TWO separate flow paths:
+        - Tube side: tube_in ↔ tube_out
+        - Shell side: shell_in ↔ shell_out
+        
+        These paths must NEVER cross (no tube-to-shell leakage in ideal model).
+        """
+        from .base import InternalContinuity
+        
+        return [
+            InternalContinuity(
+                owner=self,
+                from_port_id="tube_in",
+                to_port_id="tube_out",
+                continuity_type="process",
+                condition=None,
+                bidirectional=True,
+            ),
+            InternalContinuity(
+                owner=self,
+                from_port_id="shell_in",
+                to_port_id="shell_out",
+                continuity_type="process",
+                condition=None,
+                bidirectional=True,
+            ),
+        ]
 
 
 @dataclass
@@ -265,3 +320,23 @@ class ManualValve(Equipment):
             local_anchor=(12.0, 0.0),
             direction_hint="east",
         )
+    
+    def get_internal_continuities(self) -> list['InternalContinuity']:
+        """
+        Return internal process continuities for this valve.
+        
+        A manual valve has process continuity between inlet and outlet
+        when the valve is in normal (open) state.
+        """
+        from .base import InternalContinuity
+        
+        return [
+            InternalContinuity(
+                owner=self,
+                from_port_id="process_in",
+                to_port_id="process_out",
+                continuity_type="process",
+                condition=None,  # No condition = always active (normally open)
+                bidirectional=True,  # Flow can go both ways
+            )
+        ]
