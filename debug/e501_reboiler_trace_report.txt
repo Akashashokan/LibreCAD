@@ -1,0 +1,198 @@
+E-501 REBOILER SUBSYSTEM TRACE REPORT
+===========================================
+
+QA summary
+PASS count: 21
+WARN count: 0
+FAIL count: 0
+
+1. Equipment registry
+Object: C-501
+  Block used: local_shell_fragment
+  BBox: 85.0, 120.0, 165.0, 310.0
+  Forbidden zone bbox: 81.0, 116.0, 169.0, 314.0
+  Orientation: vertical
+  Visible layer: EQUIPMENT
+Object: E-501
+  Block used: YAML_PID_REBOILER
+  BBox: 271.3, 159.0, 348.7, 201.0
+  Forbidden zone bbox: 267.3, 155.0, 352.7, 205.0
+  Orientation: horizontal
+  Visible layer: EQUIPMENT
+Object: TV-501
+  Block used: YAML_PID_CONTROL_VALVE
+  BBox: 491.0, 198.3, 519.0, 210.3
+  Forbidden zone bbox: none
+  Orientation: horizontal
+  Visible layer: VALVES
+Object: TIC-501
+  Block used: YAML_PID_DCS_CONTROLLER
+  BBox: 496.0, 266.0, 514.0, 284.0
+  Forbidden zone bbox: none
+  Orientation: none
+  Visible layer: INSTRUMENT
+
+2. Port registry
+Port: C501_REBOILER_DRAW
+  actual_ref: C501_REBOILER_DRAW
+  owner: C-501
+  coordinate: 195.0, 165.0
+  side: right
+  service: process
+  role: draw
+  visible_nozzle_symbol_drawn: True
+Port: C501_REBOILER_RETURN
+  actual_ref: C501_REBOILER_RETURN
+  owner: C-501
+  coordinate: 195.0, 200.0
+  side: right
+  service: process
+  role: return
+  visible_nozzle_symbol_drawn: True
+Port: E501_PROCESS_IN
+  actual_ref: E501_PROCESS_IN
+  owner: E-501
+  coordinate: 230.0, 165.0
+  side: left
+  service: process
+  role: inlet
+  visible_nozzle_symbol_drawn: True
+Port: E501_PROCESS_OUT
+  actual_ref: E501_PROCESS_OUT
+  owner: E-501
+  coordinate: 230.0, 200.0
+  side: left
+  service: process
+  role: outlet
+  visible_nozzle_symbol_drawn: True
+Port: E501_HM_IN
+  actual_ref: E501_HM_IN
+  owner: E-501
+  coordinate: 385.0, 200.0
+  side: right
+  service: heating_medium
+  role: inlet
+  visible_nozzle_symbol_drawn: True
+Port: E501_HM_OUT
+  actual_ref: E501_HM_OUT
+  owner: E-501
+  coordinate: 385.0, 160.0
+  side: right
+  service: heating_medium
+  role: outlet
+  visible_nozzle_symbol_drawn: True
+Port: TV501_IN
+  actual_ref: TV-501.process_in
+  owner: TV-501
+  coordinate: 490.0, 200.0
+  side: left
+  service: heating_medium
+  role: inlet
+  visible_nozzle_symbol_drawn: False
+Port: TV501_OUT
+  actual_ref: TV-501.process_out
+  owner: TV-501
+  coordinate: 520.0, 200.0
+  side: right
+  service: heating_medium
+  role: outlet
+  visible_nozzle_symbol_drawn: False
+Port: TV501_ACTUATOR_SIGNAL
+  actual_ref: TV-501.actuator_signal
+  owner: TV-501
+  coordinate: 505.0, 215.0
+  side: top
+  service: signal
+  role: actuator_signal
+  visible_nozzle_symbol_drawn: False
+Port: TIC501_OUTPUT
+  actual_ref: TIC-501.output_signal
+  owner: TIC-501
+  coordinate: 515.0, 275.0
+  side: right
+  service: signal
+  role: output
+  visible_nozzle_symbol_drawn: False
+
+3. Route resolution table
+Route: C501_DRAW_TO_E501_IN
+  Declared source: C501_REBOILER_DRAW
+  Resolved source port: 195.0, 165.0 owner=C-501
+  Declared target: E501_PROCESS_IN
+  Resolved target port: 230.0, 165.0 owner=E-501
+  Polyline points: [(195.0, 165.0), (230.0, 165.0)]
+  Crosses equipment: no
+  Layer: PROCESS
+  Linetype: continuous
+  Line weight: 35
+  Production-visible: yes
+  Uses raw coordinate instead of registered endpoint: no
+  Visible label: REBOILER LIQUID DRAW
+Route: E501_OUT_TO_C501_RETURN
+  Declared source: E501_PROCESS_OUT
+  Resolved source port: 230.0, 200.0 owner=E-501
+  Declared target: C501_REBOILER_RETURN
+  Resolved target port: 195.0, 200.0 owner=C-501
+  Polyline points: [(230.0, 200.0), (195.0, 200.0)]
+  Crosses equipment: no
+  Layer: PROCESS
+  Linetype: continuous
+  Line weight: 35
+  Production-visible: yes
+  Uses raw coordinate instead of registered endpoint: no
+  Visible label: REBOILER VAPOR RETURN
+Route: HM_SUPPLY_TO_E501_IN
+  Declared source: OPC_HM_SUPPLY_LOCAL.continuation
+  Resolved source port: 585.0, 200.0 owner=OFFPAGE
+  Declared target: E501_HM_IN
+  Resolved target port: 385.0, 200.0 owner=E-501
+  Polyline points: [(585.0, 200.0), (385.0, 200.0)]
+  Crosses equipment: no
+  Layer: UTILITY
+  Linetype: continuous
+  Line weight: 25
+  Production-visible: yes
+  Uses raw coordinate instead of registered endpoint: no
+  Visible label: HEATING MEDIUM SUPPLY
+Route: E501_HM_OUT_TO_RETURN
+  Declared source: E501_HM_OUT
+  Resolved source port: 385.0, 160.0 owner=E-501
+  Declared target: OPC_HM_RETURN_LOCAL.continuation
+  Resolved target port: 585.0, 160.0 owner=OFFPAGE
+  Polyline points: [(385.0, 160.0), (585.0, 160.0)]
+  Crosses equipment: no
+  Layer: UTILITY
+  Linetype: continuous
+  Line weight: 25
+  Production-visible: yes
+  Uses raw coordinate instead of registered endpoint: no
+  Visible label: HEATING MEDIUM RETURN
+Route: TIC501_TO_TV501
+  Declared source: TIC-501.output_signal
+  Resolved source port: 515.0, 275.0 owner=TIC-501
+  Declared target: TV-501.actuator_signal
+  Resolved target port: 505.0, 215.0 owner=TV-501
+  Polyline points: [(515.0, 275.0), (535.0, 275.0), (535.0, 215.0), (505.0, 215.0)]
+  Crosses equipment: no
+  Layer: SIGNAL_PNEUMATIC
+  Linetype: dashed_signal
+  Line weight: 18
+  Production-visible: yes
+  Uses raw coordinate instead of registered endpoint: no
+  Visible label: TIC-501 OUTPUT TO TV-501
+
+4. Engineering semantic checks
+PASS: E501_PROCESS_IN is left lower side
+PASS: E501_PROCESS_OUT is left upper side
+PASS: E501_HM_IN is right upper side
+PASS: E501_HM_OUT is right lower side
+PASS: C501_REBOILER_RETURN is above C501_REBOILER_DRAW
+PASS: TV-501 is between HM supply off-page and E501_HM_IN
+PASS: TIC-501 signal terminates at TV501_ACTUATOR_SIGNAL
+PASS: Production text contains no internal debug names
+
+5. Visual QA checks
+PASS: no process/utility/signal route crosses E-501 body
+PASS: no route crosses C-501 body except registered nozzle ports
+PASS: no label overlaps valve/nozzle/instrument/equipment/line centerline
+PASS: off-page connectors have service labels and drawing references
