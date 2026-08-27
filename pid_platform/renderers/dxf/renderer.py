@@ -1,9 +1,12 @@
 """
 DXF Renderer - Generates DXF files from semantic P&ID model
 
+CRITICAL RULE: This renderer MUST use approved block inserts only.
+No primitive geometry drawing is allowed for symbols.
+
 Uses ezdxf library to create:
-- Block inserts for equipment/instruments
-- Polylines for process pipes
+- Block inserts for equipment/instruments (from approved library)
+- Polylines for process pipes (routing only, not symbols)
 - Styled lines for instrument signals
 - Metadata for CAD ↔ Semantic verification
 """
@@ -15,6 +18,7 @@ from pid_platform.pid_model.instruments import SignalType
 from pid_platform.pid_model.base import PortRef
 from pid_platform.cad.adapter import SemanticCADAdapter, RenderedComponent, Point2D
 from pid_platform.cad.routing import RouteResult, ProcessRouter, SignalRouter
+from pid_platform.standards.pid_symbol_registry import SymbolResolver, resolve_symbol
 
 
 # ISA-5.1 line styles for signal types
@@ -34,22 +38,34 @@ JUNCTION_LAYER = 'JUNCTIONS'
 
 
 class DXFRenderer:
-    """Renders semantic P&ID model to DXF"""
+    """
+    Renders semantic P&ID model to DXF using approved block inserts.
     
-    def __init__(self, cad_adapter: SemanticCADAdapter):
+    CRITICAL: This renderer MUST insert approved blocks from the symbol registry.
+    It must NOT draw primitive geometry (circles, lines, polylines) as substitutes
+    for P&ID symbols. The only geometry drawn directly should be:
+    - Process pipe routing (polylines connecting components)
+    - Signal lines (styled lines connecting instruments)
+    """
+    
+    def __init__(self, cad_adapter: SemanticCADAdapter, symbol_resolver: Optional[SymbolResolver] = None):
         self.adapter = cad_adapter
+        self.symbol_resolver = symbol_resolver if symbol_resolver is not None else SymbolResolver()
         self.doc = None
         self.msp = None
         self.routes: List[RouteResult] = []
         
     def create_document(self, title: str = "P&ID"):
-        """Create new DXF document with standard layers"""
+        """Create new DXF document with standard layers and blocks"""
         self.doc = ezdxf.new('R2010')
         self.doc.units = units.MM
         self.doc.header['$INSUNITS'] = 4  # Millimeters
         
         # Create layers
         self._create_layers()
+        
+        # Load/create blocks from approved library
+        self._load_approved_blocks()
         
         self.msp = self.doc.modelspace()
         return self.doc
@@ -82,124 +98,67 @@ class DXFRenderer:
                 except:
                     pass
     
-    def render_component(self, rendered: RenderedComponent):
-        """Render a single component as block insert"""
-        # For now, use simple shapes instead of blocks
-        # In production, this would insert actual blocks
+    def _load_approved_blocks(self):
+        """
+        Load all approved symbol blocks into the DXF document.
         
+        In production, this would load actual DXF blocks from the approved library files.
+        For now, we create minimal block definitions that reference the approved sources.
+        """
+        # Get all approved symbols
+        all_symbols = self.symbol_resolver.get_all_approved_symbols()
+        
+        for symbol_id, entry in all_symbols.items():
+            block_name = entry.block_name
+            if block_name not in self.doc.blocks:
+                # Create a block placeholder - in production this loads from entry.block_source
+                # The block source file path is stored for verification/loading
+                try:
+                    block = self.doc.blocks.add(block_name)
+                    # Store metadata about the block source for verification
+                    block.set_dxf_attrib('comment', f"APPROVED_BLOCK:{entry.block_source}")
+                except ValueError:
+                    # Block already exists
+                    pass
+    
+    def render_component(self, rendered: RenderedComponent):
+        """
+        Render a single component as an approved block insert.
+        
+        CRITICAL: This method MUST insert an approved block from the registry.
+        It must NOT draw primitive geometry as a substitute symbol.
+        """
         insert_point = (rendered.insertion_point.x, rendered.insertion_point.y)
         
-        # Draw placeholder based on type
-        if 'VESSEL' in rendered.block_name:
-            self._draw_vessel(insert_point, rendered.scale)
-        elif 'PUMP' in rendered.block_name:
-            self._draw_pump(insert_point, rendered.scale)
-        elif 'VALVE' in rendered.block_name:
-            self._draw_valve(insert_point, rendered.scale, 'CONTROL' in rendered.block_name)
-        elif 'INSTRUMENT' in rendered.block_name or 'TRANSMITTER' in rendered.block_name or 'CONTROLLER' in rendered.block_name:
-            self._draw_instrument(insert_point, rendered.scale)
-        elif 'JUNCTION' in rendered.block_name:
-            self._draw_junction(insert_point, rendered.block_name)
-        elif 'OFF_PAGE' in rendered.block_name:
-            self._draw_off_page_connector(insert_point, rendered.scale)
-        elif 'TERMINATION' in rendered.block_name:
-            self._draw_termination(insert_point, rendered.scale)
-        
-        # Optionally add port markers
-        # self._draw_port_markers(rendered)
-    
-    def _draw_vessel(self, insert, scale):
-        """Draw vessel symbol"""
-        w = 20 * scale
-        h = 30 * scale
-        x, y = insert
-        
-        # Simple rectangle with dished ends
-        self.msp.add_lwpolyline([
-            (x - w/2, y - h/2),
-            (x + w/2, y - h/2),
-            (x + w/2, y + h/2),
-            (x - w/2, y + h/2),
-            (x - w/2, y - h/2),
-        ], dxfattribs={'layer': EQUIPMENT_LAYER})
-    
-    def _draw_pump(self, insert, scale):
-        """Draw pump symbol"""
-        r = 15 * scale
-        x, y = insert
-        
-        # Circle with discharge arrow
-        self.msp.add_circle((x, y), r, dxfattribs={'layer': EQUIPMENT_LAYER})
-        # Discharge triangle
-        self.msp.add_lwpolyline([
-            (x + r*0.5, y - r*0.5),
-            (x + r*1.2, y),
-            (x + r*0.5, y + r*0.5),
-        ], dxfattribs={'layer': EQUIPMENT_LAYER})
-    
-    def _draw_valve(self, insert, scale, is_control=False):
-        """Draw valve symbol"""
-        s = 10 * scale
-        x, y = insert
-        
-        # Bowtie shape
-        self.msp.add_lwpolyline([
-            (x - s, y - s),
-            (x + s, y + s),
-            (x + s, y - s),
-            (x - s, y + s),
-            (x - s, y - s),
-        ], dxfattribs={'layer': EQUIPMENT_LAYER})
-        
-        if is_control:
-            # Add actuator circle
-            self.msp.add_circle((x, y + s*1.5), s*0.6, dxfattribs={'layer': INSTRUMENT_LAYER})
-    
-    def _draw_instrument(self, insert, scale):
-        """Draw instrument bubble"""
-        r = 6 * scale
-        x, y = insert
-        
-        self.msp.add_circle((x, y), r, dxfattribs={'layer': INSTRUMENT_LAYER})
-    
-    def _draw_junction(self, insert, junction_type):
-        """Draw junction symbol"""
-        x, y = insert
-        
-        # Small filled circle for tee/cross
-        self.msp.add_circle((x, y), 2, dxfattribs={'layer': JUNCTION_LAYER, 'fill': True})
-    
-    def _draw_off_page_connector(self, insert, scale):
-        """Draw off-page connector"""
-        x, y = insert
-        s = 8 * scale
-        
-        # Pentagon shape
-        self.msp.add_lwpolyline([
-            (x, y + s),
-            (x + s, y + s*0.5),
-            (x + s, y - s*0.5),
-            (x, y - s),
-            (x - s, y - s*0.5),
-            (x - s, y + s*0.5),
-            (x, y + s),
-        ], dxfattribs={'layer': EQUIPMENT_LAYER})
-    
-    def _draw_termination(self, insert, scale):
-        """Draw termination point"""
-        x, y = insert
-        
-        # Simple circle
-        self.msp.add_circle((x, y), 5, dxfattribs={'layer': EQUIPMENT_LAYER})
-    
-    def _draw_port_markers(self, rendered: RenderedComponent):
-        """Draw small markers at port anchors (for debugging)"""
-        for port_ref, anchor in rendered.port_anchors.items():
-            self.msp.add_circle(
-                (anchor.x, anchor.y), 
-                1.5,
-                dxfattribs={'layer': JUNCTION_LAYER}
+        # Verify this component has an approved symbol
+        if not rendered.approved_symbol_id:
+            raise RuntimeError(
+                f"Component {rendered.semantic_id} has no approved_symbol_id. "
+                "All components must resolve to an approved symbol before rendering."
             )
+        
+        # Resolve to get block name
+        try:
+            entry = self.symbol_resolver.resolve(rendered.approved_symbol_id)
+            block_name = entry.block_name
+        except Exception as e:
+            raise RuntimeError(
+                f"Cannot render component {rendered.semantic_id}: "
+                f"approved symbol '{rendered.approved_symbol_id}' not found in registry. "
+                f"Error: {e}"
+            )
+        
+        # Insert the approved block
+        self.msp.add_blockref(
+            block_name,
+            insert_point,
+            dxfattribs={
+                'rotation': rendered.rotation_deg,
+                'xscale': rendered.scale,
+                'yscale': rendered.scale,
+                'layer': INSTRUMENT_LAYER if 'INSTRUMENT' in block_name or 'TRANSMITTER' in block_name or 'CONTROLLER' in block_name else EQUIPMENT_LAYER,
+            }
+        )
     
     def render_process_route(self, route: RouteResult):
         """Render process pipe route"""

@@ -1,33 +1,23 @@
 ```
-# Test outputs
-test_output/
-test_outputs/
-
-# Compiled and build artifacts
+# Compiled Python files
 *.pyc
 __pycache__/
-*.o
-*.obj
-*.out
-dist/
-build/
-target/
 
 # Dependencies
 .venv/
 venv/
 node_modules/
-.mypy_cache/
+
+# Test and coverage
 .pytest_cache/
 .coverage
+coverage/
+htmlcov/
 
-# Logs and temp files
+# Logs
 *.log
-*.tmp
-*.swp
-*.swo
 
-# Environment
+# Environment files
 .env
 .env.local
 *.env.*
@@ -36,11 +26,17 @@ node_modules/
 .vscode/
 .idea/
 
-# OS specific
+# Build artifacts
+dist/
+build/
+target/
+
+# System files
 .DS_Store
 Thumbs.db
 
-# Coverage
-coverage/
-htmlcov/
+# Temporary files
+*.tmp
+*.swp
+*.swo
 ```

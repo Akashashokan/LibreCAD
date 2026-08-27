@@ -2,9 +2,14 @@
 Semantic CAD Adapter
 
 Maps semantic P&ID model to CAD representation:
-- Semantic component → CAD block
+- Semantic component → CAD block (via approved symbol registry)
 - Semantic PortRef → block-local anchor → global CAD coordinate
 - Creates RenderedComponent registry with exact port anchors
+
+CRITICAL RULE:
+- Every component MUST resolve to an approved symbol from the registry
+- NO fallback to primitive geometry
+- Resolution failure raises SymbolResolutionError with code UNRESOLVED_APPROVED_PID_SYMBOL
 """
 
 import math
@@ -13,6 +18,11 @@ from typing import Dict, List, Optional, Tuple
 from pid_platform.pid_model.base import PortRef, PortDomain, PIDObject
 from pid_platform.connectivity.connections import ConnectionManager
 from pid_platform.cad.symbols import SymbolDefinition, get_symbol, PortAnchor
+from pid_platform.standards.pid_symbol_registry import (
+    SymbolResolver, 
+    SymbolResolutionError,
+    resolve_symbol as resolve_approved_symbol
+)
 
 
 @dataclass(frozen=True)
@@ -43,6 +53,7 @@ class RenderedComponent:
     scale: float = 1.0
     bounding_box: Optional[Tuple[Point2D, Point2D]] = None
     port_anchors: Dict[PortRef, Point2D] = field(default_factory=dict)
+    approved_symbol_id: Optional[str] = None  # Track which approved symbol was used
     
     def get_anchor(self, port_ref: PortRef) -> Point2D:
         """Get global CAD anchor for a semantic port"""
@@ -56,13 +67,17 @@ class SemanticCADAdapter:
     Adapts semantic P&ID model to CAD representation
     
     Responsible for:
-    - Mapping semantic components to CAD blocks
+    - Mapping semantic components to CAD blocks via approved symbol registry
     - Computing global port anchors from local anchors + placement
     - Maintaining rendered component registry
+    
+    CRITICAL: Uses SymbolResolver to ensure every component resolves to an approved block.
+    No primitive geometry fallback is allowed.
     """
     
-    def __init__(self):
+    def __init__(self, symbol_resolver: Optional[SymbolResolver] = None):
         self.rendered_components: Dict[str, RenderedComponent] = {}
+        self.symbol_resolver = symbol_resolver if symbol_resolver is not None else SymbolResolver()
     
     def place_component(
         self,
@@ -84,12 +99,24 @@ class SemanticCADAdapter:
             
         Returns:
             RenderedComponent with computed port anchors
+            
+        Raises:
+            SymbolResolutionError with code UNRESOLVED_APPROVED_PID_SYMBOL 
+            if no approved block can be resolved
         """
         # Determine symbol ID from object type if not specified
         if symbol_id is None:
             symbol_id = self._infer_symbol_id(semantic_object)
         
-        # Get symbol definition
+        # RESOLVE TO APPROVED SYMBOL - THIS WILL FAIL EXPLICITLY IF NO BLOCK FOUND
+        # No fallback to primitive geometry is permitted
+        try:
+            approved_entry = self.symbol_resolver.resolve(symbol_id)
+        except SymbolResolutionError:
+            # Re-raise to ensure explicit failure
+            raise
+        
+        # Get symbol definition (legacy wrapper for backwards compatibility)
         symbol_def = get_symbol(symbol_id)
         
         # Create insertion point
@@ -104,14 +131,15 @@ class SemanticCADAdapter:
             scale=scale
         )
         
-        # Create rendered component
+        # Create rendered component with approved symbol tracking
         rendered = RenderedComponent(
             semantic_id=semantic_object.tag if hasattr(semantic_object, 'tag') else str(id(semantic_object)),
             block_name=symbol_def.block_name,
             insertion_point=insert,
             rotation_deg=rotation_deg,
             scale=scale,
-            port_anchors=port_anchors
+            port_anchors=port_anchors,
+            approved_symbol_id=approved_entry.symbol_id  # Track the approved symbol
         )
         
         # Register
@@ -120,7 +148,12 @@ class SemanticCADAdapter:
         return rendered
     
     def _infer_symbol_id(self, obj: PIDObject) -> str:
-        """Infer symbol ID from semantic object type"""
+        """
+        Infer symbol ID from semantic object type.
+        
+        CRITICAL: If no mapping exists, this will cause resolve() to fail
+        with UNRESOLVED_APPROVED_PID_SYMBOL. No silent fallback allowed.
+        """
         class_name = obj.__class__.__name__.lower()
         
         # Map class names to symbol IDs
@@ -138,7 +171,14 @@ class SemanticCADAdapter:
             'terminationpoint': 'termination_point',
         }
         
-        return mapping.get(class_name, 'field_instrument')
+        symbol_id = mapping.get(class_name)
+        
+        if symbol_id is None:
+            # Don't silently fall back - let the resolver fail explicitly
+            # This will raise SymbolResolutionError with UNRESOLVED_APPROVED_PID_SYMBOL
+            return class_name  # Return the unmapped class name, resolver will fail
+        
+        return symbol_id
     
     def _compute_port_anchors(
         self,
