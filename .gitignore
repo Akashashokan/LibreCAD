@@ -1,5 +1,5 @@
 ```
-# Compiled Python files
+# Compiled and build artifacts
 *.pyc
 __pycache__/
 
@@ -7,17 +7,16 @@ __pycache__/
 .venv/
 venv/
 node_modules/
+dist/
+build/
+target/
 
-# Test and coverage
-.pytest_cache/
-.coverage
-coverage/
-htmlcov/
-
-# Logs
+# Logs and temp files
 *.log
+*.tmp
+*.swp
 
-# Environment files
+# Environment
 .env
 .env.local
 *.env.*
@@ -26,17 +25,24 @@ htmlcov/
 .vscode/
 .idea/
 
-# Build artifacts
-dist/
-build/
-target/
+# Coverage
+.coverage
+coverage/
+htmlcov/
 
-# System files
-.DS_Store
-Thumbs.db
+# Python specific
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage.*
+.pytest_cache/
+.mypy_cache/
 
-# Temporary files
-*.tmp
-*.swp
-*.swo
+# Build directories
+*.egg-info/
+.eggs/
 ```
