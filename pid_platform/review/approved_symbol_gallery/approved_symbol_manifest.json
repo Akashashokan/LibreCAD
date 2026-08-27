@@ -11,7 +11,7 @@
       "symbol_id": "board_mounted_instrument",
       "category": "instrument_bubble",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/6_primary-accessible-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "001_board_mounted_instrument.png",
       "aliases": [
@@ -28,19 +28,19 @@
         180,
         270
       ],
-      "block_name": "ISA_PANEL_INSTRUMENT"
+      "block_name": "PIP_PANEL_INSTRUMENT"
     },
     {
       "gallery_index": 2,
       "symbol_id": "field_instrument",
       "category": "instrument_bubble",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "002_field_instrument.png",
       "aliases": [
-        "field_mounted_instrument",
-        "local_instrument"
+        "local_instrument",
+        "field_mounted_instrument"
       ],
       "notes": "",
       "status": "OK",
@@ -52,19 +52,19 @@
         180,
         270
       ],
-      "block_name": "ISA_FIELD_INSTRUMENT"
+      "block_name": "PIP_FIELD_INSTRUMENT"
     },
     {
       "gallery_index": 3,
       "symbol_id": "field_mounted_instrument",
       "category": "instrument_bubble",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "003_field_mounted_instrument.png",
       "aliases": [
-        "field_mounted_instrument",
-        "local_instrument"
+        "local_instrument",
+        "field_mounted_instrument"
       ],
       "notes": "",
       "status": "OK",
@@ -76,19 +76,19 @@
         180,
         270
       ],
-      "block_name": "ISA_FIELD_INSTRUMENT"
+      "block_name": "PIP_FIELD_INSTRUMENT"
     },
     {
       "gallery_index": 4,
       "symbol_id": "local_instrument",
       "category": "instrument_bubble",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "004_local_instrument.png",
       "aliases": [
-        "field_mounted_instrument",
-        "local_instrument"
+        "local_instrument",
+        "field_mounted_instrument"
       ],
       "notes": "",
       "status": "OK",
@@ -100,14 +100,14 @@
         180,
         270
       ],
-      "block_name": "ISA_FIELD_INSTRUMENT"
+      "block_name": "PIP_FIELD_INSTRUMENT"
     },
     {
       "gallery_index": 5,
       "symbol_id": "panel_instrument",
       "category": "instrument_bubble",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/6_primary-accessible-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "005_panel_instrument.png",
       "aliases": [
@@ -124,14 +124,14 @@
         180,
         270
       ],
-      "block_name": "ISA_PANEL_INSTRUMENT"
+      "block_name": "PIP_PANEL_INSTRUMENT"
     },
     {
       "gallery_index": 6,
       "symbol_id": "primary_accessible_instrument",
       "category": "instrument_bubble",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/6_primary-accessible-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "006_primary_accessible_instrument.png",
       "aliases": [
@@ -148,14 +148,14 @@
         180,
         270
       ],
-      "block_name": "ISA_PANEL_INSTRUMENT"
+      "block_name": "PIP_PANEL_INSTRUMENT"
     },
     {
       "gallery_index": 7,
       "symbol_id": "field_transmitter",
       "category": "transmitter",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "007_field_transmitter.png",
       "aliases": [
@@ -172,14 +172,14 @@
         180,
         270
       ],
-      "block_name": "ISA_TRANSMITTER"
+      "block_name": "PIP_TRANSMITTER"
     },
     {
       "gallery_index": 8,
       "symbol_id": "process_transmitter",
       "category": "transmitter",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "008_process_transmitter.png",
       "aliases": [
@@ -196,14 +196,14 @@
         180,
         270
       ],
-      "block_name": "ISA_TRANSMITTER"
+      "block_name": "PIP_TRANSMITTER"
     },
     {
       "gallery_index": 9,
       "symbol_id": "transmitter",
       "category": "transmitter",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "009_transmitter.png",
       "aliases": [
@@ -220,19 +220,19 @@
         180,
         270
       ],
-      "block_name": "ISA_TRANSMITTER"
+      "block_name": "PIP_TRANSMITTER"
     },
     {
       "gallery_index": 10,
       "symbol_id": "controller",
       "category": "controller",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/6_primary-accessible-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "010_controller.png",
       "aliases": [
-        "pid_controller",
-        "panel_controller"
+        "panel_controller",
+        "pid_controller"
       ],
       "notes": "",
       "status": "OK",
@@ -244,19 +244,19 @@
         180,
         270
       ],
-      "block_name": "ISA_CONTROLLER"
+      "block_name": "PIP_CONTROLLER"
     },
     {
       "gallery_index": 11,
       "symbol_id": "panel_controller",
       "category": "controller",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/6_primary-accessible-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "011_panel_controller.png",
       "aliases": [
-        "pid_controller",
-        "panel_controller"
+        "panel_controller",
+        "pid_controller"
       ],
       "notes": "",
       "status": "OK",
@@ -268,19 +268,19 @@
         180,
         270
       ],
-      "block_name": "ISA_CONTROLLER"
+      "block_name": "PIP_CONTROLLER"
     },
     {
       "gallery_index": 12,
       "symbol_id": "pid_controller",
       "category": "controller",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/6_primary-accessible-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "012_pid_controller.png",
       "aliases": [
-        "pid_controller",
-        "panel_controller"
+        "panel_controller",
+        "pid_controller"
       ],
       "notes": "",
       "status": "OK",
@@ -292,19 +292,19 @@
         180,
         270
       ],
-      "block_name": "ISA_CONTROLLER"
+      "block_name": "PIP_CONTROLLER"
     },
     {
       "gallery_index": 13,
       "symbol_id": "indicator",
       "category": "indicator",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/6_primary-accessible-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "013_indicator.png",
       "aliases": [
-        "local_indicator",
-        "panel_indicator"
+        "panel_indicator",
+        "local_indicator"
       ],
       "notes": "",
       "status": "OK",
@@ -316,19 +316,19 @@
         180,
         270
       ],
-      "block_name": "ISA_INDICATOR"
+      "block_name": "PIP_INDICATOR"
     },
     {
       "gallery_index": 14,
       "symbol_id": "local_indicator",
       "category": "indicator",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/6_primary-accessible-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "014_local_indicator.png",
       "aliases": [
-        "local_indicator",
-        "panel_indicator"
+        "panel_indicator",
+        "local_indicator"
       ],
       "notes": "",
       "status": "OK",
@@ -340,19 +340,19 @@
         180,
         270
       ],
-      "block_name": "ISA_INDICATOR"
+      "block_name": "PIP_INDICATOR"
     },
     {
       "gallery_index": 15,
       "symbol_id": "panel_indicator",
       "category": "indicator",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/6_primary-accessible-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "015_panel_indicator.png",
       "aliases": [
-        "local_indicator",
-        "panel_indicator"
+        "panel_indicator",
+        "local_indicator"
       ],
       "notes": "",
       "status": "OK",
@@ -364,20 +364,20 @@
         180,
         270
       ],
-      "block_name": "ISA_INDICATOR"
+      "block_name": "PIP_INDICATOR"
     },
     {
       "gallery_index": 16,
       "symbol_id": "flow_switch",
       "category": "switch",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "016_flow_switch.png",
       "aliases": [
-        "flow_switch",
         "pressure_switch",
-        "temperature_switch"
+        "temperature_switch",
+        "flow_switch"
       ],
       "notes": "",
       "status": "OK",
@@ -389,20 +389,20 @@
         180,
         270
       ],
-      "block_name": "ISA_SWITCH"
+      "block_name": "PIP_SWITCH"
     },
     {
       "gallery_index": 17,
       "symbol_id": "pressure_switch",
       "category": "switch",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "017_pressure_switch.png",
       "aliases": [
-        "flow_switch",
         "pressure_switch",
-        "temperature_switch"
+        "temperature_switch",
+        "flow_switch"
       ],
       "notes": "",
       "status": "OK",
@@ -414,20 +414,20 @@
         180,
         270
       ],
-      "block_name": "ISA_SWITCH"
+      "block_name": "PIP_SWITCH"
     },
     {
       "gallery_index": 18,
       "symbol_id": "switch",
       "category": "switch",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "018_switch.png",
       "aliases": [
-        "flow_switch",
         "pressure_switch",
-        "temperature_switch"
+        "temperature_switch",
+        "flow_switch"
       ],
       "notes": "",
       "status": "OK",
@@ -439,20 +439,20 @@
         180,
         270
       ],
-      "block_name": "ISA_SWITCH"
+      "block_name": "PIP_SWITCH"
     },
     {
       "gallery_index": 19,
       "symbol_id": "temperature_switch",
       "category": "switch",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
       "source_exists": true,
       "png_preview_path": "019_temperature_switch.png",
       "aliases": [
-        "flow_switch",
         "pressure_switch",
-        "temperature_switch"
+        "temperature_switch",
+        "flow_switch"
       ],
       "notes": "",
       "status": "OK",
@@ -464,14 +464,14 @@
         180,
         270
       ],
-      "block_name": "ISA_SWITCH"
+      "block_name": "PIP_SWITCH"
     },
     {
       "gallery_index": 20,
       "symbol_id": "actuated_valve",
       "category": "final_control_element",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Valves/22_control-valve.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Valves/23_control-valve.dxf",
       "source_exists": true,
       "png_preview_path": "020_actuated_valve.png",
       "aliases": [
@@ -488,14 +488,14 @@
         180,
         270
       ],
-      "block_name": "ISA_CONTROL_VALVE"
+      "block_name": "PIP_CONTROL_VALVE"
     },
     {
       "gallery_index": 21,
       "symbol_id": "control_valve",
       "category": "final_control_element",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Valves/22_control-valve.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Valves/23_control-valve.dxf",
       "source_exists": true,
       "png_preview_path": "021_control_valve.png",
       "aliases": [
@@ -512,14 +512,14 @@
         180,
         270
       ],
-      "block_name": "ISA_CONTROL_VALVE"
+      "block_name": "PIP_CONTROL_VALVE"
     },
     {
       "gallery_index": 22,
       "symbol_id": "pneumatic_control_valve",
       "category": "final_control_element",
       "standards_body": "ANSI/ISA-5.1-2009",
-      "source_dxf_path": "libreCAD_blocks/ISO Valves/22_control-valve.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Valves/23_control-valve.dxf",
       "source_exists": true,
       "png_preview_path": "022_pneumatic_control_valve.png",
       "aliases": [
@@ -536,21 +536,21 @@
         180,
         270
       ],
-      "block_name": "ISA_CONTROL_VALVE"
+      "block_name": "PIP_CONTROL_VALVE"
     },
     {
       "gallery_index": 23,
       "symbol_id": "ball_valve",
       "category": "manual_valve",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Valves/0_general-valve-no.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Valves/0_gate-valve-no.dxf",
       "source_exists": true,
       "png_preview_path": "023_ball_valve.png",
       "aliases": [
-        "globe_valve",
         "ball_valve",
-        "gate_valve",
-        "butterfly_valve"
+        "butterfly_valve",
+        "globe_valve",
+        "gate_valve"
       ],
       "notes": "",
       "status": "OK",
@@ -562,21 +562,21 @@
         180,
         270
       ],
-      "block_name": "ISA_MANUAL_VALVE"
+      "block_name": "PIP_MANUAL_VALVE"
     },
     {
       "gallery_index": 24,
       "symbol_id": "butterfly_valve",
       "category": "manual_valve",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Valves/0_general-valve-no.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Valves/0_gate-valve-no.dxf",
       "source_exists": true,
       "png_preview_path": "024_butterfly_valve.png",
       "aliases": [
-        "globe_valve",
         "ball_valve",
-        "gate_valve",
-        "butterfly_valve"
+        "butterfly_valve",
+        "globe_valve",
+        "gate_valve"
       ],
       "notes": "",
       "status": "OK",
@@ -588,21 +588,21 @@
         180,
         270
       ],
-      "block_name": "ISA_MANUAL_VALVE"
+      "block_name": "PIP_MANUAL_VALVE"
     },
     {
       "gallery_index": 25,
       "symbol_id": "gate_valve",
       "category": "manual_valve",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Valves/0_general-valve-no.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Valves/0_gate-valve-no.dxf",
       "source_exists": true,
       "png_preview_path": "025_gate_valve.png",
       "aliases": [
-        "globe_valve",
         "ball_valve",
-        "gate_valve",
-        "butterfly_valve"
+        "butterfly_valve",
+        "globe_valve",
+        "gate_valve"
       ],
       "notes": "",
       "status": "OK",
@@ -614,21 +614,21 @@
         180,
         270
       ],
-      "block_name": "ISA_MANUAL_VALVE"
+      "block_name": "PIP_MANUAL_VALVE"
     },
     {
       "gallery_index": 26,
       "symbol_id": "globe_valve",
       "category": "manual_valve",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Valves/0_general-valve-no.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Valves/0_gate-valve-no.dxf",
       "source_exists": true,
       "png_preview_path": "026_globe_valve.png",
       "aliases": [
-        "globe_valve",
         "ball_valve",
-        "gate_valve",
-        "butterfly_valve"
+        "butterfly_valve",
+        "globe_valve",
+        "gate_valve"
       ],
       "notes": "",
       "status": "OK",
@@ -640,21 +640,21 @@
         180,
         270
       ],
-      "block_name": "ISA_MANUAL_VALVE"
+      "block_name": "PIP_MANUAL_VALVE"
     },
     {
       "gallery_index": 27,
       "symbol_id": "manual_valve",
       "category": "manual_valve",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Valves/0_general-valve-no.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Valves/0_gate-valve-no.dxf",
       "source_exists": true,
       "png_preview_path": "027_manual_valve.png",
       "aliases": [
-        "globe_valve",
         "ball_valve",
-        "gate_valve",
-        "butterfly_valve"
+        "butterfly_valve",
+        "globe_valve",
+        "gate_valve"
       ],
       "notes": "",
       "status": "OK",
@@ -666,14 +666,14 @@
         180,
         270
       ],
-      "block_name": "ISA_MANUAL_VALVE"
+      "block_name": "PIP_MANUAL_VALVE"
     },
     {
       "gallery_index": 28,
       "symbol_id": "check_valve",
       "category": "check_valve",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Valves/15_check-valve.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Valves/2_check-valve.dxf",
       "source_exists": true,
       "png_preview_path": "028_check_valve.png",
       "aliases": [
@@ -690,14 +690,14 @@
         180,
         270
       ],
-      "block_name": "ISA_CHECK_VALVE"
+      "block_name": "PIP_CHECK_VALVE"
     },
     {
       "gallery_index": 29,
       "symbol_id": "non_return_valve",
       "category": "check_valve",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Valves/15_check-valve.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Valves/2_check-valve.dxf",
       "source_exists": true,
       "png_preview_path": "029_non_return_valve.png",
       "aliases": [
@@ -714,14 +714,14 @@
         180,
         270
       ],
-      "block_name": "ISA_CHECK_VALVE"
+      "block_name": "PIP_CHECK_VALVE"
     },
     {
       "gallery_index": 30,
       "symbol_id": "nrV",
       "category": "check_valve",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Valves/15_check-valve.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Valves/2_check-valve.dxf",
       "source_exists": true,
       "png_preview_path": "030_nrV.png",
       "aliases": [
@@ -738,14 +738,14 @@
         180,
         270
       ],
-      "block_name": "ISA_CHECK_VALVE"
+      "block_name": "PIP_CHECK_VALVE"
     },
     {
       "gallery_index": 31,
       "symbol_id": "drum",
       "category": "vessel",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/0_tank-general-basin.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/9_vessel-vertical.dxf",
       "source_exists": true,
       "png_preview_path": "031_drum.png",
       "aliases": [
@@ -764,14 +764,14 @@
         180,
         270
       ],
-      "block_name": "ISA_VESSEL"
+      "block_name": "PIP_VESSEL"
     },
     {
       "gallery_index": 32,
       "symbol_id": "knockout_drum",
       "category": "vessel",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/0_tank-general-basin.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/9_vessel-vertical.dxf",
       "source_exists": true,
       "png_preview_path": "032_knockout_drum.png",
       "aliases": [
@@ -790,14 +790,14 @@
         180,
         270
       ],
-      "block_name": "ISA_VESSEL"
+      "block_name": "PIP_VESSEL"
     },
     {
       "gallery_index": 33,
       "symbol_id": "separator",
       "category": "vessel",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/0_tank-general-basin.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/9_vessel-vertical.dxf",
       "source_exists": true,
       "png_preview_path": "033_separator.png",
       "aliases": [
@@ -816,14 +816,14 @@
         180,
         270
       ],
-      "block_name": "ISA_VESSEL"
+      "block_name": "PIP_VESSEL"
     },
     {
       "gallery_index": 34,
       "symbol_id": "tank",
       "category": "vessel",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/0_tank-general-basin.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/9_vessel-vertical.dxf",
       "source_exists": true,
       "png_preview_path": "034_tank.png",
       "aliases": [
@@ -842,14 +842,14 @@
         180,
         270
       ],
-      "block_name": "ISA_VESSEL"
+      "block_name": "PIP_VESSEL"
     },
     {
       "gallery_index": 35,
       "symbol_id": "vessel",
       "category": "vessel",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/0_tank-general-basin.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/9_vessel-vertical.dxf",
       "source_exists": true,
       "png_preview_path": "035_vessel.png",
       "aliases": [
@@ -868,14 +868,14 @@
         180,
         270
       ],
-      "block_name": "ISA_VESSEL"
+      "block_name": "PIP_VESSEL"
     },
     {
       "gallery_index": 36,
       "symbol_id": "centrifugal_pump",
       "category": "pump",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/18_pump.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/15_pump-horizontal-centrifugal.dxf",
       "source_exists": true,
       "png_preview_path": "036_centrifugal_pump.png",
       "aliases": [
@@ -892,14 +892,14 @@
         180,
         270
       ],
-      "block_name": "ISA_PUMP"
+      "block_name": "PIP_PUMP"
     },
     {
       "gallery_index": 37,
       "symbol_id": "positive_displacement_pump",
       "category": "pump",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/18_pump.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/15_pump-horizontal-centrifugal.dxf",
       "source_exists": true,
       "png_preview_path": "037_positive_displacement_pump.png",
       "aliases": [
@@ -916,14 +916,14 @@
         180,
         270
       ],
-      "block_name": "ISA_PUMP"
+      "block_name": "PIP_PUMP"
     },
     {
       "gallery_index": 38,
       "symbol_id": "pump",
       "category": "pump",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/18_pump.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/15_pump-horizontal-centrifugal.dxf",
       "source_exists": true,
       "png_preview_path": "038_pump.png",
       "aliases": [
@@ -940,19 +940,19 @@
         180,
         270
       ],
-      "block_name": "ISA_PUMP"
+      "block_name": "PIP_PUMP"
     },
     {
       "gallery_index": 39,
       "symbol_id": "centrifugal_compressor",
       "category": "compressor",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/19_compressor.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/25_compressor-centrifugal.dxf",
       "source_exists": true,
       "png_preview_path": "039_centrifugal_compressor.png",
       "aliases": [
-        "centrifugal_compressor",
-        "reciprocating_compressor"
+        "reciprocating_compressor",
+        "centrifugal_compressor"
       ],
       "notes": "",
       "status": "OK",
@@ -964,19 +964,19 @@
         180,
         270
       ],
-      "block_name": "ISA_COMPRESSOR"
+      "block_name": "PIP_COMPRESSOR"
     },
     {
       "gallery_index": 40,
       "symbol_id": "compressor",
       "category": "compressor",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/19_compressor.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/25_compressor-centrifugal.dxf",
       "source_exists": true,
       "png_preview_path": "040_compressor.png",
       "aliases": [
-        "centrifugal_compressor",
-        "reciprocating_compressor"
+        "reciprocating_compressor",
+        "centrifugal_compressor"
       ],
       "notes": "",
       "status": "OK",
@@ -988,19 +988,19 @@
         180,
         270
       ],
-      "block_name": "ISA_COMPRESSOR"
+      "block_name": "PIP_COMPRESSOR"
     },
     {
       "gallery_index": 41,
       "symbol_id": "reciprocating_compressor",
       "category": "compressor",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/19_compressor.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/25_compressor-centrifugal.dxf",
       "source_exists": true,
       "png_preview_path": "041_reciprocating_compressor.png",
       "aliases": [
-        "centrifugal_compressor",
-        "reciprocating_compressor"
+        "reciprocating_compressor",
+        "centrifugal_compressor"
       ],
       "notes": "",
       "status": "OK",
@@ -1012,20 +1012,20 @@
         180,
         270
       ],
-      "block_name": "ISA_COMPRESSOR"
+      "block_name": "PIP_COMPRESSOR"
     },
     {
       "gallery_index": 42,
       "symbol_id": "condenser",
       "category": "heat_exchanger",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/21_heat-exchanger-general-1.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/32_heat-exchanger-tema-type-bem.dxf",
       "source_exists": true,
       "png_preview_path": "042_condenser.png",
       "aliases": [
+        "condenser",
         "reboiler",
-        "shell_and_tube_exchanger",
-        "condenser"
+        "shell_and_tube_exchanger"
       ],
       "notes": "",
       "status": "OK",
@@ -1037,20 +1037,20 @@
         180,
         270
       ],
-      "block_name": "ISA_HEAT_EXCHANGER"
+      "block_name": "PIP_HEAT_EXCHANGER"
     },
     {
       "gallery_index": 43,
       "symbol_id": "heat_exchanger",
       "category": "heat_exchanger",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/21_heat-exchanger-general-1.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/32_heat-exchanger-tema-type-bem.dxf",
       "source_exists": true,
       "png_preview_path": "043_heat_exchanger.png",
       "aliases": [
+        "condenser",
         "reboiler",
-        "shell_and_tube_exchanger",
-        "condenser"
+        "shell_and_tube_exchanger"
       ],
       "notes": "",
       "status": "OK",
@@ -1062,20 +1062,20 @@
         180,
         270
       ],
-      "block_name": "ISA_HEAT_EXCHANGER"
+      "block_name": "PIP_HEAT_EXCHANGER"
     },
     {
       "gallery_index": 44,
       "symbol_id": "reboiler",
       "category": "heat_exchanger",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/21_heat-exchanger-general-1.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/32_heat-exchanger-tema-type-bem.dxf",
       "source_exists": true,
       "png_preview_path": "044_reboiler.png",
       "aliases": [
+        "condenser",
         "reboiler",
-        "shell_and_tube_exchanger",
-        "condenser"
+        "shell_and_tube_exchanger"
       ],
       "notes": "",
       "status": "OK",
@@ -1087,20 +1087,20 @@
         180,
         270
       ],
-      "block_name": "ISA_HEAT_EXCHANGER"
+      "block_name": "PIP_HEAT_EXCHANGER"
     },
     {
       "gallery_index": 45,
       "symbol_id": "shell_and_tube_exchanger",
       "category": "heat_exchanger",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Equipments/21_heat-exchanger-general-1.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Equipment/32_heat-exchanger-tema-type-bem.dxf",
       "source_exists": true,
       "png_preview_path": "045_shell_and_tube_exchanger.png",
       "aliases": [
+        "condenser",
         "reboiler",
-        "shell_and_tube_exchanger",
-        "condenser"
+        "shell_and_tube_exchanger"
       ],
       "notes": "",
       "status": "OK",
@@ -1112,19 +1112,19 @@
         180,
         270
       ],
-      "block_name": "ISA_HEAT_EXCHANGER"
+      "block_name": "PIP_HEAT_EXCHANGER"
     },
     {
       "gallery_index": 46,
       "symbol_id": "junction_tee",
       "category": "junction_tee",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Fittings/2_blank.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Fittings/0_flange.dxf",
       "source_exists": true,
       "png_preview_path": "046_junction_tee.png",
       "aliases": [
-        "pipe_tee",
-        "tee"
+        "tee",
+        "pipe_tee"
       ],
       "notes": "",
       "status": "OK",
@@ -1136,19 +1136,19 @@
         180,
         270
       ],
-      "block_name": "JUNCTION_TEE"
+      "block_name": "PIP_JUNCTION_TEE"
     },
     {
       "gallery_index": 47,
       "symbol_id": "pipe_tee",
       "category": "junction_tee",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Fittings/2_blank.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Fittings/0_flange.dxf",
       "source_exists": true,
       "png_preview_path": "047_pipe_tee.png",
       "aliases": [
-        "pipe_tee",
-        "tee"
+        "tee",
+        "pipe_tee"
       ],
       "notes": "",
       "status": "OK",
@@ -1160,19 +1160,19 @@
         180,
         270
       ],
-      "block_name": "JUNCTION_TEE"
+      "block_name": "PIP_JUNCTION_TEE"
     },
     {
       "gallery_index": 48,
       "symbol_id": "tee",
       "category": "junction_tee",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Fittings/2_blank.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Fittings/0_flange.dxf",
       "source_exists": true,
       "png_preview_path": "048_tee.png",
       "aliases": [
-        "pipe_tee",
-        "tee"
+        "tee",
+        "pipe_tee"
       ],
       "notes": "",
       "status": "OK",
@@ -1184,14 +1184,14 @@
         180,
         270
       ],
-      "block_name": "JUNCTION_TEE"
+      "block_name": "PIP_JUNCTION_TEE"
     },
     {
       "gallery_index": 49,
       "symbol_id": "cross",
       "category": "junction_cross",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Fittings/2_blank.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Fittings/0_flange.dxf",
       "source_exists": true,
       "png_preview_path": "049_cross.png",
       "aliases": [
@@ -1208,14 +1208,14 @@
         180,
         270
       ],
-      "block_name": "JUNCTION_CROSS"
+      "block_name": "PIP_JUNCTION_CROSS"
     },
     {
       "gallery_index": 50,
       "symbol_id": "junction_cross",
       "category": "junction_cross",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Fittings/2_blank.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Fittings/0_flange.dxf",
       "source_exists": true,
       "png_preview_path": "050_junction_cross.png",
       "aliases": [
@@ -1232,14 +1232,14 @@
         180,
         270
       ],
-      "block_name": "JUNCTION_CROSS"
+      "block_name": "PIP_JUNCTION_CROSS"
     },
     {
       "gallery_index": 51,
       "symbol_id": "pipe_cross",
       "category": "junction_cross",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/ISO Fittings/2_blank.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Fittings/0_flange.dxf",
       "source_exists": true,
       "png_preview_path": "051_pipe_cross.png",
       "aliases": [
@@ -1256,14 +1256,14 @@
         180,
         270
       ],
-      "block_name": "JUNCTION_CROSS"
+      "block_name": "PIP_JUNCTION_CROSS"
     },
     {
       "gallery_index": 52,
       "symbol_id": "off_page_connector",
       "category": "off_page_connector",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/P&ID/arrow.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Pipes and Signal Lines/45_piping-tag.dxf",
       "source_exists": true,
       "png_preview_path": "052_off_page_connector.png",
       "aliases": [
@@ -1280,14 +1280,14 @@
         180,
         270
       ],
-      "block_name": "OFF_PAGE_CONNECTOR"
+      "block_name": "PIP_OFF_PAGE_CONNECTOR"
     },
     {
       "gallery_index": 53,
       "symbol_id": "offsheet_connector",
       "category": "off_page_connector",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/P&ID/arrow.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Pipes and Signal Lines/45_piping-tag.dxf",
       "source_exists": true,
       "png_preview_path": "053_offsheet_connector.png",
       "aliases": [
@@ -1304,14 +1304,14 @@
         180,
         270
       ],
-      "block_name": "OFF_PAGE_CONNECTOR"
+      "block_name": "PIP_OFF_PAGE_CONNECTOR"
     },
     {
       "gallery_index": 54,
       "symbol_id": "page_connector",
       "category": "off_page_connector",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/P&ID/arrow.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Pipes and Signal Lines/45_piping-tag.dxf",
       "source_exists": true,
       "png_preview_path": "054_page_connector.png",
       "aliases": [
@@ -1328,14 +1328,14 @@
         180,
         270
       ],
-      "block_name": "OFF_PAGE_CONNECTOR"
+      "block_name": "PIP_OFF_PAGE_CONNECTOR"
     },
     {
       "gallery_index": 55,
       "symbol_id": "blind_flange",
       "category": "termination_point",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/P&ID/3_blind-flange.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Fittings/9_blank.dxf",
       "source_exists": true,
       "png_preview_path": "055_blind_flange.png",
       "aliases": [
@@ -1352,14 +1352,14 @@
         180,
         270
       ],
-      "block_name": "TERMINATION_POINT"
+      "block_name": "PIP_TERMINATION_POINT"
     },
     {
       "gallery_index": 56,
       "symbol_id": "pipeline_termination",
       "category": "termination_point",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/P&ID/3_blind-flange.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Fittings/9_blank.dxf",
       "source_exists": true,
       "png_preview_path": "056_pipeline_termination.png",
       "aliases": [
@@ -1376,14 +1376,14 @@
         180,
         270
       ],
-      "block_name": "TERMINATION_POINT"
+      "block_name": "PIP_TERMINATION_POINT"
     },
     {
       "gallery_index": 57,
       "symbol_id": "termination_point",
       "category": "termination_point",
       "standards_body": "Project-Approved Library",
-      "source_dxf_path": "libreCAD_blocks/P&ID/3_blind-flange.dxf",
+      "source_dxf_path": "libreCAD_blocks/PIP Fittings/9_blank.dxf",
       "source_exists": true,
       "png_preview_path": "057_termination_point.png",
       "aliases": [
@@ -1400,7 +1400,7 @@
         180,
         270
       ],
-      "block_name": "TERMINATION_POINT"
+      "block_name": "PIP_TERMINATION_POINT"
     }
   ]
 }
