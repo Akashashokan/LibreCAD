@@ -1,57 +1,67 @@
 ```
-# Compiled and build artifacts
-*.pyc
+# CAD/DXF related
+*.dxf
+
+# Python
 __pycache__/
-*.o
-*.obj
-*.out
-*.class
-*.dll
+*.pyc
+*.pyo
+*.pyd
+.Python
 *.so
-*.a
-*.exe
+*.egg-info/
+.eggs/
 
 # Dependencies
 .venv/
 venv/
-.env
-.env.local
-*.env.*
-
-# Logs and temp files
+env/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
 *.log
 *.tmp
-*.swp
-*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Environment variables
+.env
+.env.local
+.env.*
+!env.sample
+!env.example
 
 # Editors
 .vscode/
 .idea/
+*.swp
+*.swo
 
-# Coverage reports
-coverage/
-htmlcov/
-.coverage
-
-# Build directories
+# Build and distribution artifacts
 dist/
 build/
-target/
 *.egg-info/
-
-# Python cache
-.mypy_cache/
-.pytest_cache/
-
-# System files
-.DS_Store
-Thumbs.db
-
-# Compressed files
+*.egg
+*.tar.gz
+*.whl
 *.zip
-*.gz
 *.tar
-*.tgz
+*.gz
 *.bz2
 *.xz
 *.7z
@@ -66,4 +76,19 @@ Thumbs.db
 *.Z
 *.lz
 *.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
+
+# Testing
+.pytest_cache/
+.mypy_cache/
+.coverage/
+htmlcov/
+.nox/
+.pytest_cache/
+
+# Documentation
+docs/_build/
 ```
