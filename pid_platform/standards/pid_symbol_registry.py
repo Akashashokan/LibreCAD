@@ -350,7 +350,7 @@ _register_symbol(SymbolEntry(
     category=SymbolCategory.JUNCTION_TEE,
     standards_body=StandardsBody.PROJECT,
     block_name="JUNCTION_TEE",
-    block_source="libreCAD_blocks/P&ID/junction-tee.dxf",
+    block_source="libreCAD_blocks/ISO Fittings/2_blank.dxf",  # Placeholder - needs proper tee block
     nominal_width=10.0,
     nominal_height=10.0,
     port_definitions=frozenset({J1, J2, J3}),
@@ -362,7 +362,7 @@ _register_symbol(SymbolEntry(
     category=SymbolCategory.JUNCTION_CROSS,
     standards_body=StandardsBody.PROJECT,
     block_name="JUNCTION_CROSS",
-    block_source="libreCAD_blocks/P&ID/junction-cross.dxf",
+    block_source="libreCAD_blocks/ISO Fittings/2_blank.dxf",  # Placeholder - needs proper cross block
     nominal_width=10.0,
     nominal_height=10.0,
     port_definitions=frozenset({J1, J2, J3, J4}),
@@ -379,7 +379,7 @@ _register_symbol(SymbolEntry(
     category=SymbolCategory.OFF_PAGE_CONNECTOR,
     standards_body=StandardsBody.PROJECT,
     block_name="OFF_PAGE_CONNECTOR",
-    block_source="libreCAD_blocks/P&ID/off-page-connector.dxf",
+    block_source="libreCAD_blocks/P&ID/arrow.dxf",  # Using arrow as placeholder
     nominal_width=15.0,
     nominal_height=15.0,
     port_definitions=frozenset({CONNECTION}),
@@ -391,7 +391,7 @@ _register_symbol(SymbolEntry(
     category=SymbolCategory.TERMINATION_POINT,
     standards_body=StandardsBody.PROJECT,
     block_name="TERMINATION_POINT",
-    block_source="libreCAD_blocks/P&ID/termination-point.dxf",
+    block_source="libreCAD_blocks/P&ID/3_blind-flange.dxf",
     nominal_width=10.0,
     nominal_height=10.0,
     port_definitions=frozenset({TERMINATION}),
