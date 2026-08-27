@@ -80,6 +80,131 @@ def get_category_sort_key(category: SymbolCategory) -> int:
     return order.get(category, 99)
 
 
+def render_dxf_to_png(dxf_path: Path, output_png: Path, size: tuple = (200, 200)) -> bool:
+    """
+    Render a DXF file to PNG using ezdxf and Pillow.
+    
+    Returns True if successful, False otherwise.
+    """
+    try:
+        import ezdxf
+        from PIL import Image, ImageDraw
+        
+        # Read DXF
+        doc = ezdxf.readfile(str(dxf_path))
+        msp = doc.modelspace()
+        
+        # Get entities by iterating directly (ezdxf API)
+        entities = list(msp)
+        if not entities:
+            return False
+        
+        # Calculate extents
+        min_x, min_y = float('inf'), float('inf')
+        max_x, max_y = float('-inf'), float('-inf')
+        
+        for entity in entities:
+            try:
+                bbox = entity.bbox()
+                if bbox is not None:
+                    min_x = min(min_x, bbox.extmin.x)
+                    min_y = min(min_y, bbox.extmin.y)
+                    max_x = max(max_x, bbox.extmax.x)
+                    max_y = max(max_y, bbox.extmax.y)
+            except:
+                continue
+        
+        if min_x == float('inf'):
+            # Fallback: use default extents
+            min_x, min_y = -50, -50
+            max_x, max_y = 50, 50
+        
+        # Add padding
+        width = max_x - min_x
+        height = max_y - min_y
+        padding = max(width, height) * 0.2
+        min_x -= padding
+        min_y -= padding
+        max_x += padding
+        max_y += padding
+        
+        # Create image with white background
+        img = Image.new('RGB', size, 'white')
+        draw = ImageDraw.Draw(img)
+        
+        # Scale factor
+        scale_x = (size[0] - 20) / (max_x - min_x)
+        scale_y = (size[1] - 20) / (max_y - min_y)
+        scale = min(scale_x, scale_y)
+        
+        # Transform coordinates
+        def transform(x, y):
+            px = 10 + (x - min_x) * scale
+            py = size[1] - 10 - (y - min_y) * scale
+            return int(px), int(py)
+        
+        # Draw entities
+        for entity in entities:
+            try:
+                if entity.dxftype() == 'LINE':
+                    start = transform(entity.dxf.start.x, entity.dxf.start.y)
+                    end = transform(entity.dxf.end.x, entity.dxf.end.y)
+                    draw.line([start, end], fill='black', width=2)
+                elif entity.dxftype() == 'CIRCLE':
+                    center = transform(entity.dxf.center.x, entity.dxf.center.y)
+                    radius = entity.dxf.radius * scale
+                    bbox_rect = [
+                        center[0] - radius,
+                        center[1] - radius,
+                        center[0] + radius,
+                        center[1] + radius
+                    ]
+                    draw.ellipse(bbox_rect, outline='black', width=2)
+                elif entity.dxftype() == 'ARC':
+                    # Simplified arc drawing
+                    center = transform(entity.dxf.center.x, entity.dxf.center.y)
+                    radius = entity.dxf.radius * scale
+                    bbox_rect = [
+                        center[0] - radius,
+                        center[1] - radius,
+                        center[0] + radius,
+                        center[1] + radius
+                    ]
+                    # Convert radians to degrees for PIL
+                    start_angle = entity.dxf.start_angle * 180 / 3.14159265
+                    end_angle = entity.dxf.end_angle * 180 / 3.14159265
+                    draw.arc(bbox_rect, 
+                            start=start_angle,
+                            end=end_angle,
+                            fill='black', width=2)
+                elif entity.dxftype() == 'TEXT' or entity.dxftype() == 'MTEXT':
+                    pos = transform(entity.dxf.insert.x, entity.dxf.insert.y)
+                    text = entity.dxf.text if hasattr(entity.dxf, 'text') else str(entity)
+                    draw.text(pos, text[:20], fill='black')
+                elif entity.dxftype() == 'POINT':
+                    pos = transform(entity.dxf.location.x, entity.dxf.location.y)
+                    draw.point(pos, fill='black')
+                elif entity.dxftype() == 'LWPOLYLINE' or entity.dxftype() == 'POLYLINE':
+                    # Get vertices and draw lines
+                    points = []
+                    for pt in entity.get_points():
+                        points.append(transform(pt[0], pt[1]))
+                    if len(points) >= 2:
+                        draw.line(points, fill='black', width=2)
+                    if entity.closed and len(points) >= 2:
+                        draw.line([points[-1], points[0]], fill='black', width=2)
+                # Add more entity types as needed
+            except Exception as e:
+                continue
+        
+        img.save(output_png, 'PNG')
+        return True
+        
+    except Exception as e:
+        print(f"  Error rendering {dxf_path}: {e}")
+        return False
+
+
 def generate_manifest(symbols: Dict[str, SymbolEntry], output_dir: Path) -> tuple:
     """Generate manifest files (JSON and Markdown)"""
     
@@ -221,6 +346,158 @@ def detect_duplicate_sources(manifest_entries: List[Dict]) -> List[Dict]:
     return duplicates
 
 
+def generate_contact_sheet(manifest_entries: List[Dict], output_dir: Path, 
+                          thumb_size: tuple = (100, 100), cols: int = 8):
+    """Generate a contact sheet / gallery image with all symbol thumbnails"""
+    from PIL import Image, ImageDraw, ImageFont
+    
+    # Filter only OK entries
+    ok_entries = [e for e in manifest_entries if e["status"] == "OK"]
+    
+    if not ok_entries:
+        print("  No valid entries to generate contact sheet")
+        return
+    
+    # Calculate grid dimensions
+    rows = (len(ok_entries) + cols - 1) // cols
+    
+    # Load and resize thumbnails
+    thumbnails = []
+    max_label_height = 20
+    
+    for entry in ok_entries:
+        png_path = output_dir / entry["png_preview_path"]
+        try:
+            img = Image.open(png_path)
+            # Resize maintaining aspect ratio
+            img.thumbnail((thumb_size[0], thumb_size[1]), Image.Resampling.LANCZOS)
+            
+            # Create labeled thumbnail
+            thumb_with_label = Image.new('RGB', (thumb_size[0], thumb_size[1] + max_label_height), 'white')
+            thumb_with_label.paste(img, ((thumb_size[0] - img.size[0]) // 2, 2))
+            
+            # Add label
+            draw = ImageDraw.Draw(thumb_with_label)
+            label = f"{entry['gallery_index']:03d} {entry['symbol_id'][:15]}"
+            try:
+                font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf", 10)
+            except:
+                font = ImageFont.load_default()
+            
+            text_bbox = draw.textbbox((0, 0), label, font=font)
+            text_width = text_bbox[2] - text_bbox[0]
+            text_x = (thumb_size[0] - text_width) // 2
+            draw.text((text_x, thumb_size[1] + 2), label, fill='black', font=font)
+            
+            thumbnails.append((thumb_with_label, entry))
+        except Exception as e:
+            print(f"  Warning: Could not create thumbnail for {entry['symbol_id']}: {e}")
+    
+    if not thumbnails:
+        return
+    
+    # Calculate final image size
+    padding = 5
+    total_width = cols * thumb_size[0] + (cols + 1) * padding
+    total_height = rows * (thumb_size[1] + max_label_height) + (rows + 1) * padding
+    
+    # Create contact sheet
+    contact_sheet = Image.new('RGB', (total_width, total_height), 'white')
+    draw = ImageDraw.Draw(contact_sheet)
+    
+    # Place thumbnails
+    for idx, (thumb, entry) in enumerate(thumbnails):
+        row = idx // cols
+        col = idx % cols
+        
+        x = padding + col * (thumb_size[0] + padding)
+        y = padding + row * (thumb_size[1] + max_label_height + padding)
+        
+        contact_sheet.paste(thumb, (x, y))
+    
+    # Save contact sheet
+    contact_sheet_path = output_dir / "approved_symbol_gallery.png"
+    contact_sheet.save(contact_sheet_path, 'PNG')
+    print(f"  Contact sheet saved: {contact_sheet_path} ({total_width}x{total_height})")
+
+
+def generate_markdown_gallery(manifest_entries: List[Dict], output_dir: Path):
+    """Generate a markdown gallery file with embedded PNG previews"""
+    
+    # Group by category
+    categories = {}
+    for entry in manifest_entries:
+        cat = entry["category"]
+        if cat not in categories:
+            categories[cat] = []
+        categories[cat].append(entry)
+    
+    # Sort categories
+    category_order = [
+        'instrument_bubble', 'transmitter', 'controller', 'indicator', 'switch',
+        'final_control_element', 'actuator', 'valve_failure_indication', 'signal_line',
+        'manual_valve', 'control_valve', 'check_valve', 'safety_relief_valve',
+        'vessel', 'column', 'pump', 'compressor', 'heat_exchanger', 'reactor', 'tank',
+        'junction_tee', 'junction_cross', 'flange', 'reducer',
+        'off_page_connector', 'termination_point', 'weld'
+    ]
+    
+    sorted_categories = sorted(categories.keys(), 
+                               key=lambda x: category_order.index(x) if x in category_order else 99)
+    
+    md_lines = [
+        "# Approved P&ID Symbol Gallery",
+        "",
+        "This gallery contains visual previews of all approved P&ID symbols.",
+        "",
+        "---",
+        "",
+    ]
+    
+    for cat in sorted_categories:
+        entries = categories[cat]
+        cat_title = cat.replace('_', ' ').title()
+        md_lines.append(f"## {cat_title}")
+        md_lines.append("")
+        md_lines.append("| # | Symbol ID | Preview | Source | Status |")
+        md_lines.append("|---|-----------|---------|--------|--------|")
+        
+        for entry in entries:
+            preview_link = entry["png_preview_path"]
+            source_basename = Path(entry["source_dxf_path"]).name
+            md_lines.append(
+                f"| {entry['gallery_index']:03d} | {entry['symbol_id']} | "
+                f"![{entry['symbol_id']}]({preview_link}) | "
+                f"`{source_basename}` | {entry['status']} |"
+            )
+        
+        md_lines.append("")
+    
+    md_lines.extend([
+        "---",
+        "",
+        "## Summary",
+        "",
+        f"- **Total Symbols:** {len(manifest_entries)}",
+        f"- **OK:** {sum(1 for e in manifest_entries if e['status'] == 'OK')}",
+        f"- **Missing Source:** {sum(1 for e in manifest_entries if e['status'] == 'MISSING_SOURCE')}",
+        f"- **Render Failed:** {sum(1 for e in manifest_entries if e['status'] == 'RENDER_FAILED')}",
+        "",
+        "## Files Generated",
+        "",
+        "- `approved_symbol_gallery.png` - Contact sheet with all symbols",
+        "- Individual PNG previews: `001_*.png`, `002_*.png`, etc.",
+        "- `approved_symbol_manifest.json` - Machine-readable metadata",
+        "- `approved_symbol_manifest.md` - Human-readable table",
+    ])
+    
+    md_path = output_dir / "approved_symbol_gallery.md"
+    with open(md_path, 'w') as f:
+        f.write('\n'.join(md_lines))
+    
+    print(f"  Markdown gallery saved: {md_path}")
+
+
 def main():
     """Main entry point"""
     print("=" * 70)
@@ -266,10 +543,35 @@ def main():
     print(f"  - approved_symbol_manifest.md")
     print("=" * 70)
     
+    # Generate PNG previews
+    print("\nGenerating PNG previews...")
+    render_success = 0
+    render_failed = 0
+    
+    for entry in manifest_entries:
+        if entry["status"] == "OK":
+            dxf_path = Path('/workspace') / entry["source_dxf_path"]
+            png_path = output_dir / entry["png_preview_path"]
+            
+            if render_dxf_to_png(dxf_path, png_path):
+                render_success += 1
+            else:
+                render_failed += 1
+                entry["status"] = "RENDER_FAILED"
+                entry["notes"] += " PNG rendering failed."
+    
+    print(f"  Rendered: {render_success} successful, {render_failed} failed")
+    
+    # Generate contact sheet / gallery image
+    print("\nGenerating contact sheet gallery...")
+    generate_contact_sheet(manifest_entries, output_dir)
+    
+    # Generate markdown gallery with embedded images
+    print("Generating markdown gallery...")
+    generate_markdown_gallery(manifest_entries, output_dir)
+    
     # Note about PNG generation
-    print("\n📝 NOTE: PNG preview generation requires ezdxf + Pillow.")
-    print("   The manifest files have been created successfully.")
-    print("   Individual PNG previews can be generated separately if needed.")
+    print("\n📝 PNG preview generation completed.")
     
     return {
         "total_symbols": len(manifest_entries),

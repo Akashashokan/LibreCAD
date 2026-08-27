@@ -15,8 +15,8 @@
       "source_exists": true,
       "png_preview_path": "001_board_mounted_instrument.png",
       "aliases": [
-        "primary_accessible_instrument",
-        "board_mounted_instrument"
+        "board_mounted_instrument",
+        "primary_accessible_instrument"
       ],
       "notes": "",
       "status": "OK",
@@ -111,8 +111,8 @@
       "source_exists": true,
       "png_preview_path": "005_panel_instrument.png",
       "aliases": [
-        "primary_accessible_instrument",
-        "board_mounted_instrument"
+        "board_mounted_instrument",
+        "primary_accessible_instrument"
       ],
       "notes": "",
       "status": "OK",
@@ -135,8 +135,8 @@
       "source_exists": true,
       "png_preview_path": "006_primary_accessible_instrument.png",
       "aliases": [
-        "primary_accessible_instrument",
-        "board_mounted_instrument"
+        "board_mounted_instrument",
+        "primary_accessible_instrument"
       ],
       "notes": "",
       "status": "OK",
@@ -231,8 +231,8 @@
       "source_exists": true,
       "png_preview_path": "010_controller.png",
       "aliases": [
-        "panel_controller",
-        "pid_controller"
+        "pid_controller",
+        "panel_controller"
       ],
       "notes": "",
       "status": "OK",
@@ -255,8 +255,8 @@
       "source_exists": true,
       "png_preview_path": "011_panel_controller.png",
       "aliases": [
-        "panel_controller",
-        "pid_controller"
+        "pid_controller",
+        "panel_controller"
       ],
       "notes": "",
       "status": "OK",
@@ -279,8 +279,8 @@
       "source_exists": true,
       "png_preview_path": "012_pid_controller.png",
       "aliases": [
-        "panel_controller",
-        "pid_controller"
+        "pid_controller",
+        "panel_controller"
       ],
       "notes": "",
       "status": "OK",
@@ -303,8 +303,8 @@
       "source_exists": true,
       "png_preview_path": "013_indicator.png",
       "aliases": [
-        "panel_indicator",
-        "local_indicator"
+        "local_indicator",
+        "panel_indicator"
       ],
       "notes": "",
       "status": "OK",
@@ -327,8 +327,8 @@
       "source_exists": true,
       "png_preview_path": "014_local_indicator.png",
       "aliases": [
-        "panel_indicator",
-        "local_indicator"
+        "local_indicator",
+        "panel_indicator"
       ],
       "notes": "",
       "status": "OK",
@@ -351,8 +351,8 @@
       "source_exists": true,
       "png_preview_path": "015_panel_indicator.png",
       "aliases": [
-        "panel_indicator",
-        "local_indicator"
+        "local_indicator",
+        "panel_indicator"
       ],
       "notes": "",
       "status": "OK",
@@ -375,9 +375,9 @@
       "source_exists": true,
       "png_preview_path": "016_flow_switch.png",
       "aliases": [
-        "temperature_switch",
         "flow_switch",
-        "pressure_switch"
+        "pressure_switch",
+        "temperature_switch"
       ],
       "notes": "",
       "status": "OK",
@@ -400,9 +400,9 @@
       "source_exists": true,
       "png_preview_path": "017_pressure_switch.png",
       "aliases": [
-        "temperature_switch",
         "flow_switch",
-        "pressure_switch"
+        "pressure_switch",
+        "temperature_switch"
       ],
       "notes": "",
       "status": "OK",
@@ -425,9 +425,9 @@
       "source_exists": true,
       "png_preview_path": "018_switch.png",
       "aliases": [
-        "temperature_switch",
         "flow_switch",
-        "pressure_switch"
+        "pressure_switch",
+        "temperature_switch"
       ],
       "notes": "",
       "status": "OK",
@@ -450,9 +450,9 @@
       "source_exists": true,
       "png_preview_path": "019_temperature_switch.png",
       "aliases": [
-        "temperature_switch",
         "flow_switch",
-        "pressure_switch"
+        "pressure_switch",
+        "temperature_switch"
       ],
       "notes": "",
       "status": "OK",
@@ -547,10 +547,10 @@
       "source_exists": true,
       "png_preview_path": "023_ball_valve.png",
       "aliases": [
-        "gate_valve",
-        "butterfly_valve",
+        "globe_valve",
         "ball_valve",
-        "globe_valve"
+        "gate_valve",
+        "butterfly_valve"
       ],
       "notes": "",
       "status": "OK",
@@ -573,10 +573,10 @@
       "source_exists": true,
       "png_preview_path": "024_butterfly_valve.png",
       "aliases": [
-        "gate_valve",
-        "butterfly_valve",
+        "globe_valve",
         "ball_valve",
-        "globe_valve"
+        "gate_valve",
+        "butterfly_valve"
       ],
       "notes": "",
       "status": "OK",
@@ -599,10 +599,10 @@
       "source_exists": true,
       "png_preview_path": "025_gate_valve.png",
       "aliases": [
-        "gate_valve",
-        "butterfly_valve",
+        "globe_valve",
         "ball_valve",
-        "globe_valve"
+        "gate_valve",
+        "butterfly_valve"
       ],
       "notes": "",
       "status": "OK",
@@ -625,10 +625,10 @@
       "source_exists": true,
       "png_preview_path": "026_globe_valve.png",
       "aliases": [
-        "gate_valve",
-        "butterfly_valve",
+        "globe_valve",
         "ball_valve",
-        "globe_valve"
+        "gate_valve",
+        "butterfly_valve"
       ],
       "notes": "",
       "status": "OK",
@@ -651,10 +651,10 @@
       "source_exists": true,
       "png_preview_path": "027_manual_valve.png",
       "aliases": [
-        "gate_valve",
-        "butterfly_valve",
+        "globe_valve",
         "ball_valve",
-        "globe_valve"
+        "gate_valve",
+        "butterfly_valve"
       ],
       "notes": "",
       "status": "OK",
@@ -677,8 +677,8 @@
       "source_exists": true,
       "png_preview_path": "028_check_valve.png",
       "aliases": [
-        "nrV",
-        "non_return_valve"
+        "non_return_valve",
+        "nrV"
       ],
       "notes": "",
       "status": "OK",
@@ -701,8 +701,8 @@
       "source_exists": true,
       "png_preview_path": "029_non_return_valve.png",
       "aliases": [
-        "nrV",
-        "non_return_valve"
+        "non_return_valve",
+        "nrV"
       ],
       "notes": "",
       "status": "OK",
@@ -725,8 +725,8 @@
       "source_exists": true,
       "png_preview_path": "030_nrV.png",
       "aliases": [
-        "nrV",
-        "non_return_valve"
+        "non_return_valve",
+        "nrV"
       ],
       "notes": "",
       "status": "OK",
@@ -749,10 +749,10 @@
       "source_exists": true,
       "png_preview_path": "031_drum.png",
       "aliases": [
-        "tank",
         "separator",
-        "drum",
-        "knockout_drum"
+        "tank",
+        "knockout_drum",
+        "drum"
       ],
       "notes": "",
       "status": "OK",
@@ -775,10 +775,10 @@
       "source_exists": true,
       "png_preview_path": "032_knockout_drum.png",
       "aliases": [
-        "tank",
         "separator",
-        "drum",
-        "knockout_drum"
+        "tank",
+        "knockout_drum",
+        "drum"
       ],
       "notes": "",
       "status": "OK",
@@ -801,10 +801,10 @@
       "source_exists": true,
       "png_preview_path": "033_separator.png",
       "aliases": [
-        "tank",
         "separator",
-        "drum",
-        "knockout_drum"
+        "tank",
+        "knockout_drum",
+        "drum"
       ],
       "notes": "",
       "status": "OK",
@@ -827,10 +827,10 @@
       "source_exists": true,
       "png_preview_path": "034_tank.png",
       "aliases": [
-        "tank",
         "separator",
-        "drum",
-        "knockout_drum"
+        "tank",
+        "knockout_drum",
+        "drum"
       ],
       "notes": "",
       "status": "OK",
@@ -853,10 +853,10 @@
       "source_exists": true,
       "png_preview_path": "035_vessel.png",
       "aliases": [
-        "tank",
         "separator",
-        "drum",
-        "knockout_drum"
+        "tank",
+        "knockout_drum",
+        "drum"
       ],
       "notes": "",
       "status": "OK",
@@ -951,8 +951,8 @@
       "source_exists": true,
       "png_preview_path": "039_centrifugal_compressor.png",
       "aliases": [
-        "reciprocating_compressor",
-        "centrifugal_compressor"
+        "centrifugal_compressor",
+        "reciprocating_compressor"
       ],
       "notes": "",
       "status": "OK",
@@ -975,8 +975,8 @@
       "source_exists": true,
       "png_preview_path": "040_compressor.png",
       "aliases": [
-        "reciprocating_compressor",
-        "centrifugal_compressor"
+        "centrifugal_compressor",
+        "reciprocating_compressor"
       ],
       "notes": "",
       "status": "OK",
@@ -999,8 +999,8 @@
       "source_exists": true,
       "png_preview_path": "041_reciprocating_compressor.png",
       "aliases": [
-        "reciprocating_compressor",
-        "centrifugal_compressor"
+        "centrifugal_compressor",
+        "reciprocating_compressor"
       ],
       "notes": "",
       "status": "OK",
@@ -1024,8 +1024,8 @@
       "png_preview_path": "042_condenser.png",
       "aliases": [
         "reboiler",
-        "condenser",
-        "shell_and_tube_exchanger"
+        "shell_and_tube_exchanger",
+        "condenser"
       ],
       "notes": "",
       "status": "OK",
@@ -1049,8 +1049,8 @@
       "png_preview_path": "043_heat_exchanger.png",
       "aliases": [
         "reboiler",
-        "condenser",
-        "shell_and_tube_exchanger"
+        "shell_and_tube_exchanger",
+        "condenser"
       ],
       "notes": "",
       "status": "OK",
@@ -1074,8 +1074,8 @@
       "png_preview_path": "044_reboiler.png",
       "aliases": [
         "reboiler",
-        "condenser",
-        "shell_and_tube_exchanger"
+        "shell_and_tube_exchanger",
+        "condenser"
       ],
       "notes": "",
       "status": "OK",
@@ -1099,8 +1099,8 @@
       "png_preview_path": "045_shell_and_tube_exchanger.png",
       "aliases": [
         "reboiler",
-        "condenser",
-        "shell_and_tube_exchanger"
+        "shell_and_tube_exchanger",
+        "condenser"
       ],
       "notes": "",
       "status": "OK",
@@ -1195,8 +1195,8 @@
       "source_exists": true,
       "png_preview_path": "049_cross.png",
       "aliases": [
-        "pipe_cross",
-        "cross"
+        "cross",
+        "pipe_cross"
       ],
       "notes": "",
       "status": "OK",
@@ -1219,8 +1219,8 @@
       "source_exists": true,
       "png_preview_path": "050_junction_cross.png",
       "aliases": [
-        "pipe_cross",
-        "cross"
+        "cross",
+        "pipe_cross"
       ],
       "notes": "",
       "status": "OK",
@@ -1243,8 +1243,8 @@
       "source_exists": true,
       "png_preview_path": "051_pipe_cross.png",
       "aliases": [
-        "pipe_cross",
-        "cross"
+        "cross",
+        "pipe_cross"
       ],
       "notes": "",
       "status": "OK",
