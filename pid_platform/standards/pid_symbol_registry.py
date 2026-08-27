@@ -163,7 +163,7 @@ def _register_symbol(entry: SymbolEntry):
 
 
 # -----------------------------------------------------------------------------
-# INSTRUMENT SYMBOLS (ISA-5.1)
+# INSTRUMENT SYMBOLS (ISA-5.1) - Using PIP Standard Blocks
 # -----------------------------------------------------------------------------
 
 # Field-mounted instruments (ISA-5.1: circle, no line)
@@ -171,8 +171,8 @@ _register_symbol(SymbolEntry(
     symbol_id="field_instrument",
     category=SymbolCategory.INSTRUMENT_BUBBLE,
     standards_body=StandardsBody.ISA,
-    block_name="ISA_FIELD_INSTRUMENT",
-    block_source="libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+    block_name="PIP_FIELD_INSTRUMENT",
+    block_source="libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
     nominal_width=12.0,
     nominal_height=12.0,
     port_definitions=frozenset({MEASUREMENT_IN, SIGNAL_OUT}),
@@ -183,8 +183,8 @@ _register_symbol(SymbolEntry(
     symbol_id="transmitter",
     category=SymbolCategory.TRANSMITTER,
     standards_body=StandardsBody.ISA,
-    block_name="ISA_TRANSMITTER",
-    block_source="libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+    block_name="PIP_TRANSMITTER",
+    block_source="libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
     nominal_width=12.0,
     nominal_height=12.0,
     port_definitions=frozenset({MEASUREMENT_IN, SIGNAL_OUT}),
@@ -196,8 +196,8 @@ _register_symbol(SymbolEntry(
     symbol_id="panel_instrument",
     category=SymbolCategory.INSTRUMENT_BUBBLE,
     standards_body=StandardsBody.ISA,
-    block_name="ISA_PANEL_INSTRUMENT",
-    block_source="libreCAD_blocks/ISO Instruments/6_primary-accessible-discrete-instrument.dxf",
+    block_name="PIP_PANEL_INSTRUMENT",
+    block_source="libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
     nominal_width=12.0,
     nominal_height=12.0,
     port_definitions=frozenset({PV_IN, CONTROL_OUT}),
@@ -208,8 +208,8 @@ _register_symbol(SymbolEntry(
     symbol_id="controller",
     category=SymbolCategory.CONTROLLER,
     standards_body=StandardsBody.ISA,
-    block_name="ISA_CONTROLLER",
-    block_source="libreCAD_blocks/ISO Instruments/6_primary-accessible-discrete-instrument.dxf",
+    block_name="PIP_CONTROLLER",
+    block_source="libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
     nominal_width=12.0,
     nominal_height=12.0,
     port_definitions=frozenset({PV_IN, CONTROL_OUT}),
@@ -220,8 +220,8 @@ _register_symbol(SymbolEntry(
     symbol_id="indicator",
     category=SymbolCategory.INDICATOR,
     standards_body=StandardsBody.ISA,
-    block_name="ISA_INDICATOR",
-    block_source="libreCAD_blocks/ISO Instruments/6_primary-accessible-discrete-instrument.dxf",
+    block_name="PIP_INDICATOR",
+    block_source="libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
     nominal_width=12.0,
     nominal_height=12.0,
     port_definitions=frozenset({SIGNAL_IN}),
@@ -232,8 +232,8 @@ _register_symbol(SymbolEntry(
     symbol_id="switch",
     category=SymbolCategory.SWITCH,
     standards_body=StandardsBody.ISA,
-    block_name="ISA_SWITCH",
-    block_source="libreCAD_blocks/ISO Instruments/3_field-discrete-instrument.dxf",
+    block_name="PIP_SWITCH",
+    block_source="libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
     nominal_width=12.0,
     nominal_height=12.0,
     port_definitions=frozenset({MEASUREMENT_IN, DIGITAL_SIGNAL_OUT}),
@@ -242,15 +242,15 @@ _register_symbol(SymbolEntry(
 
 
 # -----------------------------------------------------------------------------
-# VALVE SYMBOLS
+# VALVE SYMBOLS - Using PIP Standard Blocks
 # -----------------------------------------------------------------------------
 
 _register_symbol(SymbolEntry(
     symbol_id="manual_valve",
     category=SymbolCategory.MANUAL_VALVE,
     standards_body=StandardsBody.PROJECT,
-    block_name="ISA_MANUAL_VALVE",
-    block_source="libreCAD_blocks/ISO Valves/0_general-valve-no.dxf",
+    block_name="PIP_MANUAL_VALVE",
+    block_source="libreCAD_blocks/PIP Valves/0_gate-valve-no.dxf",
     nominal_width=20.0,
     nominal_height=20.0,
     port_definitions=frozenset({PROCESS_IN, PROCESS_OUT}),
@@ -261,8 +261,8 @@ _register_symbol(SymbolEntry(
     symbol_id="control_valve",
     category=SymbolCategory.FINAL_CONTROL_ELEMENT,
     standards_body=StandardsBody.ISA,
-    block_name="ISA_CONTROL_VALVE",
-    block_source="libreCAD_blocks/ISO Valves/22_control-valve.dxf",
+    block_name="PIP_CONTROL_VALVE",
+    block_source="libreCAD_blocks/PIP Valves/23_control-valve.dxf",
     nominal_width=20.0,
     nominal_height=20.0,
     port_definitions=frozenset({PROCESS_IN, PROCESS_OUT, ACTUATOR_SIGNAL}),
@@ -273,8 +273,8 @@ _register_symbol(SymbolEntry(
     symbol_id="check_valve",
     category=SymbolCategory.CHECK_VALVE,
     standards_body=StandardsBody.PROJECT,
-    block_name="ISA_CHECK_VALVE",
-    block_source="libreCAD_blocks/ISO Valves/15_check-valve.dxf",
+    block_name="PIP_CHECK_VALVE",
+    block_source="libreCAD_blocks/PIP Valves/2_check-valve.dxf",
     nominal_width=20.0,
     nominal_height=20.0,
     port_definitions=frozenset({PROCESS_IN, PROCESS_OUT}),
@@ -283,15 +283,15 @@ _register_symbol(SymbolEntry(
 
 
 # -----------------------------------------------------------------------------
-# EQUIPMENT SYMBOLS (Project-Approved)
+# EQUIPMENT SYMBOLS (Project-Approved) - Using PIP Standard Blocks
 # -----------------------------------------------------------------------------
 
 _register_symbol(SymbolEntry(
     symbol_id="vessel",
     category=SymbolCategory.VESSEL,
     standards_body=StandardsBody.PROJECT,
-    block_name="ISA_VESSEL",
-    block_source="libreCAD_blocks/ISO Equipments/0_tank-general-basin.dxf",
+    block_name="PIP_VESSEL",
+    block_source="libreCAD_blocks/PIP Equipment/9_vessel-vertical.dxf",
     nominal_width=40.0,
     nominal_height=60.0,
     port_definitions=frozenset(),  # Dynamic nozzles added at runtime
@@ -303,8 +303,8 @@ _register_symbol(SymbolEntry(
     symbol_id="pump",
     category=SymbolCategory.PUMP,
     standards_body=StandardsBody.PROJECT,
-    block_name="ISA_PUMP",
-    block_source="libreCAD_blocks/ISO Equipments/18_pump.dxf",
+    block_name="PIP_PUMP",
+    block_source="libreCAD_blocks/PIP Equipment/15_pump-horizontal-centrifugal.dxf",
     nominal_width=30.0,
     nominal_height=30.0,
     port_definitions=frozenset({SUCTION, DISCHARGE}),
@@ -315,8 +315,8 @@ _register_symbol(SymbolEntry(
     symbol_id="compressor",
     category=SymbolCategory.COMPRESSOR,
     standards_body=StandardsBody.PROJECT,
-    block_name="ISA_COMPRESSOR",
-    block_source="libreCAD_blocks/ISO Equipments/19_compressor.dxf",
+    block_name="PIP_COMPRESSOR",
+    block_source="libreCAD_blocks/PIP Equipment/25_compressor-centrifugal.dxf",
     nominal_width=30.0,
     nominal_height=30.0,
     port_definitions=frozenset({SUCTION, DISCHARGE}),
@@ -327,8 +327,8 @@ _register_symbol(SymbolEntry(
     symbol_id="heat_exchanger",
     category=SymbolCategory.HEAT_EXCHANGER,
     standards_body=StandardsBody.PROJECT,
-    block_name="ISA_HEAT_EXCHANGER",
-    block_source="libreCAD_blocks/ISO Equipments/21_heat-exchanger-general-1.dxf",
+    block_name="PIP_HEAT_EXCHANGER",
+    block_source="libreCAD_blocks/PIP Equipment/32_heat-exchanger-tema-type-bem.dxf",
     nominal_width=60.0,
     nominal_height=20.0,
     port_definitions=frozenset({
@@ -342,15 +342,15 @@ _register_symbol(SymbolEntry(
 
 
 # -----------------------------------------------------------------------------
-# JUNCTION SYMBOLS
+# JUNCTION SYMBOLS - Using PIP Standard Blocks
 # -----------------------------------------------------------------------------
 
 _register_symbol(SymbolEntry(
     symbol_id="junction_tee",
     category=SymbolCategory.JUNCTION_TEE,
     standards_body=StandardsBody.PROJECT,
-    block_name="JUNCTION_TEE",
-    block_source="libreCAD_blocks/ISO Fittings/2_blank.dxf",  # Placeholder - needs proper tee block
+    block_name="PIP_JUNCTION_TEE",
+    block_source="libreCAD_blocks/PIP Fittings/0_flange.dxf",  # Placeholder - needs proper tee block
     nominal_width=10.0,
     nominal_height=10.0,
     port_definitions=frozenset({J1, J2, J3}),
@@ -361,8 +361,8 @@ _register_symbol(SymbolEntry(
     symbol_id="junction_cross",
     category=SymbolCategory.JUNCTION_CROSS,
     standards_body=StandardsBody.PROJECT,
-    block_name="JUNCTION_CROSS",
-    block_source="libreCAD_blocks/ISO Fittings/2_blank.dxf",  # Placeholder - needs proper cross block
+    block_name="PIP_JUNCTION_CROSS",
+    block_source="libreCAD_blocks/PIP Fittings/0_flange.dxf",  # Placeholder - needs proper cross block
     nominal_width=10.0,
     nominal_height=10.0,
     port_definitions=frozenset({J1, J2, J3, J4}),
@@ -371,15 +371,15 @@ _register_symbol(SymbolEntry(
 
 
 # -----------------------------------------------------------------------------
-# SPECIAL SYMBOLS
+# SPECIAL SYMBOLS - Using PIP Standard Blocks
 # -----------------------------------------------------------------------------
 
 _register_symbol(SymbolEntry(
     symbol_id="off_page_connector",
     category=SymbolCategory.OFF_PAGE_CONNECTOR,
     standards_body=StandardsBody.PROJECT,
-    block_name="OFF_PAGE_CONNECTOR",
-    block_source="libreCAD_blocks/P&ID/arrow.dxf",  # Using arrow as placeholder
+    block_name="PIP_OFF_PAGE_CONNECTOR",
+    block_source="libreCAD_blocks/PIP Pipes and Signal Lines/45_piping-tag.dxf",  # Using piping-tag as placeholder
     nominal_width=15.0,
     nominal_height=15.0,
     port_definitions=frozenset({CONNECTION}),
@@ -390,8 +390,8 @@ _register_symbol(SymbolEntry(
     symbol_id="termination_point",
     category=SymbolCategory.TERMINATION_POINT,
     standards_body=StandardsBody.PROJECT,
-    block_name="TERMINATION_POINT",
-    block_source="libreCAD_blocks/P&ID/3_blind-flange.dxf",
+    block_name="PIP_TERMINATION_POINT",
+    block_source="libreCAD_blocks/PIP Fittings/9_blank.dxf",
     nominal_width=10.0,
     nominal_height=10.0,
     port_definitions=frozenset({TERMINATION}),
