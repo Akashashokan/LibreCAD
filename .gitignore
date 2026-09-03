@@ -1,5 +1,4 @@
 ```
-# Build artifacts and generated files
-tools/pid/symbol_details.json
-tools/pid/symbol_inventory.txt
+# Generated from file changes
+*.json
 ```

@@ -1,0 +1,233 @@
+=== Complete Symbol Inventory ===
+
+Category        Symbol Name                                   Entities   Types                Layers
+--------------------------------------------------------------------------------------------------------------------------------------------
+equipments      0_tank-general-basin                          10         LINE                 DEFAULT_255_2_778
+equipments      100_scale-weighing-platform-floor             20         LINE                 DEFAULT_255_2_778
+equipments      101_misc-bulk-storage                         10         LINE                 DEFAULT_255_2_778
+equipments      102_misc-stack-chimney                        10         LINE                 DEFAULT_255_2_778
+equipments      103_misc-gas-flare                            12         LINE                 DEFAULT_255_2_778
+equipments      104_misc-general-electrolysis-cell            22         LINE                 DEFAULT_255_2_778
+equipments      105_misc-general-hood                         8          LINE                 DEFAULT_255_2_778
+equipments      10_vessel-full-tube-coil                      40         LINE                 DEFAULT_255_2_778
+equipments      11_vessel-semi-tube-coil                      24         LINE                 DEFAULT_255_2_778
+equipments      12_vessel-jacketed                            112        ARC, LINE            DEFAULT_255_2_778
+equipments      13_storage-container                          44         LINE                 DEFAULT_255_2_778
+equipments      14_storage-bag                                16         LINE                 DEFAULT_255_2_778
+equipments      15_storage-barrel-drum                        12         LINE                 DEFAULT_255_2_778
+equipments      16_storage-gas-cylinder                       16         LINE                 DEFAULT_255_2_778
+equipments      17_furnace-industrial                         56         ARC, LINE            DEFAULT_255_2_778
+equipments      18_pump                                       46         ARC, LINE            DEFAULT_255_2_778
+equipments      19_compressor                                 46         ARC, LINE            DEFAULT_255_2_778
+equipments      1_tank-floating-roof                          12         LINE                 DEFAULT_255_2_778
+equipments      20_blower                                     206        ARC, LINE            DEFAULT_255_2_778
+equipments      21_heat-exchanger-general-1                   50         ARC, LINE            DEFAULT_255_2_778
+equipments      22_heat-exchanger-general-2                   52         ARC, LINE            DEFAULT_255_2_778
+equipments      23_heat-exchanger-general-cooling-tower       14         LINE                 DEFAULT_255_2_778
+equipments      24_heat-exchanger-spiral                      114        ARC, LINE            DEFAULT_255_2_778
+equipments      25_heat-exchanger-double-pipe                 10         LINE                 DEFAULT_255_2_778
+equipments      26_heat-exchanger-plate-type                  18         LINE                 DEFAULT_255_2_778
+equipments      27_heat-exchanger-finned-tube                 18         LINE                 DEFAULT_255_2_778
+equipments      28_heat-exchanger-tube-bundle-u-tube          18         LINE                 DEFAULT_255_2_778
+equipments      29_heat-exchanger-shell-and-tube-bundle-u-tube 26         LINE                 DEFAULT_255_2_778
+equipments      2_vessel-general-column                       12         LINE                 DEFAULT_255_2_778
+equipments      30_heat-exchanger-tube-bundle-floating-head   20         LINE                 DEFAULT_255_2_778
+equipments      31_heat-exchanger-floating-head-tube-bundle   28         LINE                 DEFAULT_255_2_778
+equipments      32_heat-exchanger-shell-and-tube              18         LINE                 DEFAULT_255_2_778
+equipments      33_heat-exchanger-spray-cooler                30         LINE                 DEFAULT_255_2_778
+equipments      34_heat-exchanger-steam-boiler                36         ARC, LINE            DEFAULT_255_2_778
+equipments      35_heat-exchanger-film-evaporator             28         LINE                 DEFAULT_255_2_778
+equipments      36_heat-exchanger-tube-coil                   30         LINE                 DEFAULT_255_2_778
+equipments      37_heat-exchanger-heating-cooling             8          LINE                 DEFAULT_255_2_778
+equipments      38_heat-exchanger-burner-firing-system        86         ARC, LINE            DEFAULT_255_2_778
+equipments      39_driver                                     102        ARC, LINE            DEFAULT_255_2_778
+equipments      3_vessel-general                              8          LINE                 DEFAULT_255_2_778
+equipments      40_agitator                                   8          LINE                 DEFAULT_255_2_778
+equipments      41_mixer                                      22         LINE                 DEFAULT_255_2_778
+equipments      42_filter-general                             10         LINE                 DEFAULT_255_2_778, DEFAULT_255_2_778_5
+equipments      43_filter-liquid                              12         LINE                 DEFAULT_255_2_778, DEFAULT_255_2_778_5
+equipments      44_filter-suction                             10         LINE                 DEFAULT_255_2_778, DEFAULT_255_2_778_5
+equipments      45_filter-activated-carbon                    24         LINE                 DEFAULT_255_2_778
+equipments      46_filter-belt-for-gases                      68         ARC, LINE            DEFAULT_255_2_778, DEFAULT_255_2_778_3
+equipments      47_filter-ion-exchange                        16         LINE                 DEFAULT_255_2_778, DEFAULT_255_2_778_5
+equipments      48_filter-rotary-drum                         50         ARC, LINE            DEFAULT_255_2_778
+equipments      49_filter-belt-fluids                         64         ARC, LINE            DEFAULT_255_2_778, DEFAULT_255_2_778_3
+equipments      4_vessel-conical-head                         32         LINE                 DEFAULT_255_2_778
+equipments      50_filter-cartridge                           20         LINE                 DEFAULT_255_2_778, DEFAULT_255_2_778_5
+equipments      51_filter-gases-cartridge                     22         LINE                 DEFAULT_255_2_778, DEFAULT_255_2_778_5
+equipments      52_filter-press                               20         LINE                 DEFAULT_255_2_778, DEFAULT_255_2_778_5
+equipments      53_filter-fixed-bed                           16         LINE                 DEFAULT_255_2_778, DEFAULT_255_2_778_5
+equipments      54_filter-air                                 12         LINE                 DEFAULT_255_2_778
+equipments      55_filter-hepa                                16         LINE                 DEFAULT_255_2_778
+equipments      56_filter-gases-packed-bed                    18         LINE                 DEFAULT_255_2_778
+equipments      57_separator                                  184        ARC, LINE            DEFAULT_255_2_778
+equipments      58_centrifuge-general                         16         LINE                 DEFAULT_255_2_778
+equipments      5_vessel-dished-head                          8          LINE                 DEFAULT_255_2_778
+equipments      60_centrifuge-perforated-shell                20         LINE                 DEFAULT_255_2_778
+equipments      61_centrifuge-pusher                          22         LINE                 DEFAULT_255_2_778
+equipments      62_centrifuge-screw                           22         LINE                 DEFAULT_255_2_778, DEFAULT_255_2_778_0
+equipments      63_centrifuge-screw-perforated-shell          22         LINE                 DEFAULT_255_2_778, DEFAULT_255_2_778_20
+equipments      64_centrifuge-solid-shell                     16         LINE                 DEFAULT_255_2_778
+equipments      65_centrifuge-disk                            20         LINE                 DEFAULT_255_2_778
+equipments      66_screening-device                           14         LINE                 DEFAULT_255_2_778, DEFAULT_255_2_778_20
+equipments      67_sifter-general                             14         LINE                 DEFAULT_255_2_778
+equipments      68_sorting-general                            12         LINE                 DEFAULT_255_2_778
+equipments      69_dryer-general                              14         LINE                 DEFAULT_255_2_778
+equipments      6_vessel-trays                                14         LINE                 DEFAULT_255_2_778
+equipments      70_dryer-disk                                 22         LINE                 DEFAULT_255_2_778
+equipments      71_dryer-fluidized-bed                        86         ARC, LINE            DEFAULT_255_2_778
+equipments      72_dryer-oven                                 18         LINE                 DEFAULT_255_2_778
+equipments      73_dryer-roller-conveyor-belt                 36         ARC, LINE            DEFAULT_255_2_778
+equipments      74_dryer-rotary-drum                          56         ARC, LINE            DEFAULT_255_2_778
+equipments      75_dryer-spray                                18         LINE                 DEFAULT_255_2_778
+equipments      76_crusher                                    28         LINE                 DEFAULT_255_2_778
+equipments      77_mill                                       20         LINE                 DEFAULT_255_2_778
+equipments      78_elevator-bucket                            64         ARC, LINE            DEFAULT_255_2_778
+equipments      79_conveyor-general                           16         LINE                 DEFAULT_255_2_778
+equipments      7_vessel-spherical                            74         ARC, LINE            DEFAULT_255_2_778
+equipments      80_conveyor-belt                              56         ARC, LINE            DEFAULT_255_2_778
+equipments      81_conveyor-chain                             56         ARC, LINE            DEFAULT_255_2_778, DEFAULT_255_2_778_25
+equipments      82_conveyor-screw                             20         LINE                 DEFAULT_255_2_778
+equipments      83_conveyor-vibrating                         36         ARC, LINE            DEFAULT_255_2_778
+equipments      84_transport-ship                             20         LINE                 DEFAULT_255_2_778
+equipments      85_transport-tank-car                         28         ARC, LINE            DEFAULT_255_2_778
+equipments      86_transport-box-truck                        28         ARC, LINE            DEFAULT_255_2_778
+equipments      87_transport-industrial-truck                 60         ARC, LINE            DEFAULT_255_2_778
+equipments      88_shaping-machine-pelletizing-disk           40         ARC, LINE            DEFAULT_255_2_778
+equipments      89_shaping-machine-piston-press               22         LINE                 DEFAULT_255_2_778
+equipments      8_vessel-fixed-bed                            16         LINE                 DEFAULT_255_2_778
+equipments      90_shaping-machine-rollerpress                66         ARC, LINE            DEFAULT_255_2_778
+equipments      91_shaping-machine-screw-type-extruder        30         LINE                 DEFAULT_255_2_778
+equipments      92_shaping-machine-general-coarsening         14         LINE                 DEFAULT_255_2_778
+equipments      93_shaping-machine-extruder                   20         LINE                 DEFAULT_255_2_778
+equipments      94_solids-proportioner-general                48         ARC, LINE            DEFAULT_255_2_778
+equipments      95_distribution-device-rotary-table           96         ARC, LINE            DEFAULT_255_2_778
+equipments      96_feeder-rotary-valve                        48         ARC, LINE            DEFAULT_255_2_778
+equipments      97_distribution-device-fluid                  12         LINE                 DEFAULT_255_2_778
+equipments      98_scale-belt                                 74         ARC, LINE            DEFAULT_255_2_778
+equipments      99_scale-general                              18         LINE                 DEFAULT_255_2_778
+equipments      9_vessel-fluidized-bed                        38         ARC, LINE            DEFAULT_255_2_778
+fittings        0_eccentric-reducer                           10         LINE                 DEFAULT_255_2_778
+fittings        10_strainer                                   22         LINE                 DEFAULT_255_2_778
+fittings        11_orifice-plate                              40         ARC, LINE            DEFAULT_255_2_778
+fittings        12_steam-trap                                 58         ARC, LINE            DEFAULT_255_2_778
+fittings        13_outlet-steam-gas                           6          LINE                 DEFAULT_255_2_778
+fittings        14_compensator                                18         LINE                 DEFAULT_255_2_778
+fittings        15_funnel                                     6          LINE                 DEFAULT_255_2_778
+fittings        16_inline-silencer                            14         LINE                 DEFAULT_255_2_778
+fittings        17_flame-arrestor                             16         LINE                 DEFAULT_255_2_778
+fittings        18_flame-arrestor-detonation-proof            20         LINE                 DEFAULT_255_2_778
+fittings        19_flame-arrestor-explosion-proof             24         LINE                 DEFAULT_255_2_778
+fittings        1_reducer                                     10         LINE                 DEFAULT_255_2_778
+fittings        20_rupture-disc-pressure-relief               18         LINE                 DEFAULT_255_2_778
+fittings        21_flame-arrestor-fire-resistant-detonation   44         ARC, LINE            DEFAULT_255_2_778
+fittings        22_flame-arrestor-fire-resistant              36         ARC, LINE            DEFAULT_255_2_778
+fittings        2_blank                                       30         ARC, LINE            DEFAULT_255_2_778
+fittings        3_blind-disk                                  30         ARC, LINE            DEFAULT_255_2_778
+fittings        4_flange-connection                           6          LINE                 DEFAULT_255_2_778
+fittings        5_hose                                        18         LINE                 DEFAULT_255_2_778
+fittings        6_coupling                                    16         LINE                 DEFAULT_255_2_778
+fittings        7_mixing-nozzle-injector                      18         LINE                 DEFAULT_255_2_778
+fittings        8_sight-glass                                 20         LINE                 DEFAULT_255_2_778
+fittings        9_spectacle-blind                             56         ARC, LINE            DEFAULT_255_2_778
+instruments     0_aux-accessible-discrete-instrument          124        ARC, LINE            DEFAULT_255_1_542, DEFAULT_255_2_778
+instruments     10_turbine                                    18         LINE                 DEFAULT_255_2_778
+instruments     11_flow-nozzle                                20         LINE                 DEFAULT_255_2_778
+instruments     12_venturi                                    20         LINE                 DEFAULT_255_2_778
+instruments     13_rotameter                                  20         LINE                 DEFAULT_255_2_778
+instruments     14_volume-meter                               34         LINE                 DEFAULT_255_2_778
+instruments     15_flow-element                               34         LINE                 DEFAULT_255_2_778
+instruments     1_aux-accessible-dcs                          354        ARC, LINE            DEFAULT_255_1_542, DEFAULT_255_2_778
+instruments     2_aux-accessible-plc                          194        ARC, LINE            DEFAULT_255_1_542, DEFAULT_255_2_778
+instruments     3_field-discrete-instrument                   120        ARC, LINE            DEFAULT_255_1_542, DEFAULT_255_2_778
+instruments     4_field-dcs                                   350        ARC, LINE            DEFAULT_255_1_542, DEFAULT_255_2_778
+instruments     5_field-plc                                   190        ARC, LINE            DEFAULT_255_1_542, DEFAULT_255_2_778
+instruments     6_primary-accessible-discrete-instrument      122        ARC, LINE            DEFAULT_255_1_542, DEFAULT_255_2_778
+instruments     7_primary-accessible-dcs                      360        ARC, LINE            DEFAULT_1_2_778, DEFAULT_255_1_542, DEFAULT_255_2_778
+instruments     8_primary-accessible-plc                      192        ARC, LINE            DEFAULT_255_1_542, DEFAULT_255_2_778
+instruments     9_restriction-orifice                         16         LINE                 DEFAULT_255_2_778
+piping          0_pipe-mid-horizontal                         162        ARC, LINE            DEFAULT_255_2_778
+piping          10_electric-signal-mid-horizontal             0          None                 None
+piping          11_electric-signal-mid-vertical               0          None                 None
+piping          12_electric-signal-left-to-right              0          None                 None
+piping          13_electric-signal-top-to-bottom              0          None                 None
+piping          14_electric-signal-right-angle                0          None                 None
+piping          15_leader-mid-horizontal                      248        ARC, LINE            DEFAULT_255_2_778
+piping          16_leader-mid-vertical                        318        ARC, LINE            DEFAULT_255_1_388, DEFAULT_255_2_778
+piping          17_leader-left-to-right                       250        ARC, LINE            DEFAULT_255_2_778
+piping          18_leader-top-to-bottom                       268        ARC, LINE            DEFAULT_255_1_388, DEFAULT_255_2_778
+piping          19_leader-right-angle                         268        ARC, LINE            DEFAULT_255_1_388, DEFAULT_255_2_778
+piping          1_pipe-mid-vertical                           174        ARC, LINE            DEFAULT_255_1_388, DEFAULT_255_2_778
+piping          20_pneumatic-signal-mid-horizontal            0          None                 None
+piping          21_pneumatic-signal-mid-vertical              0          None                 None
+piping          22_pneumatic-signal-left-to-right             0          None                 None
+piping          23_pneumatic-signal-top-to-bottom             0          None                 None
+piping          24_pneumatic-signal-right-angle               0          None                 None
+piping          25_mechanical-link-mid-horizontal             0          None                 None
+piping          26_mechanical-link-mid-vertical               0          None                 None
+piping          27_mechanical-link-left-to-right              0          None                 None
+piping          28_mechanical-link-top-to-bottom              0          None                 None
+piping          29_mechanical-link-right-angle                0          None                 None
+piping          2_pipe-left-to-right                          164        ARC, LINE            DEFAULT_255_2_778
+piping          30_hydraulic-signal-mid-horizontal            0          None                 None
+piping          31_hydraulic-signal-mid-vertical              0          None                 None
+piping          32_hydraulic-signal-left-to-right             0          None                 None
+piping          33_hydraulic-signal-top-to-bottom             0          None                 None
+piping          34_hydraulic-signal-right-angle               0          None                 None
+piping          35_software-link-mid-horizontal               0          None                 None
+piping          36_software-link-mid-vertical                 0          None                 None
+piping          37_software-link-left-to-right                0          None                 None
+piping          38_software-link-top-to-bottom                0          None                 None
+piping          39_software-link-right-angle                  0          None                 None
+piping          3_pipe-top-to-bottom                          202        ARC, LINE            DEFAULT_255_1_388, DEFAULT_255_2_778
+piping          40_capillary-tube-mid-horizontal              0          None                 None
+piping          41_capillary-tube-mid-vertical                0          None                 None
+piping          42_capillary-tube-left-to-right               0          None                 None
+piping          43_capillary-tube-top-to-bottom               0          None                 None
+piping          44_capillary-tube-right-angle                 0          None                 None
+piping          45_piping-tag                                 302        ARC, LINE            DEFAULT_255_2_005, DEFAULT_255_2_778
+piping          46_signal-tag                                 348        ARC, LINE            DEFAULT_255_2_005, DEFAULT_255_2_778
+piping          47_sub-panel                                  434        ARC, LINE            DEFAULT_255_2_005, DEFAULT_255_2_778_8
+piping          48_from-link-horizontal                       12         LINE                 DEFAULT_1_2_778, DEFAULT_255_2_778
+piping          49_to-link-horizontal                         14         LINE                 DEFAULT_1_2_778, DEFAULT_255_2_778
+piping          4_pipe-right-angle                            168        ARC, LINE            DEFAULT_255_1_388, DEFAULT_255_2_778
+piping          50_from-link-vertical                         12         LINE                 DEFAULT_1_2_778, DEFAULT_255_2_778
+piping          51_to-link-vertical                           14         LINE                 DEFAULT_1_2_778, DEFAULT_255_2_778
+piping          52_from-link-horizontal-left                  12         LINE                 DEFAULT_1_2_778, DEFAULT_255_2_778
+piping          53_to-link-horizontal-left                    14         LINE                 DEFAULT_1_2_778, DEFAULT_255_2_778
+piping          54_from-link-vertical-up                      12         LINE                 DEFAULT_1_2_778, DEFAULT_255_2_778
+piping          55_to-link-vertical-up                        14         LINE                 DEFAULT_1_2_778, DEFAULT_255_2_778
+piping          56_from-wire-bus                              46         LINE                 DEFAULT_1_2_778, DEFAULT_255_2_778
+piping          57_to-wire-bus                                50         LINE                 DEFAULT_1_2_778, DEFAULT_255_2_778
+piping          5_pipe-mid-with-jump-horizontal               0          None                 None
+piping          6_pipe-mid-with-jump-vertical                 182        ARC, LINE            DEFAULT_255_2_778
+piping          7_pipe-left-to-right-with-jump                0          None                 None
+piping          8_pipe-top-to-bottom-with-jump                0          None                 None
+piping          9_pipe-right-angle-with-jump                  166        ARC, LINE            DEFAULT_255_2_778
+valves          0_general-valve-no                            10         LINE                 DEFAULT_255_2_778
+valves          10_angle-ball-valve                           42         ARC, LINE            DEFAULT_255_2_778
+valves          11_angle-globe-valve                          26         ARC, LINE            DEFAULT_255_2_778
+valves          12_3-way-valve                                24         LINE                 DEFAULT_255_2_778
+valves          13_3-way-ball-valve                           50         ARC, LINE            DEFAULT_255_2_778
+valves          14_3-way-globe-valve                          34         ARC, LINE            DEFAULT_255_2_778
+valves          15_check-valve                                22         ARC, LINE            DEFAULT_255_2_778
+valves          16_breather-valve                             34         ARC, LINE            DEFAULT_255_2_778
+valves          17_swing-check-valve                          24         ARC, LINE            DEFAULT_255_2_778
+valves          18_lift-check-valve                           30         ARC, LINE            DEFAULT_255_2_778
+valves          19_safety-valve                               12         LINE                 DEFAULT_255_2_778
+valves          1_general-valve-nc                            10         LINE                 DEFAULT_255_2_778
+valves          20_angle-safety-valve                         18         LINE                 DEFAULT_255_2_778
+valves          21_angle-spring-safety-valve                  30         LINE                 DEFAULT_255_2_778
+valves          22_control-valve                              38         ARC, LINE            DEFAULT_255_2_778
+valves          23_continuously-operated-valve                18         LINE                 DEFAULT_255_2_778
+valves          2_angle-valve                                 16         LINE                 DEFAULT_255_2_778
+valves          3_globe-valve-nc                              20         ARC, LINE            DEFAULT_255_2_778
+valves          4_globe-valve-no                              20         ARC, LINE            DEFAULT_255_2_778
+valves          5_ball-valve-no                               36         ARC, LINE            DEFAULT_255_2_778
+valves          6_ball-valve-nc                               36         ARC, LINE            DEFAULT_255_2_778
+valves          7_butterfly-valve                             24         ARC, LINE            DEFAULT_255_2_778
+valves          8_gate-valve-no                               12         LINE                 DEFAULT_255_2_778
+valves          9_gate-valve-nc                               12         LINE                 DEFAULT_255_2_778
+
+============================================================================================================================================
+Total: 226 symbols across 5 categories
