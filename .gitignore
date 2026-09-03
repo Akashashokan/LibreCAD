@@ -1,5 +1,5 @@
-# Image files are part of the project and should not be ignored
-# The modified files are all source/config files (.png, .md, .json, .py) which should be tracked
-# No build artifacts, dependencies, or temporary files detected in changes
-
-# No rules needed - output empty
+```
+# Build artifacts and generated files
+tools/pid/symbol_details.json
+tools/pid/symbol_inventory.txt
+```
