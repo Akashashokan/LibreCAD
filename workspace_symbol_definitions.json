@@ -1,0 +1,945 @@
+{
+  "total_symbols": 57,
+  "symbols": [
+    {
+      "id": "field_instrument",
+      "name": "Unknown",
+      "category": "instrument_bubble",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_FIELD_INSTRUMENT",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "local_instrument",
+        "field_mounted_instrument"
+      ]
+    },
+    {
+      "id": "local_instrument",
+      "name": "Unknown",
+      "category": "instrument_bubble",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_FIELD_INSTRUMENT",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "local_instrument",
+        "field_mounted_instrument"
+      ]
+    },
+    {
+      "id": "field_mounted_instrument",
+      "name": "Unknown",
+      "category": "instrument_bubble",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_FIELD_INSTRUMENT",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "local_instrument",
+        "field_mounted_instrument"
+      ]
+    },
+    {
+      "id": "transmitter",
+      "name": "Unknown",
+      "category": "transmitter",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_TRANSMITTER",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "field_transmitter",
+        "process_transmitter"
+      ]
+    },
+    {
+      "id": "field_transmitter",
+      "name": "Unknown",
+      "category": "transmitter",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_TRANSMITTER",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "field_transmitter",
+        "process_transmitter"
+      ]
+    },
+    {
+      "id": "process_transmitter",
+      "name": "Unknown",
+      "category": "transmitter",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_TRANSMITTER",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "field_transmitter",
+        "process_transmitter"
+      ]
+    },
+    {
+      "id": "panel_instrument",
+      "name": "Unknown",
+      "category": "instrument_bubble",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_PANEL_INSTRUMENT",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "primary_accessible_instrument",
+        "board_mounted_instrument"
+      ]
+    },
+    {
+      "id": "primary_accessible_instrument",
+      "name": "Unknown",
+      "category": "instrument_bubble",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_PANEL_INSTRUMENT",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "primary_accessible_instrument",
+        "board_mounted_instrument"
+      ]
+    },
+    {
+      "id": "board_mounted_instrument",
+      "name": "Unknown",
+      "category": "instrument_bubble",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_PANEL_INSTRUMENT",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "primary_accessible_instrument",
+        "board_mounted_instrument"
+      ]
+    },
+    {
+      "id": "controller",
+      "name": "Unknown",
+      "category": "controller",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_CONTROLLER",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "pid_controller",
+        "panel_controller"
+      ]
+    },
+    {
+      "id": "pid_controller",
+      "name": "Unknown",
+      "category": "controller",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_CONTROLLER",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "pid_controller",
+        "panel_controller"
+      ]
+    },
+    {
+      "id": "panel_controller",
+      "name": "Unknown",
+      "category": "controller",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_CONTROLLER",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "pid_controller",
+        "panel_controller"
+      ]
+    },
+    {
+      "id": "indicator",
+      "name": "Unknown",
+      "category": "indicator",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_INDICATOR",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "panel_indicator",
+        "local_indicator"
+      ]
+    },
+    {
+      "id": "panel_indicator",
+      "name": "Unknown",
+      "category": "indicator",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_INDICATOR",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "panel_indicator",
+        "local_indicator"
+      ]
+    },
+    {
+      "id": "local_indicator",
+      "name": "Unknown",
+      "category": "indicator",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_INDICATOR",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "panel_indicator",
+        "local_indicator"
+      ]
+    },
+    {
+      "id": "switch",
+      "name": "Unknown",
+      "category": "switch",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_SWITCH",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "flow_switch",
+        "temperature_switch",
+        "pressure_switch"
+      ]
+    },
+    {
+      "id": "flow_switch",
+      "name": "Unknown",
+      "category": "switch",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_SWITCH",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "flow_switch",
+        "temperature_switch",
+        "pressure_switch"
+      ]
+    },
+    {
+      "id": "temperature_switch",
+      "name": "Unknown",
+      "category": "switch",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_SWITCH",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "flow_switch",
+        "temperature_switch",
+        "pressure_switch"
+      ]
+    },
+    {
+      "id": "pressure_switch",
+      "name": "Unknown",
+      "category": "switch",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_SWITCH",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "flow_switch",
+        "temperature_switch",
+        "pressure_switch"
+      ]
+    },
+    {
+      "id": "manual_valve",
+      "name": "Unknown",
+      "category": "manual_valve",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_MANUAL_VALVE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "butterfly_valve",
+        "globe_valve",
+        "ball_valve",
+        "gate_valve"
+      ]
+    },
+    {
+      "id": "butterfly_valve",
+      "name": "Unknown",
+      "category": "manual_valve",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_MANUAL_VALVE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "butterfly_valve",
+        "globe_valve",
+        "ball_valve",
+        "gate_valve"
+      ]
+    },
+    {
+      "id": "globe_valve",
+      "name": "Unknown",
+      "category": "manual_valve",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_MANUAL_VALVE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "butterfly_valve",
+        "globe_valve",
+        "ball_valve",
+        "gate_valve"
+      ]
+    },
+    {
+      "id": "ball_valve",
+      "name": "Unknown",
+      "category": "manual_valve",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_MANUAL_VALVE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "butterfly_valve",
+        "globe_valve",
+        "ball_valve",
+        "gate_valve"
+      ]
+    },
+    {
+      "id": "gate_valve",
+      "name": "Unknown",
+      "category": "manual_valve",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_MANUAL_VALVE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "butterfly_valve",
+        "globe_valve",
+        "ball_valve",
+        "gate_valve"
+      ]
+    },
+    {
+      "id": "control_valve",
+      "name": "Unknown",
+      "category": "final_control_element",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_CONTROL_VALVE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "pneumatic_control_valve",
+        "actuated_valve"
+      ]
+    },
+    {
+      "id": "pneumatic_control_valve",
+      "name": "Unknown",
+      "category": "final_control_element",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_CONTROL_VALVE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "pneumatic_control_valve",
+        "actuated_valve"
+      ]
+    },
+    {
+      "id": "actuated_valve",
+      "name": "Unknown",
+      "category": "final_control_element",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_CONTROL_VALVE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "pneumatic_control_valve",
+        "actuated_valve"
+      ]
+    },
+    {
+      "id": "check_valve",
+      "name": "Unknown",
+      "category": "check_valve",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_CHECK_VALVE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "non_return_valve",
+        "nrV"
+      ]
+    },
+    {
+      "id": "non_return_valve",
+      "name": "Unknown",
+      "category": "check_valve",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_CHECK_VALVE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "non_return_valve",
+        "nrV"
+      ]
+    },
+    {
+      "id": "nrV",
+      "name": "Unknown",
+      "category": "check_valve",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_CHECK_VALVE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "non_return_valve",
+        "nrV"
+      ]
+    },
+    {
+      "id": "vessel",
+      "name": "Unknown",
+      "category": "vessel",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_VESSEL",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "knockout_drum",
+        "separator",
+        "drum",
+        "tank"
+      ]
+    },
+    {
+      "id": "knockout_drum",
+      "name": "Unknown",
+      "category": "vessel",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_VESSEL",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "knockout_drum",
+        "separator",
+        "drum",
+        "tank"
+      ]
+    },
+    {
+      "id": "separator",
+      "name": "Unknown",
+      "category": "vessel",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_VESSEL",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "knockout_drum",
+        "separator",
+        "drum",
+        "tank"
+      ]
+    },
+    {
+      "id": "drum",
+      "name": "Unknown",
+      "category": "vessel",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_VESSEL",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "knockout_drum",
+        "separator",
+        "drum",
+        "tank"
+      ]
+    },
+    {
+      "id": "tank",
+      "name": "Unknown",
+      "category": "vessel",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_VESSEL",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "knockout_drum",
+        "separator",
+        "drum",
+        "tank"
+      ]
+    },
+    {
+      "id": "pump",
+      "name": "Unknown",
+      "category": "pump",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_PUMP",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "centrifugal_pump",
+        "positive_displacement_pump"
+      ]
+    },
+    {
+      "id": "centrifugal_pump",
+      "name": "Unknown",
+      "category": "pump",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_PUMP",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "centrifugal_pump",
+        "positive_displacement_pump"
+      ]
+    },
+    {
+      "id": "positive_displacement_pump",
+      "name": "Unknown",
+      "category": "pump",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_PUMP",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "centrifugal_pump",
+        "positive_displacement_pump"
+      ]
+    },
+    {
+      "id": "compressor",
+      "name": "Unknown",
+      "category": "compressor",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_COMPRESSOR",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "centrifugal_compressor",
+        "reciprocating_compressor"
+      ]
+    },
+    {
+      "id": "centrifugal_compressor",
+      "name": "Unknown",
+      "category": "compressor",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_COMPRESSOR",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "centrifugal_compressor",
+        "reciprocating_compressor"
+      ]
+    },
+    {
+      "id": "reciprocating_compressor",
+      "name": "Unknown",
+      "category": "compressor",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_COMPRESSOR",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "centrifugal_compressor",
+        "reciprocating_compressor"
+      ]
+    },
+    {
+      "id": "heat_exchanger",
+      "name": "Unknown",
+      "category": "heat_exchanger",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_HEAT_EXCHANGER",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "reboiler",
+        "condenser",
+        "shell_and_tube_exchanger"
+      ]
+    },
+    {
+      "id": "reboiler",
+      "name": "Unknown",
+      "category": "heat_exchanger",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_HEAT_EXCHANGER",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "reboiler",
+        "condenser",
+        "shell_and_tube_exchanger"
+      ]
+    },
+    {
+      "id": "condenser",
+      "name": "Unknown",
+      "category": "heat_exchanger",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_HEAT_EXCHANGER",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "reboiler",
+        "condenser",
+        "shell_and_tube_exchanger"
+      ]
+    },
+    {
+      "id": "shell_and_tube_exchanger",
+      "name": "Unknown",
+      "category": "heat_exchanger",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_HEAT_EXCHANGER",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "reboiler",
+        "condenser",
+        "shell_and_tube_exchanger"
+      ]
+    },
+    {
+      "id": "junction_tee",
+      "name": "Unknown",
+      "category": "junction_tee",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_JUNCTION_TEE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "tee",
+        "pipe_tee"
+      ]
+    },
+    {
+      "id": "tee",
+      "name": "Unknown",
+      "category": "junction_tee",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_JUNCTION_TEE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "tee",
+        "pipe_tee"
+      ]
+    },
+    {
+      "id": "pipe_tee",
+      "name": "Unknown",
+      "category": "junction_tee",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_JUNCTION_TEE",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "tee",
+        "pipe_tee"
+      ]
+    },
+    {
+      "id": "junction_cross",
+      "name": "Unknown",
+      "category": "junction_cross",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_JUNCTION_CROSS",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "pipe_cross",
+        "cross"
+      ]
+    },
+    {
+      "id": "pipe_cross",
+      "name": "Unknown",
+      "category": "junction_cross",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_JUNCTION_CROSS",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "pipe_cross",
+        "cross"
+      ]
+    },
+    {
+      "id": "cross",
+      "name": "Unknown",
+      "category": "junction_cross",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_JUNCTION_CROSS",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "pipe_cross",
+        "cross"
+      ]
+    },
+    {
+      "id": "off_page_connector",
+      "name": "Unknown",
+      "category": "off_page_connector",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_OFF_PAGE_CONNECTOR",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "page_connector",
+        "offsheet_connector"
+      ]
+    },
+    {
+      "id": "page_connector",
+      "name": "Unknown",
+      "category": "off_page_connector",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_OFF_PAGE_CONNECTOR",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "page_connector",
+        "offsheet_connector"
+      ]
+    },
+    {
+      "id": "offsheet_connector",
+      "name": "Unknown",
+      "category": "off_page_connector",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_OFF_PAGE_CONNECTOR",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "page_connector",
+        "offsheet_connector"
+      ]
+    },
+    {
+      "id": "termination_point",
+      "name": "Unknown",
+      "category": "termination_point",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_TERMINATION_POINT",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "blind_flange",
+        "pipeline_termination"
+      ]
+    },
+    {
+      "id": "blind_flange",
+      "name": "Unknown",
+      "category": "termination_point",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_TERMINATION_POINT",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "blind_flange",
+        "pipeline_termination"
+      ]
+    },
+    {
+      "id": "pipeline_termination",
+      "name": "Unknown",
+      "category": "termination_point",
+      "standards_body": "Project-Approved Library",
+      "description": "",
+      "construction": {
+        "block_name": "PIP_TERMINATION_POINT",
+        "ports": [],
+        "geometry_summary": "N/A"
+      },
+      "aliases": [
+        "blind_flange",
+        "pipeline_termination"
+      ]
+    }
+  ]
+}
