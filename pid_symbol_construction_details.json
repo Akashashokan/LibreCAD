@@ -1,0 +1,1306 @@
+{
+  "metadata": {
+    "total_symbols": 17,
+    "categories": [
+      "instrument_bubble",
+      "transmitter",
+      "controller",
+      "indicator",
+      "switch",
+      "manual_valve",
+      "final_control_element",
+      "check_valve",
+      "vessel",
+      "pump",
+      "compressor",
+      "heat_exchanger",
+      "junction_tee",
+      "junction_cross",
+      "off_page_connector",
+      "termination_point"
+    ],
+    "description": "P&ID Symbol Construction Details from Canonical Registry"
+  },
+  "by_category": {
+    "instrument_bubble": {
+      "field_instrument": {
+        "symbol_id": "field_instrument",
+        "block_name": "PIP_FIELD_INSTRUMENT",
+        "block_source": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
+        "category": "instrument_bubble",
+        "standards_body": "ANSI/ISA-5.1-2009",
+        "nominal_width_mm": 12.0,
+        "nominal_height_mm": 12.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "local_instrument",
+          "field_mounted_instrument"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "signal_out",
+            "domain": "SIGNAL_ANALOG",
+            "direction": "OUT",
+            "description": "Analog signal output"
+          },
+          {
+            "port_id": "process_in",
+            "domain": "MEASUREMENT",
+            "direction": "IN",
+            "description": "Measurement tap connection"
+          }
+        ]
+      },
+      "panel_instrument": {
+        "symbol_id": "panel_instrument",
+        "block_name": "PIP_PANEL_INSTRUMENT",
+        "block_source": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
+        "category": "instrument_bubble",
+        "standards_body": "ANSI/ISA-5.1-2009",
+        "nominal_width_mm": 12.0,
+        "nominal_height_mm": 12.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "primary_accessible_instrument",
+          "board_mounted_instrument"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "control_out",
+            "domain": "SIGNAL_ANALOG",
+            "direction": "OUT",
+            "description": "Control signal output"
+          },
+          {
+            "port_id": "pv_in",
+            "domain": "SIGNAL_ANALOG",
+            "direction": "IN",
+            "description": "Process variable input"
+          }
+        ]
+      }
+    },
+    "transmitter": {
+      "transmitter": {
+        "symbol_id": "transmitter",
+        "block_name": "PIP_TRANSMITTER",
+        "block_source": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
+        "category": "transmitter",
+        "standards_body": "ANSI/ISA-5.1-2009",
+        "nominal_width_mm": 12.0,
+        "nominal_height_mm": 12.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "field_transmitter",
+          "process_transmitter"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "signal_out",
+            "domain": "SIGNAL_ANALOG",
+            "direction": "OUT",
+            "description": "Analog signal output"
+          },
+          {
+            "port_id": "process_in",
+            "domain": "MEASUREMENT",
+            "direction": "IN",
+            "description": "Measurement tap connection"
+          }
+        ]
+      }
+    },
+    "controller": {
+      "controller": {
+        "symbol_id": "controller",
+        "block_name": "PIP_CONTROLLER",
+        "block_source": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
+        "category": "controller",
+        "standards_body": "ANSI/ISA-5.1-2009",
+        "nominal_width_mm": 12.0,
+        "nominal_height_mm": 12.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "panel_controller",
+          "pid_controller"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "control_out",
+            "domain": "SIGNAL_ANALOG",
+            "direction": "OUT",
+            "description": "Control signal output"
+          },
+          {
+            "port_id": "pv_in",
+            "domain": "SIGNAL_ANALOG",
+            "direction": "IN",
+            "description": "Process variable input"
+          }
+        ]
+      }
+    },
+    "indicator": {
+      "indicator": {
+        "symbol_id": "indicator",
+        "block_name": "PIP_INDICATOR",
+        "block_source": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
+        "category": "indicator",
+        "standards_body": "ANSI/ISA-5.1-2009",
+        "nominal_width_mm": 12.0,
+        "nominal_height_mm": 12.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "panel_indicator",
+          "local_indicator"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "signal_in",
+            "domain": "SIGNAL_ANALOG",
+            "direction": "IN",
+            "description": "Analog signal input"
+          }
+        ]
+      }
+    },
+    "switch": {
+      "switch": {
+        "symbol_id": "switch",
+        "block_name": "PIP_SWITCH",
+        "block_source": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
+        "category": "switch",
+        "standards_body": "ANSI/ISA-5.1-2009",
+        "nominal_width_mm": 12.0,
+        "nominal_height_mm": 12.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "flow_switch",
+          "temperature_switch",
+          "pressure_switch"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "signal_out",
+            "domain": "SIGNAL_DIGITAL",
+            "direction": "OUT",
+            "description": "Digital/alarm signal output"
+          },
+          {
+            "port_id": "process_in",
+            "domain": "MEASUREMENT",
+            "direction": "IN",
+            "description": "Measurement tap connection"
+          }
+        ]
+      }
+    },
+    "manual_valve": {
+      "manual_valve": {
+        "symbol_id": "manual_valve",
+        "block_name": "PIP_MANUAL_VALVE",
+        "block_source": "libreCAD_blocks/PIP Valves/0_gate-valve-no.dxf",
+        "category": "manual_valve",
+        "standards_body": "Project-Approved Library",
+        "nominal_width_mm": 20.0,
+        "nominal_height_mm": 20.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "ball_valve",
+          "globe_valve",
+          "butterfly_valve",
+          "gate_valve"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "process_in",
+            "domain": "PROCESS",
+            "direction": "IN",
+            "description": "Process fluid inlet"
+          },
+          {
+            "port_id": "process_out",
+            "domain": "PROCESS",
+            "direction": "OUT",
+            "description": "Process fluid outlet"
+          }
+        ]
+      }
+    },
+    "final_control_element": {
+      "control_valve": {
+        "symbol_id": "control_valve",
+        "block_name": "PIP_CONTROL_VALVE",
+        "block_source": "libreCAD_blocks/PIP Valves/23_control-valve.dxf",
+        "category": "final_control_element",
+        "standards_body": "ANSI/ISA-5.1-2009",
+        "nominal_width_mm": 20.0,
+        "nominal_height_mm": 20.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "pneumatic_control_valve",
+          "actuated_valve"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "actuator_signal_in",
+            "domain": "SIGNAL_ANALOG",
+            "direction": "IN",
+            "description": "Actuator control signal"
+          },
+          {
+            "port_id": "process_in",
+            "domain": "PROCESS",
+            "direction": "IN",
+            "description": "Process fluid inlet"
+          },
+          {
+            "port_id": "process_out",
+            "domain": "PROCESS",
+            "direction": "OUT",
+            "description": "Process fluid outlet"
+          }
+        ]
+      }
+    },
+    "check_valve": {
+      "check_valve": {
+        "symbol_id": "check_valve",
+        "block_name": "PIP_CHECK_VALVE",
+        "block_source": "libreCAD_blocks/PIP Valves/2_check-valve.dxf",
+        "category": "check_valve",
+        "standards_body": "Project-Approved Library",
+        "nominal_width_mm": 20.0,
+        "nominal_height_mm": 20.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "nrV",
+          "non_return_valve"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "process_in",
+            "domain": "PROCESS",
+            "direction": "IN",
+            "description": "Process fluid inlet"
+          },
+          {
+            "port_id": "process_out",
+            "domain": "PROCESS",
+            "direction": "OUT",
+            "description": "Process fluid outlet"
+          }
+        ]
+      }
+    },
+    "vessel": {
+      "vessel": {
+        "symbol_id": "vessel",
+        "block_name": "PIP_VESSEL",
+        "block_source": "libreCAD_blocks/PIP Equipment/9_vessel-vertical.dxf",
+        "category": "vessel",
+        "standards_body": "Project-Approved Library",
+        "nominal_width_mm": 40.0,
+        "nominal_height_mm": 60.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "separator",
+          "knockout_drum",
+          "drum",
+          "tank"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": []
+      }
+    },
+    "pump": {
+      "pump": {
+        "symbol_id": "pump",
+        "block_name": "PIP_PUMP",
+        "block_source": "libreCAD_blocks/PIP Equipment/15_pump-horizontal-centrifugal.dxf",
+        "category": "pump",
+        "standards_body": "Project-Approved Library",
+        "nominal_width_mm": 30.0,
+        "nominal_height_mm": 30.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "centrifugal_pump",
+          "positive_displacement_pump"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "suction",
+            "domain": "PROCESS",
+            "direction": "IN",
+            "description": "Pump suction inlet"
+          },
+          {
+            "port_id": "discharge",
+            "domain": "PROCESS",
+            "direction": "OUT",
+            "description": "Pump discharge outlet"
+          }
+        ]
+      }
+    },
+    "compressor": {
+      "compressor": {
+        "symbol_id": "compressor",
+        "block_name": "PIP_COMPRESSOR",
+        "block_source": "libreCAD_blocks/PIP Equipment/25_compressor-centrifugal.dxf",
+        "category": "compressor",
+        "standards_body": "Project-Approved Library",
+        "nominal_width_mm": 30.0,
+        "nominal_height_mm": 30.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "centrifugal_compressor",
+          "reciprocating_compressor"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "suction",
+            "domain": "PROCESS",
+            "direction": "IN",
+            "description": "Pump suction inlet"
+          },
+          {
+            "port_id": "discharge",
+            "domain": "PROCESS",
+            "direction": "OUT",
+            "description": "Pump discharge outlet"
+          }
+        ]
+      }
+    },
+    "heat_exchanger": {
+      "heat_exchanger": {
+        "symbol_id": "heat_exchanger",
+        "block_name": "PIP_HEAT_EXCHANGER",
+        "block_source": "libreCAD_blocks/PIP Equipment/32_heat-exchanger-tema-type-bem.dxf",
+        "category": "heat_exchanger",
+        "standards_body": "Project-Approved Library",
+        "nominal_width_mm": 60.0,
+        "nominal_height_mm": 20.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "shell_and_tube_exchanger",
+          "condenser",
+          "reboiler"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "tube_in",
+            "domain": "PROCESS",
+            "direction": "IN",
+            "description": ""
+          },
+          {
+            "port_id": "shell_out",
+            "domain": "PROCESS",
+            "direction": "OUT",
+            "description": ""
+          },
+          {
+            "port_id": "shell_in",
+            "domain": "PROCESS",
+            "direction": "IN",
+            "description": ""
+          },
+          {
+            "port_id": "tube_out",
+            "domain": "PROCESS",
+            "direction": "OUT",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "junction_tee": {
+      "junction_tee": {
+        "symbol_id": "junction_tee",
+        "block_name": "PIP_JUNCTION_TEE",
+        "block_source": "libreCAD_blocks/PIP Fittings/0_flange.dxf",
+        "category": "junction_tee",
+        "standards_body": "Project-Approved Library",
+        "nominal_width_mm": 10.0,
+        "nominal_height_mm": 10.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "pipe_tee",
+          "tee"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "J3",
+            "domain": "PROCESS",
+            "direction": "BIDIR",
+            "description": "Junction port 3"
+          },
+          {
+            "port_id": "J2",
+            "domain": "PROCESS",
+            "direction": "BIDIR",
+            "description": "Junction port 2"
+          },
+          {
+            "port_id": "J1",
+            "domain": "PROCESS",
+            "direction": "BIDIR",
+            "description": "Junction port 1"
+          }
+        ]
+      }
+    },
+    "junction_cross": {
+      "junction_cross": {
+        "symbol_id": "junction_cross",
+        "block_name": "PIP_JUNCTION_CROSS",
+        "block_source": "libreCAD_blocks/PIP Fittings/0_flange.dxf",
+        "category": "junction_cross",
+        "standards_body": "Project-Approved Library",
+        "nominal_width_mm": 10.0,
+        "nominal_height_mm": 10.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "pipe_cross",
+          "cross"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "J3",
+            "domain": "PROCESS",
+            "direction": "BIDIR",
+            "description": "Junction port 3"
+          },
+          {
+            "port_id": "J4",
+            "domain": "PROCESS",
+            "direction": "BIDIR",
+            "description": "Junction port 4"
+          },
+          {
+            "port_id": "J2",
+            "domain": "PROCESS",
+            "direction": "BIDIR",
+            "description": "Junction port 2"
+          },
+          {
+            "port_id": "J1",
+            "domain": "PROCESS",
+            "direction": "BIDIR",
+            "description": "Junction port 1"
+          }
+        ]
+      }
+    },
+    "off_page_connector": {
+      "off_page_connector": {
+        "symbol_id": "off_page_connector",
+        "block_name": "PIP_OFF_PAGE_CONNECTOR",
+        "block_source": "libreCAD_blocks/PIP Pipes and Signal Lines/45_piping-tag.dxf",
+        "category": "off_page_connector",
+        "standards_body": "Project-Approved Library",
+        "nominal_width_mm": 15.0,
+        "nominal_height_mm": 15.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "page_connector",
+          "offsheet_connector"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "connection",
+            "domain": "PROCESS",
+            "direction": "BIDIR",
+            "description": "Generic connection point"
+          }
+        ]
+      }
+    },
+    "termination_point": {
+      "termination_point": {
+        "symbol_id": "termination_point",
+        "block_name": "PIP_TERMINATION_POINT",
+        "block_source": "libreCAD_blocks/PIP Fittings/9_blank.dxf",
+        "category": "termination_point",
+        "standards_body": "Project-Approved Library",
+        "nominal_width_mm": 10.0,
+        "nominal_height_mm": 10.0,
+        "allowed_rotations": [
+          0,
+          90,
+          180,
+          270
+        ],
+        "uniform_scale_only": true,
+        "aliases": [
+          "pipeline_termination",
+          "blind_flange"
+        ],
+        "isa_location": null,
+        "isa_function": null,
+        "ports": [
+          {
+            "port_id": "termination",
+            "domain": "PROCESS",
+            "direction": "BIDIR",
+            "description": "Termination point"
+          }
+        ]
+      }
+    }
+  },
+  "all_symbols": {
+    "field_instrument": {
+      "symbol_id": "field_instrument",
+      "block_name": "PIP_FIELD_INSTRUMENT",
+      "block_source": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
+      "category": "instrument_bubble",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "nominal_width_mm": 12.0,
+      "nominal_height_mm": 12.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "local_instrument",
+        "field_mounted_instrument"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "signal_out",
+          "domain": "SIGNAL_ANALOG",
+          "direction": "OUT",
+          "description": "Analog signal output"
+        },
+        {
+          "port_id": "process_in",
+          "domain": "MEASUREMENT",
+          "direction": "IN",
+          "description": "Measurement tap connection"
+        }
+      ]
+    },
+    "transmitter": {
+      "symbol_id": "transmitter",
+      "block_name": "PIP_TRANSMITTER",
+      "block_source": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
+      "category": "transmitter",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "nominal_width_mm": 12.0,
+      "nominal_height_mm": 12.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "field_transmitter",
+        "process_transmitter"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "signal_out",
+          "domain": "SIGNAL_ANALOG",
+          "direction": "OUT",
+          "description": "Analog signal output"
+        },
+        {
+          "port_id": "process_in",
+          "domain": "MEASUREMENT",
+          "direction": "IN",
+          "description": "Measurement tap connection"
+        }
+      ]
+    },
+    "panel_instrument": {
+      "symbol_id": "panel_instrument",
+      "block_name": "PIP_PANEL_INSTRUMENT",
+      "block_source": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
+      "category": "instrument_bubble",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "nominal_width_mm": 12.0,
+      "nominal_height_mm": 12.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "primary_accessible_instrument",
+        "board_mounted_instrument"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "control_out",
+          "domain": "SIGNAL_ANALOG",
+          "direction": "OUT",
+          "description": "Control signal output"
+        },
+        {
+          "port_id": "pv_in",
+          "domain": "SIGNAL_ANALOG",
+          "direction": "IN",
+          "description": "Process variable input"
+        }
+      ]
+    },
+    "controller": {
+      "symbol_id": "controller",
+      "block_name": "PIP_CONTROLLER",
+      "block_source": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
+      "category": "controller",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "nominal_width_mm": 12.0,
+      "nominal_height_mm": 12.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "panel_controller",
+        "pid_controller"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "control_out",
+          "domain": "SIGNAL_ANALOG",
+          "direction": "OUT",
+          "description": "Control signal output"
+        },
+        {
+          "port_id": "pv_in",
+          "domain": "SIGNAL_ANALOG",
+          "direction": "IN",
+          "description": "Process variable input"
+        }
+      ]
+    },
+    "indicator": {
+      "symbol_id": "indicator",
+      "block_name": "PIP_INDICATOR",
+      "block_source": "libreCAD_blocks/PIP Instruments/3_primary-accesible-discrete-instrument.dxf",
+      "category": "indicator",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "nominal_width_mm": 12.0,
+      "nominal_height_mm": 12.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "panel_indicator",
+        "local_indicator"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "signal_in",
+          "domain": "SIGNAL_ANALOG",
+          "direction": "IN",
+          "description": "Analog signal input"
+        }
+      ]
+    },
+    "switch": {
+      "symbol_id": "switch",
+      "block_name": "PIP_SWITCH",
+      "block_source": "libreCAD_blocks/PIP Instruments/0_field-mounted-discrete-instrument.dxf",
+      "category": "switch",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "nominal_width_mm": 12.0,
+      "nominal_height_mm": 12.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "flow_switch",
+        "temperature_switch",
+        "pressure_switch"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "signal_out",
+          "domain": "SIGNAL_DIGITAL",
+          "direction": "OUT",
+          "description": "Digital/alarm signal output"
+        },
+        {
+          "port_id": "process_in",
+          "domain": "MEASUREMENT",
+          "direction": "IN",
+          "description": "Measurement tap connection"
+        }
+      ]
+    },
+    "manual_valve": {
+      "symbol_id": "manual_valve",
+      "block_name": "PIP_MANUAL_VALVE",
+      "block_source": "libreCAD_blocks/PIP Valves/0_gate-valve-no.dxf",
+      "category": "manual_valve",
+      "standards_body": "Project-Approved Library",
+      "nominal_width_mm": 20.0,
+      "nominal_height_mm": 20.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "ball_valve",
+        "globe_valve",
+        "butterfly_valve",
+        "gate_valve"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "process_in",
+          "domain": "PROCESS",
+          "direction": "IN",
+          "description": "Process fluid inlet"
+        },
+        {
+          "port_id": "process_out",
+          "domain": "PROCESS",
+          "direction": "OUT",
+          "description": "Process fluid outlet"
+        }
+      ]
+    },
+    "control_valve": {
+      "symbol_id": "control_valve",
+      "block_name": "PIP_CONTROL_VALVE",
+      "block_source": "libreCAD_blocks/PIP Valves/23_control-valve.dxf",
+      "category": "final_control_element",
+      "standards_body": "ANSI/ISA-5.1-2009",
+      "nominal_width_mm": 20.0,
+      "nominal_height_mm": 20.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "pneumatic_control_valve",
+        "actuated_valve"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "actuator_signal_in",
+          "domain": "SIGNAL_ANALOG",
+          "direction": "IN",
+          "description": "Actuator control signal"
+        },
+        {
+          "port_id": "process_in",
+          "domain": "PROCESS",
+          "direction": "IN",
+          "description": "Process fluid inlet"
+        },
+        {
+          "port_id": "process_out",
+          "domain": "PROCESS",
+          "direction": "OUT",
+          "description": "Process fluid outlet"
+        }
+      ]
+    },
+    "check_valve": {
+      "symbol_id": "check_valve",
+      "block_name": "PIP_CHECK_VALVE",
+      "block_source": "libreCAD_blocks/PIP Valves/2_check-valve.dxf",
+      "category": "check_valve",
+      "standards_body": "Project-Approved Library",
+      "nominal_width_mm": 20.0,
+      "nominal_height_mm": 20.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "nrV",
+        "non_return_valve"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "process_in",
+          "domain": "PROCESS",
+          "direction": "IN",
+          "description": "Process fluid inlet"
+        },
+        {
+          "port_id": "process_out",
+          "domain": "PROCESS",
+          "direction": "OUT",
+          "description": "Process fluid outlet"
+        }
+      ]
+    },
+    "vessel": {
+      "symbol_id": "vessel",
+      "block_name": "PIP_VESSEL",
+      "block_source": "libreCAD_blocks/PIP Equipment/9_vessel-vertical.dxf",
+      "category": "vessel",
+      "standards_body": "Project-Approved Library",
+      "nominal_width_mm": 40.0,
+      "nominal_height_mm": 60.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "separator",
+        "knockout_drum",
+        "drum",
+        "tank"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": []
+    },
+    "pump": {
+      "symbol_id": "pump",
+      "block_name": "PIP_PUMP",
+      "block_source": "libreCAD_blocks/PIP Equipment/15_pump-horizontal-centrifugal.dxf",
+      "category": "pump",
+      "standards_body": "Project-Approved Library",
+      "nominal_width_mm": 30.0,
+      "nominal_height_mm": 30.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "centrifugal_pump",
+        "positive_displacement_pump"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "suction",
+          "domain": "PROCESS",
+          "direction": "IN",
+          "description": "Pump suction inlet"
+        },
+        {
+          "port_id": "discharge",
+          "domain": "PROCESS",
+          "direction": "OUT",
+          "description": "Pump discharge outlet"
+        }
+      ]
+    },
+    "compressor": {
+      "symbol_id": "compressor",
+      "block_name": "PIP_COMPRESSOR",
+      "block_source": "libreCAD_blocks/PIP Equipment/25_compressor-centrifugal.dxf",
+      "category": "compressor",
+      "standards_body": "Project-Approved Library",
+      "nominal_width_mm": 30.0,
+      "nominal_height_mm": 30.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "centrifugal_compressor",
+        "reciprocating_compressor"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "suction",
+          "domain": "PROCESS",
+          "direction": "IN",
+          "description": "Pump suction inlet"
+        },
+        {
+          "port_id": "discharge",
+          "domain": "PROCESS",
+          "direction": "OUT",
+          "description": "Pump discharge outlet"
+        }
+      ]
+    },
+    "heat_exchanger": {
+      "symbol_id": "heat_exchanger",
+      "block_name": "PIP_HEAT_EXCHANGER",
+      "block_source": "libreCAD_blocks/PIP Equipment/32_heat-exchanger-tema-type-bem.dxf",
+      "category": "heat_exchanger",
+      "standards_body": "Project-Approved Library",
+      "nominal_width_mm": 60.0,
+      "nominal_height_mm": 20.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "shell_and_tube_exchanger",
+        "condenser",
+        "reboiler"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "tube_in",
+          "domain": "PROCESS",
+          "direction": "IN",
+          "description": ""
+        },
+        {
+          "port_id": "shell_out",
+          "domain": "PROCESS",
+          "direction": "OUT",
+          "description": ""
+        },
+        {
+          "port_id": "shell_in",
+          "domain": "PROCESS",
+          "direction": "IN",
+          "description": ""
+        },
+        {
+          "port_id": "tube_out",
+          "domain": "PROCESS",
+          "direction": "OUT",
+          "description": ""
+        }
+      ]
+    },
+    "junction_tee": {
+      "symbol_id": "junction_tee",
+      "block_name": "PIP_JUNCTION_TEE",
+      "block_source": "libreCAD_blocks/PIP Fittings/0_flange.dxf",
+      "category": "junction_tee",
+      "standards_body": "Project-Approved Library",
+      "nominal_width_mm": 10.0,
+      "nominal_height_mm": 10.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "pipe_tee",
+        "tee"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "J3",
+          "domain": "PROCESS",
+          "direction": "BIDIR",
+          "description": "Junction port 3"
+        },
+        {
+          "port_id": "J2",
+          "domain": "PROCESS",
+          "direction": "BIDIR",
+          "description": "Junction port 2"
+        },
+        {
+          "port_id": "J1",
+          "domain": "PROCESS",
+          "direction": "BIDIR",
+          "description": "Junction port 1"
+        }
+      ]
+    },
+    "junction_cross": {
+      "symbol_id": "junction_cross",
+      "block_name": "PIP_JUNCTION_CROSS",
+      "block_source": "libreCAD_blocks/PIP Fittings/0_flange.dxf",
+      "category": "junction_cross",
+      "standards_body": "Project-Approved Library",
+      "nominal_width_mm": 10.0,
+      "nominal_height_mm": 10.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "pipe_cross",
+        "cross"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "J3",
+          "domain": "PROCESS",
+          "direction": "BIDIR",
+          "description": "Junction port 3"
+        },
+        {
+          "port_id": "J4",
+          "domain": "PROCESS",
+          "direction": "BIDIR",
+          "description": "Junction port 4"
+        },
+        {
+          "port_id": "J2",
+          "domain": "PROCESS",
+          "direction": "BIDIR",
+          "description": "Junction port 2"
+        },
+        {
+          "port_id": "J1",
+          "domain": "PROCESS",
+          "direction": "BIDIR",
+          "description": "Junction port 1"
+        }
+      ]
+    },
+    "off_page_connector": {
+      "symbol_id": "off_page_connector",
+      "block_name": "PIP_OFF_PAGE_CONNECTOR",
+      "block_source": "libreCAD_blocks/PIP Pipes and Signal Lines/45_piping-tag.dxf",
+      "category": "off_page_connector",
+      "standards_body": "Project-Approved Library",
+      "nominal_width_mm": 15.0,
+      "nominal_height_mm": 15.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "page_connector",
+        "offsheet_connector"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "connection",
+          "domain": "PROCESS",
+          "direction": "BIDIR",
+          "description": "Generic connection point"
+        }
+      ]
+    },
+    "termination_point": {
+      "symbol_id": "termination_point",
+      "block_name": "PIP_TERMINATION_POINT",
+      "block_source": "libreCAD_blocks/PIP Fittings/9_blank.dxf",
+      "category": "termination_point",
+      "standards_body": "Project-Approved Library",
+      "nominal_width_mm": 10.0,
+      "nominal_height_mm": 10.0,
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "uniform_scale_only": true,
+      "aliases": [
+        "pipeline_termination",
+        "blind_flange"
+      ],
+      "isa_location": null,
+      "isa_function": null,
+      "ports": [
+        {
+          "port_id": "termination",
+          "domain": "PROCESS",
+          "direction": "BIDIR",
+          "description": "Termination point"
+        }
+      ]
+    }
+  }
+}
