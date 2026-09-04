@@ -1,0 +1,1189 @@
+{
+  "metadata": {
+    "description": "Complete P&ID Symbol Library with Full Geometric Construction Data",
+    "standards": "ISA-5.1 compliant",
+    "total_symbols": 57
+  },
+  "symbols": [
+    {
+      "block_name": "PIP_FIELD_INSTRUMENT",
+      "dxf_source": "/workspace/pid_platform/cad/blocks/instruments.dxf",
+      "used_by_symbols": [
+        {
+          "symbol_id": "field_instrument",
+          "category": "SymbolCategory.INSTRUMENT_BUBBLE",
+          "ports": [
+            {
+              "port_id": "signal_out",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "OUT",
+              "description": "Analog signal output"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "MEASUREMENT",
+              "direction": "IN",
+              "description": "Measurement tap connection"
+            }
+          ]
+        },
+        {
+          "symbol_id": "local_instrument",
+          "category": "SymbolCategory.INSTRUMENT_BUBBLE",
+          "ports": [
+            {
+              "port_id": "signal_out",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "OUT",
+              "description": "Analog signal output"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "MEASUREMENT",
+              "direction": "IN",
+              "description": "Measurement tap connection"
+            }
+          ]
+        },
+        {
+          "symbol_id": "field_mounted_instrument",
+          "category": "SymbolCategory.INSTRUMENT_BUBBLE",
+          "ports": [
+            {
+              "port_id": "signal_out",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "OUT",
+              "description": "Analog signal output"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "MEASUREMENT",
+              "direction": "IN",
+              "description": "Measurement tap connection"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: /workspace/pid_platform/cad/blocks/instruments.dxf"
+      }
+    },
+    {
+      "block_name": "PIP_TRANSMITTER",
+      "dxf_source": null,
+      "used_by_symbols": [
+        {
+          "symbol_id": "transmitter",
+          "category": "SymbolCategory.TRANSMITTER",
+          "ports": [
+            {
+              "port_id": "signal_out",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "OUT",
+              "description": "Analog signal output"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "MEASUREMENT",
+              "direction": "IN",
+              "description": "Measurement tap connection"
+            }
+          ]
+        },
+        {
+          "symbol_id": "field_transmitter",
+          "category": "SymbolCategory.TRANSMITTER",
+          "ports": [
+            {
+              "port_id": "signal_out",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "OUT",
+              "description": "Analog signal output"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "MEASUREMENT",
+              "direction": "IN",
+              "description": "Measurement tap connection"
+            }
+          ]
+        },
+        {
+          "symbol_id": "process_transmitter",
+          "category": "SymbolCategory.TRANSMITTER",
+          "ports": [
+            {
+              "port_id": "signal_out",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "OUT",
+              "description": "Analog signal output"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "MEASUREMENT",
+              "direction": "IN",
+              "description": "Measurement tap connection"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: None"
+      }
+    },
+    {
+      "block_name": "PIP_PANEL_INSTRUMENT",
+      "dxf_source": null,
+      "used_by_symbols": [
+        {
+          "symbol_id": "panel_instrument",
+          "category": "SymbolCategory.INSTRUMENT_BUBBLE",
+          "ports": [
+            {
+              "port_id": "control_out",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "OUT",
+              "description": "Control signal output"
+            },
+            {
+              "port_id": "pv_in",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "IN",
+              "description": "Process variable input"
+            }
+          ]
+        },
+        {
+          "symbol_id": "primary_accessible_instrument",
+          "category": "SymbolCategory.INSTRUMENT_BUBBLE",
+          "ports": [
+            {
+              "port_id": "control_out",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "OUT",
+              "description": "Control signal output"
+            },
+            {
+              "port_id": "pv_in",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "IN",
+              "description": "Process variable input"
+            }
+          ]
+        },
+        {
+          "symbol_id": "board_mounted_instrument",
+          "category": "SymbolCategory.INSTRUMENT_BUBBLE",
+          "ports": [
+            {
+              "port_id": "control_out",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "OUT",
+              "description": "Control signal output"
+            },
+            {
+              "port_id": "pv_in",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "IN",
+              "description": "Process variable input"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: None"
+      }
+    },
+    {
+      "block_name": "PIP_CONTROLLER",
+      "dxf_source": null,
+      "used_by_symbols": [
+        {
+          "symbol_id": "controller",
+          "category": "SymbolCategory.CONTROLLER",
+          "ports": [
+            {
+              "port_id": "control_out",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "OUT",
+              "description": "Control signal output"
+            },
+            {
+              "port_id": "pv_in",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "IN",
+              "description": "Process variable input"
+            }
+          ]
+        },
+        {
+          "symbol_id": "panel_controller",
+          "category": "SymbolCategory.CONTROLLER",
+          "ports": [
+            {
+              "port_id": "control_out",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "OUT",
+              "description": "Control signal output"
+            },
+            {
+              "port_id": "pv_in",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "IN",
+              "description": "Process variable input"
+            }
+          ]
+        },
+        {
+          "symbol_id": "pid_controller",
+          "category": "SymbolCategory.CONTROLLER",
+          "ports": [
+            {
+              "port_id": "control_out",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "OUT",
+              "description": "Control signal output"
+            },
+            {
+              "port_id": "pv_in",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "IN",
+              "description": "Process variable input"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: None"
+      }
+    },
+    {
+      "block_name": "PIP_INDICATOR",
+      "dxf_source": null,
+      "used_by_symbols": [
+        {
+          "symbol_id": "indicator",
+          "category": "SymbolCategory.INDICATOR",
+          "ports": [
+            {
+              "port_id": "signal_in",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "IN",
+              "description": "Analog signal input"
+            }
+          ]
+        },
+        {
+          "symbol_id": "panel_indicator",
+          "category": "SymbolCategory.INDICATOR",
+          "ports": [
+            {
+              "port_id": "signal_in",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "IN",
+              "description": "Analog signal input"
+            }
+          ]
+        },
+        {
+          "symbol_id": "local_indicator",
+          "category": "SymbolCategory.INDICATOR",
+          "ports": [
+            {
+              "port_id": "signal_in",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "IN",
+              "description": "Analog signal input"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: None"
+      }
+    },
+    {
+      "block_name": "PIP_SWITCH",
+      "dxf_source": null,
+      "used_by_symbols": [
+        {
+          "symbol_id": "switch",
+          "category": "SymbolCategory.SWITCH",
+          "ports": [
+            {
+              "port_id": "process_in",
+              "domain": "MEASUREMENT",
+              "direction": "IN",
+              "description": "Measurement tap connection"
+            },
+            {
+              "port_id": "signal_out",
+              "domain": "SIGNAL_DIGITAL",
+              "direction": "OUT",
+              "description": "Digital/alarm signal output"
+            }
+          ]
+        },
+        {
+          "symbol_id": "flow_switch",
+          "category": "SymbolCategory.SWITCH",
+          "ports": [
+            {
+              "port_id": "process_in",
+              "domain": "MEASUREMENT",
+              "direction": "IN",
+              "description": "Measurement tap connection"
+            },
+            {
+              "port_id": "signal_out",
+              "domain": "SIGNAL_DIGITAL",
+              "direction": "OUT",
+              "description": "Digital/alarm signal output"
+            }
+          ]
+        },
+        {
+          "symbol_id": "temperature_switch",
+          "category": "SymbolCategory.SWITCH",
+          "ports": [
+            {
+              "port_id": "process_in",
+              "domain": "MEASUREMENT",
+              "direction": "IN",
+              "description": "Measurement tap connection"
+            },
+            {
+              "port_id": "signal_out",
+              "domain": "SIGNAL_DIGITAL",
+              "direction": "OUT",
+              "description": "Digital/alarm signal output"
+            }
+          ]
+        },
+        {
+          "symbol_id": "pressure_switch",
+          "category": "SymbolCategory.SWITCH",
+          "ports": [
+            {
+              "port_id": "process_in",
+              "domain": "MEASUREMENT",
+              "direction": "IN",
+              "description": "Measurement tap connection"
+            },
+            {
+              "port_id": "signal_out",
+              "domain": "SIGNAL_DIGITAL",
+              "direction": "OUT",
+              "description": "Digital/alarm signal output"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: None"
+      }
+    },
+    {
+      "block_name": "PIP_MANUAL_VALVE",
+      "dxf_source": null,
+      "used_by_symbols": [
+        {
+          "symbol_id": "manual_valve",
+          "category": "SymbolCategory.MANUAL_VALVE",
+          "ports": [
+            {
+              "port_id": "process_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Process fluid outlet"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Process fluid inlet"
+            }
+          ]
+        },
+        {
+          "symbol_id": "globe_valve",
+          "category": "SymbolCategory.MANUAL_VALVE",
+          "ports": [
+            {
+              "port_id": "process_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Process fluid outlet"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Process fluid inlet"
+            }
+          ]
+        },
+        {
+          "symbol_id": "butterfly_valve",
+          "category": "SymbolCategory.MANUAL_VALVE",
+          "ports": [
+            {
+              "port_id": "process_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Process fluid outlet"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Process fluid inlet"
+            }
+          ]
+        },
+        {
+          "symbol_id": "ball_valve",
+          "category": "SymbolCategory.MANUAL_VALVE",
+          "ports": [
+            {
+              "port_id": "process_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Process fluid outlet"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Process fluid inlet"
+            }
+          ]
+        },
+        {
+          "symbol_id": "gate_valve",
+          "category": "SymbolCategory.MANUAL_VALVE",
+          "ports": [
+            {
+              "port_id": "process_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Process fluid outlet"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Process fluid inlet"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: None"
+      }
+    },
+    {
+      "block_name": "PIP_CONTROL_VALVE",
+      "dxf_source": null,
+      "used_by_symbols": [
+        {
+          "symbol_id": "control_valve",
+          "category": "SymbolCategory.FINAL_CONTROL_ELEMENT",
+          "ports": [
+            {
+              "port_id": "process_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Process fluid outlet"
+            },
+            {
+              "port_id": "actuator_signal_in",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "IN",
+              "description": "Actuator control signal"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Process fluid inlet"
+            }
+          ]
+        },
+        {
+          "symbol_id": "actuated_valve",
+          "category": "SymbolCategory.FINAL_CONTROL_ELEMENT",
+          "ports": [
+            {
+              "port_id": "process_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Process fluid outlet"
+            },
+            {
+              "port_id": "actuator_signal_in",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "IN",
+              "description": "Actuator control signal"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Process fluid inlet"
+            }
+          ]
+        },
+        {
+          "symbol_id": "pneumatic_control_valve",
+          "category": "SymbolCategory.FINAL_CONTROL_ELEMENT",
+          "ports": [
+            {
+              "port_id": "process_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Process fluid outlet"
+            },
+            {
+              "port_id": "actuator_signal_in",
+              "domain": "SIGNAL_ANALOG",
+              "direction": "IN",
+              "description": "Actuator control signal"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Process fluid inlet"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: None"
+      }
+    },
+    {
+      "block_name": "PIP_CHECK_VALVE",
+      "dxf_source": null,
+      "used_by_symbols": [
+        {
+          "symbol_id": "check_valve",
+          "category": "SymbolCategory.CHECK_VALVE",
+          "ports": [
+            {
+              "port_id": "process_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Process fluid outlet"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Process fluid inlet"
+            }
+          ]
+        },
+        {
+          "symbol_id": "non_return_valve",
+          "category": "SymbolCategory.CHECK_VALVE",
+          "ports": [
+            {
+              "port_id": "process_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Process fluid outlet"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Process fluid inlet"
+            }
+          ]
+        },
+        {
+          "symbol_id": "nrV",
+          "category": "SymbolCategory.CHECK_VALVE",
+          "ports": [
+            {
+              "port_id": "process_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Process fluid outlet"
+            },
+            {
+              "port_id": "process_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Process fluid inlet"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: None"
+      }
+    },
+    {
+      "block_name": "PIP_VESSEL",
+      "dxf_source": "/workspace/pid_platform/cad/blocks/equipment.dxf",
+      "used_by_symbols": [
+        {
+          "symbol_id": "vessel",
+          "category": "SymbolCategory.VESSEL",
+          "ports": []
+        },
+        {
+          "symbol_id": "knockout_drum",
+          "category": "SymbolCategory.VESSEL",
+          "ports": []
+        },
+        {
+          "symbol_id": "tank",
+          "category": "SymbolCategory.VESSEL",
+          "ports": []
+        },
+        {
+          "symbol_id": "separator",
+          "category": "SymbolCategory.VESSEL",
+          "ports": []
+        },
+        {
+          "symbol_id": "drum",
+          "category": "SymbolCategory.VESSEL",
+          "ports": []
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: /workspace/pid_platform/cad/blocks/equipment.dxf"
+      }
+    },
+    {
+      "block_name": "PIP_PUMP",
+      "dxf_source": "/workspace/pid_platform/cad/blocks/equipment.dxf",
+      "used_by_symbols": [
+        {
+          "symbol_id": "pump",
+          "category": "SymbolCategory.PUMP",
+          "ports": [
+            {
+              "port_id": "suction",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Pump suction inlet"
+            },
+            {
+              "port_id": "discharge",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Pump discharge outlet"
+            }
+          ]
+        },
+        {
+          "symbol_id": "centrifugal_pump",
+          "category": "SymbolCategory.PUMP",
+          "ports": [
+            {
+              "port_id": "suction",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Pump suction inlet"
+            },
+            {
+              "port_id": "discharge",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Pump discharge outlet"
+            }
+          ]
+        },
+        {
+          "symbol_id": "positive_displacement_pump",
+          "category": "SymbolCategory.PUMP",
+          "ports": [
+            {
+              "port_id": "suction",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Pump suction inlet"
+            },
+            {
+              "port_id": "discharge",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Pump discharge outlet"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: /workspace/pid_platform/cad/blocks/equipment.dxf"
+      }
+    },
+    {
+      "block_name": "PIP_COMPRESSOR",
+      "dxf_source": "/workspace/pid_platform/cad/blocks/equipment.dxf",
+      "used_by_symbols": [
+        {
+          "symbol_id": "compressor",
+          "category": "SymbolCategory.COMPRESSOR",
+          "ports": [
+            {
+              "port_id": "suction",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Pump suction inlet"
+            },
+            {
+              "port_id": "discharge",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Pump discharge outlet"
+            }
+          ]
+        },
+        {
+          "symbol_id": "centrifugal_compressor",
+          "category": "SymbolCategory.COMPRESSOR",
+          "ports": [
+            {
+              "port_id": "suction",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Pump suction inlet"
+            },
+            {
+              "port_id": "discharge",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Pump discharge outlet"
+            }
+          ]
+        },
+        {
+          "symbol_id": "reciprocating_compressor",
+          "category": "SymbolCategory.COMPRESSOR",
+          "ports": [
+            {
+              "port_id": "suction",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": "Pump suction inlet"
+            },
+            {
+              "port_id": "discharge",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": "Pump discharge outlet"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: /workspace/pid_platform/cad/blocks/equipment.dxf"
+      }
+    },
+    {
+      "block_name": "PIP_HEAT_EXCHANGER",
+      "dxf_source": "/workspace/pid_platform/cad/blocks/equipment.dxf",
+      "used_by_symbols": [
+        {
+          "symbol_id": "heat_exchanger",
+          "category": "SymbolCategory.HEAT_EXCHANGER",
+          "ports": [
+            {
+              "port_id": "tube_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": ""
+            },
+            {
+              "port_id": "tube_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": ""
+            },
+            {
+              "port_id": "shell_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": ""
+            },
+            {
+              "port_id": "shell_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "symbol_id": "condenser",
+          "category": "SymbolCategory.HEAT_EXCHANGER",
+          "ports": [
+            {
+              "port_id": "tube_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": ""
+            },
+            {
+              "port_id": "tube_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": ""
+            },
+            {
+              "port_id": "shell_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": ""
+            },
+            {
+              "port_id": "shell_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "symbol_id": "shell_and_tube_exchanger",
+          "category": "SymbolCategory.HEAT_EXCHANGER",
+          "ports": [
+            {
+              "port_id": "tube_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": ""
+            },
+            {
+              "port_id": "tube_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": ""
+            },
+            {
+              "port_id": "shell_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": ""
+            },
+            {
+              "port_id": "shell_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "symbol_id": "reboiler",
+          "category": "SymbolCategory.HEAT_EXCHANGER",
+          "ports": [
+            {
+              "port_id": "tube_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": ""
+            },
+            {
+              "port_id": "tube_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": ""
+            },
+            {
+              "port_id": "shell_in",
+              "domain": "PROCESS",
+              "direction": "IN",
+              "description": ""
+            },
+            {
+              "port_id": "shell_out",
+              "domain": "PROCESS",
+              "direction": "OUT",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: /workspace/pid_platform/cad/blocks/equipment.dxf"
+      }
+    },
+    {
+      "block_name": "PIP_JUNCTION_TEE",
+      "dxf_source": null,
+      "used_by_symbols": [
+        {
+          "symbol_id": "junction_tee",
+          "category": "SymbolCategory.JUNCTION_TEE",
+          "ports": [
+            {
+              "port_id": "J1",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 1"
+            },
+            {
+              "port_id": "J2",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 2"
+            },
+            {
+              "port_id": "J3",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 3"
+            }
+          ]
+        },
+        {
+          "symbol_id": "tee",
+          "category": "SymbolCategory.JUNCTION_TEE",
+          "ports": [
+            {
+              "port_id": "J1",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 1"
+            },
+            {
+              "port_id": "J2",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 2"
+            },
+            {
+              "port_id": "J3",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 3"
+            }
+          ]
+        },
+        {
+          "symbol_id": "pipe_tee",
+          "category": "SymbolCategory.JUNCTION_TEE",
+          "ports": [
+            {
+              "port_id": "J1",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 1"
+            },
+            {
+              "port_id": "J2",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 2"
+            },
+            {
+              "port_id": "J3",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 3"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: None"
+      }
+    },
+    {
+      "block_name": "PIP_JUNCTION_CROSS",
+      "dxf_source": null,
+      "used_by_symbols": [
+        {
+          "symbol_id": "junction_cross",
+          "category": "SymbolCategory.JUNCTION_CROSS",
+          "ports": [
+            {
+              "port_id": "J1",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 1"
+            },
+            {
+              "port_id": "J4",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 4"
+            },
+            {
+              "port_id": "J2",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 2"
+            },
+            {
+              "port_id": "J3",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 3"
+            }
+          ]
+        },
+        {
+          "symbol_id": "cross",
+          "category": "SymbolCategory.JUNCTION_CROSS",
+          "ports": [
+            {
+              "port_id": "J1",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 1"
+            },
+            {
+              "port_id": "J4",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 4"
+            },
+            {
+              "port_id": "J2",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 2"
+            },
+            {
+              "port_id": "J3",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 3"
+            }
+          ]
+        },
+        {
+          "symbol_id": "pipe_cross",
+          "category": "SymbolCategory.JUNCTION_CROSS",
+          "ports": [
+            {
+              "port_id": "J1",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 1"
+            },
+            {
+              "port_id": "J4",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 4"
+            },
+            {
+              "port_id": "J2",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 2"
+            },
+            {
+              "port_id": "J3",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Junction port 3"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: None"
+      }
+    },
+    {
+      "block_name": "PIP_OFF_PAGE_CONNECTOR",
+      "dxf_source": null,
+      "used_by_symbols": [
+        {
+          "symbol_id": "off_page_connector",
+          "category": "SymbolCategory.OFF_PAGE_CONNECTOR",
+          "ports": [
+            {
+              "port_id": "connection",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Generic connection point"
+            }
+          ]
+        },
+        {
+          "symbol_id": "page_connector",
+          "category": "SymbolCategory.OFF_PAGE_CONNECTOR",
+          "ports": [
+            {
+              "port_id": "connection",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Generic connection point"
+            }
+          ]
+        },
+        {
+          "symbol_id": "offsheet_connector",
+          "category": "SymbolCategory.OFF_PAGE_CONNECTOR",
+          "ports": [
+            {
+              "port_id": "connection",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Generic connection point"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: None"
+      }
+    },
+    {
+      "block_name": "PIP_TERMINATION_POINT",
+      "dxf_source": null,
+      "used_by_symbols": [
+        {
+          "symbol_id": "termination_point",
+          "category": "SymbolCategory.TERMINATION_POINT",
+          "ports": [
+            {
+              "port_id": "termination",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Termination point"
+            }
+          ]
+        },
+        {
+          "symbol_id": "blind_flange",
+          "category": "SymbolCategory.TERMINATION_POINT",
+          "ports": [
+            {
+              "port_id": "termination",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Termination point"
+            }
+          ]
+        },
+        {
+          "symbol_id": "pipeline_termination",
+          "category": "SymbolCategory.TERMINATION_POINT",
+          "ports": [
+            {
+              "port_id": "termination",
+              "domain": "PROCESS",
+              "direction": "BIDIR",
+              "description": "Termination point"
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "error": "DXF file not found: None"
+      }
+    }
+  ]
+}
